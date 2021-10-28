@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.328125" />
         <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_main.xml" value="0.43342391304347827" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_coin_first_flip_select.xml" value="0.43342391304347827" />
       </map>
     </option>
   </component>
