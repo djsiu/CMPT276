@@ -39,7 +39,6 @@ public class CoinFlip extends AppCompatActivity {
     /**
      * Adds logic to action bar
      */
-    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
