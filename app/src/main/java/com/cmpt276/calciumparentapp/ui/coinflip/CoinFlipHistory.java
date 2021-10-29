@@ -13,4 +13,5 @@ public class CoinFlipHistory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_history);
     }
+
 }

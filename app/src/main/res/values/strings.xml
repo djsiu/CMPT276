@@ -2,6 +2,9 @@
     <string name="app_name">Calcium Parent App</string>
 
     <string name="main_menu_title">Main Menu</string>
+    <string name="main_menu_left_button">Coin Flip</string>
+    <string name="main_menu_right_button">Timer</string>
+    <string name="main_menu_top_button">Manage Members</string>
 
     <string name="coin_flip_title">Coin Flip</string>
     <string name="coin_flip_history_title">Coin Flip History</string>
