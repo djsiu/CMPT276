@@ -10,6 +10,7 @@ import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlip;
 import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 import com.cmpt276.calciumparentapp.ui.timer.Timer;
+import com.cmpt276.calciumparentapp.ui.timer.TimerSelectTime;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class MainMenu extends AppCompatActivity {
     public void setupTimerButton(Button button) {
         button.setOnClickListener(v -> {
             // Opens the Timer activity
-            Intent i = Timer.makeIntent(MainMenu.this);
+            Intent i = TimerSelectTime.makeIntent(MainMenu.this);
             startActivity(i);
         });
     }

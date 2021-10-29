@@ -36,6 +36,7 @@ public class CoinFlip extends AppCompatActivity {
         return true;
     }
 
+    // TODO change this to if else statement so it stops complaining
     /**
      * Adds logic to action bar
      */

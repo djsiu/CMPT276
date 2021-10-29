@@ -18,4 +18,5 @@
     <string name="manage_family_add_title">Manage Family (Add)</string>
     <string name="manage_family_edit">Manage Family (Edit)</string>
     <string name="action_history_title">show history</string>
+    <string name="select_time_1_minute_text">1 Minute</string>
 </resources>
