@@ -11,6 +11,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.CalciumParentApp">
+
         <activity
             android:name=".ui.coinflip.CoinFlipHistory"
             android:exported="false" />

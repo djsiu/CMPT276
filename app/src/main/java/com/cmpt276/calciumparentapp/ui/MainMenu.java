@@ -50,5 +50,4 @@ public class MainMenu extends AppCompatActivity {
             startActivity(i);
         });
     }
-
 }

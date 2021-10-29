@@ -12,8 +12,10 @@
 
     <string name="timer_title">Timer</string>
     <string name="timer_select_time_title">Timer Select Time</string>
+    <string name="timer_custom_time_title">Timer Custom Time</string>
 
     <string name="manage_members_title">Manage Members</string>
     <string name="manage_family_add_title">Manage Family (Add)</string>
     <string name="manage_family_edit">Manage Family (Edit)</string>
+    <string name="action_history_title">show history</string>
 </resources>
