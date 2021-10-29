@@ -36,28 +36,21 @@ public class CoinFlip extends AppCompatActivity {
         return true;
     }
 
-    // TODO change this to if else statement so it stops complaining
     /**
      * Adds logic to action bar
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // History Button
-            case R.id.action_history:
-                openCoinFlipHistory();
-                return true;
-
-            // Top left back arrow
-            case android.R.id.home:
-                finish();
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
+        if (item.getItemId() == R.id.action_history) {      // History Button
+            openCoinFlipHistory();
+            return true;
+        } else if (item.getItemId() == android.R.id.home){  // Top left back arrow
+            finish();
         }
+
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
 
     private void openCoinFlipHistory() {
