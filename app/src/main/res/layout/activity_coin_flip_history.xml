@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.timer.Timer">
+    tools:context=".ui.coinflip.CoinFlipHistory">
 
     <TextView
-        android:id="@+id/timer_title"
+        android:id="@+id/coin_flip_history_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/timer_title"
+        android:text="@string/coin_flip_history_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

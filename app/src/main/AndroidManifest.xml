@@ -12,6 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CalciumParentApp">
         <activity
+            android:name=".ui.coinflip.CoinFlipHistory"
+            android:exported="false" />
+        <activity
+            android:name=".ui.timer.TimerSelectTime"
+            android:exported="false" />
+        <activity
+            android:name=".ui.manage.ManageFamilyAdd"
+            android:exported="false" />
+        <activity
+            android:name=".ui.manage.ManageFamilyEdit"
+            android:exported="false" />
+        <activity
             android:name=".ui.timer.Timer"
             android:exported="false" />
         <activity

@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Calcium Parent App</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="main_menu_title">Main Menu</string>
+
+    <string name="coin_flip_title">Coin Flip</string>
+    <string name="coin_flip_history_title">Coin Flip History</string>
+    <string name="coin_flip_select_first_title">Coin Flip Select First</string>
+
+    <string name="timer_title">Timer</string>
+    <string name="timer_select_time_title">Timer Select Time</string>
+
+    <string name="manage_members_title">Manage Members</string>
+    <string name="manage_family_add_title">Manage Family (Add)</string>
+    <string name="manage_family_edit">Manage Family (Edit)</string>
 </resources>
