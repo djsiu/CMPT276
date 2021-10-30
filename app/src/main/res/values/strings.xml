@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Calcium Parent App</string>
+    <string name="coin_button_heads">Heads</string>
+    <string name="coin_button_tails">Tails</string>
+    <string name="coin_message_headsWin">Congratulations!\nHeads Wins!</string>
+    <string name="coin_message_tailsWin">Congratulations!\nTails Wins!</string>
+
+
 </resources>
