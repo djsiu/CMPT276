@@ -1,12 +1,11 @@
 package com.cmpt276.calciumparentapp.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
 
@@ -26,21 +25,11 @@ public class CoinFlip extends AppCompatActivity {
         currentFace = Face.HEADS;
 
         //set buttons
-        Button button = (Button) findViewById(R.id.coin_button_heads);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calculateWinner();
-            }
-        });
+        Button button = findViewById(R.id.coin_button_heads);
+        button.setOnClickListener(view -> calculateWinner());
 
-        button = (Button) findViewById(R.id.coin_button_tails);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calculateWinner();
-            }
-        });
+        button = findViewById(R.id.coin_button_tails);
+        button.setOnClickListener(view -> calculateWinner());
 
 
 
@@ -48,10 +37,10 @@ public class CoinFlip extends AppCompatActivity {
 
     private void calculateWinner(){
         if (flipCoin() == Face.HEADS) {
-            TextView textView = (TextView) findViewById(R.id.coin_textView_message);
+            TextView textView = findViewById(R.id.coin_textView_message);
             textView.setText(R.string.coin_message_headsWin);
         }else{
-            TextView textView = (TextView) findViewById(R.id.coin_textView_message);
+            TextView textView = findViewById(R.id.coin_textView_message);
             textView.setText(R.string.coin_message_tailsWin);
 
         }
@@ -65,7 +54,7 @@ public class CoinFlip extends AppCompatActivity {
             //perform animation
             animateCoin();
 
-            ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
+            ImageView imageView = findViewById(R.id.imageView_coin);
             imageView.setImageResource(R.drawable.coin_heads);
             //set face
             currentFace = Face.HEADS;
