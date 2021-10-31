@@ -8,9 +8,31 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CalciumParentApp"
-        android:screenOrientation="portrait">
+        android:theme="@style/Theme.CalciumParentApp">
+
+        <activity
+            android:name=".ui.coinflip.CoinFlipHistory"
+            android:exported="false" />
+        <activity
+            android:name=".ui.timer.TimerSelectTime"
+            android:exported="false" />
+        <activity
+            android:name=".ui.manage.ManageFamilyAdd"
+            android:exported="false" />
+        <activity
+            android:name=".ui.manage.ManageFamilyEdit"
+            android:exported="false" />
+        <activity
+            android:name=".ui.timer.Timer"
+            android:exported="false" />
+        <activity
+            android:name=".ui.manage.ManageFamilyMembers"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coinflip.CoinFlip"
+            android:exported="false" />
         <activity
             android:name=".ui.MainMenu"
             android:exported="true">
