@@ -11,11 +11,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
 
 public class Timer extends AppCompatActivity {
     private TextView countdownText;
 
     private CountDownTimer countDownTimer;
+    private TimerLogic timerLogic;
     private long timeInMS = 50000; // 5 seconds
     private boolean timerRunning;
 
@@ -54,7 +56,8 @@ public class Timer extends AppCompatActivity {
             @Override
             public void onTick(long l) {
                 timeInMS = l;
-                updateTimer();
+
+                countdownText.setText(timerLogic.getTimerText(timeInMS));
             }
 
             @Override
@@ -64,19 +67,6 @@ public class Timer extends AppCompatActivity {
         }.start();
 
         timerRunning = true;
-    }
-
-    public void updateTimer(){
-        int minutes = (int) timeInMS / 60000;
-        int seconds = (int) timeInMS % 60000 / 1000;
-
-        String timeLeftText;
-        timeLeftText = "" + minutes;
-        timeLeftText += ":";
-        if (seconds < 10) timeLeftText += "0";
-        timeLeftText += seconds;
-
-        countdownText.setText(timeLeftText);
     }
 
     public static Intent makeIntent(Context context){
