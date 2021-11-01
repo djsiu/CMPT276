@@ -1,37 +1,122 @@
 package com.cmpt276.calciumparentapp.ui.timer;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.ui.MainMenu;
+import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
 
 public class TimerSelectTime extends AppCompatActivity {
+
+    TimerLogic timerLogic = TimerLogic.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer_select_time);
 
-        Button btnTimerOneMin = findViewById(R.id.select_time_1_minute_button);
+        if(isMyServiceRunning(TimerService.class)){
+            startTimerActivity();
+        }
 
-        setupOneMinuteButton(btnTimerOneMin);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //Adds back button in top left corner
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
+        // There has to be a better way of doing this
+        Button min10 = (Button) findViewById(R.id.button5);
+        min10.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                setupButtons();
+            }
+        });
+
+    }
+    // This function is repeated in Timer.java. May want to clean up code
+    // Function from:
+    // https://stackoverflow.com/questions/600207/how-to-check-if-a-service-is-running-on-android
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    /**
-     * Adds logic to action bar
-     */
+
+    private void setupButtons(){
+
+        Button min1 = (Button) findViewById(R.id.button);
+        Button min2 = (Button) findViewById(R.id.button2);
+        Button min3 = (Button) findViewById(R.id.button3);
+        Button min5 = (Button) findViewById(R.id.button4);
+        Button min10 = (Button) findViewById(R.id.button5);
+        Button custom = (Button) findViewById(R.id.button6);
+
+
+
+        // set the width of the button to be equal to the width of the largest
+        min1.setWidth(min10.getMeasuredWidth());
+        min2.setWidth(min10.getWidth());
+        min3.setWidth(min10.getWidth());
+        min5.setWidth(min10.getWidth());
+        custom.setWidth(min10.getWidth());
+
+        min1.setOnClickListener(new ButtonListener());
+        min2.setOnClickListener(new ButtonListener());
+        min3.setOnClickListener(new ButtonListener());
+        min5.setOnClickListener(new ButtonListener());
+        min10.setOnClickListener(new ButtonListener());
+        custom.setOnClickListener(new ButtonListener());
+
+    }
+
+    private class ButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()){
+
+                case R.id.button:
+                    timerLogic.setTimerLength(60000);
+                    break;
+                case R.id.button2:
+                    timerLogic.setTimerLength(60000 * 2);
+                    break;
+                case R.id.button3:
+                    timerLogic.setTimerLength(60000 * 3);
+                    break;
+                case R.id.button4:
+                    timerLogic.setTimerLength(60000 * 5);
+                    break;
+                case R.id.button5:
+                    timerLogic.setTimerLength(60000 * 10);
+                    break;
+                case R.id.button6:
+                    // TODO: Implement custom time screen
+                    break;
+
+            }
+
+            startTimerActivity();
+        }
+    }
+
+    private void startTimerActivity(){
+        Intent intent = new Intent(this, Timer.class);
+        finish();
+        startActivity(intent);
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Top left back arrow
@@ -39,17 +124,7 @@ public class TimerSelectTime extends AppCompatActivity {
             finish();
         }
 
-        // If we got here, the user's action was not recognized.
-        // Invoke the superclass to handle it.
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupOneMinuteButton(Button button){
-        button.setOnClickListener(v -> {
-            // Opens the Timer activity
-            Intent i = Timer.makeIntent(TimerSelectTime.this);
-            startActivity(i);
-        });
     }
 
     public static Intent makeIntent(Context context){

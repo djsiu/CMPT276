@@ -20,4 +20,5 @@
     <string name="action_history_title">show history</string>
     <string name="select_time_1_minute_text">1 Minute</string>
     <string name="manage_family_add_button_description">Opens ManageFamilyAdd</string>
+    <string name="timer_length_extra">TIMER_LENGTH</string>
 </resources>

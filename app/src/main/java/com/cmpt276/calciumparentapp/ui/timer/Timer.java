@@ -3,47 +3,111 @@ package com.cmpt276.calciumparentapp.ui.timer;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
 
-//TODO Move more of this logic into model
-// Would be a good idea so app can resume timer when pressing
-// button from main menu.
-//
-// Maybe just moving timerRunning into TimerLogic would be enough
-// Find way to resume activity
 public class Timer extends AppCompatActivity {
     private TextView countdownText;
+    public static final String CHANNEL_ID = "timerServiceChannel";
+    private final TimerLogic timerLogic = TimerLogic.getInstance();
+    private long timeRemaining;
 
-    private final TimerLogic timerLogic = new TimerLogic();
-    private long timeLeftInMS = 60000; // 1 min
-    private long endTime;
-    private boolean timerRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_timer);
+        createNotificationChannel();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         countdownText = findViewById(R.id.countdown_text);
+        setupBroadcastReceiver();
+        if(!isMyServiceRunning(TimerService.class)){
+            startTimerService();
+        }
 
-        timerRunning = true;
-        startTimer();
-
-        generateBackButton();
+        setupButtons();
     }
 
-    /**
-     * Adds logic to action bar
-     */
+    private void setupButtons(){
+        Button stopButton = (Button) findViewById(R.id.stopButton);
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("Button", "Button clicked!!");
+                timerLogic.setTimerLength(timeRemaining);
+                stopTimerService();
+            }
+        });
+    }
+
+
+
+
+    // Function from:
+    // https://stackoverflow.com/questions/600207/how-to-check-if-a-service-is-running-on-android
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Creates the notification channel for the required versions of android
+    // May need to be called only once for the whole application in which case this needs to be
+    // moved to the main activity
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Timer Service Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            serviceChannel.enableVibration(false);
+            serviceChannel.enableLights(false);
+            serviceChannel.setSound(null, null);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+
+        }
+    }
+
+    private void startTimerService(){
+        Intent serviceIntent = new Intent(this, TimerService.class);
+        serviceIntent.putExtra(getString(R.string.timer_length_extra), timerLogic.getTimerLength());
+        startService(serviceIntent);
+    }
+
+    private void stopTimerService(){
+        Intent serviceIntent = new Intent(this, TimerService.class);
+        stopService(serviceIntent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Top left back arrow
@@ -56,77 +120,18 @@ public class Timer extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        //TODO Change name to a constant here
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-
-        timeLeftInMS = prefs.getLong("MSLeft", 60000); //TODO Setup this default more nicely
-        timerRunning = prefs.getBoolean("timerRunning", false);
-        endTime = prefs.getLong("EndTime", endTime);
-
-        if (timerRunning){
-            endTime = prefs.getLong("endTime", 0);
-            timeLeftInMS = endTime - System.currentTimeMillis();
-
-            if (timeLeftInMS < 0) {
-                timeLeftInMS = 0;
-                timerRunning = false;
-            } else {
-                startTimer();
-            }
-        }
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-
-        //TODO Change name to a constant here
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        editor.putLong("MSLeft", timeLeftInMS);
-        editor.putBoolean("TimerRunning", timerRunning);
-        editor.putLong("EndTime", endTime);
-
-        editor.apply();
-    }
-
-    /**
-     * Initiates the timer's text counting down
-     */
-    public void startTimer(){
-        // Allows timer to stay accurate even when changing states
-        endTime = System.currentTimeMillis() + timeLeftInMS;
-
-        CountDownTimer countDownTimer = new CountDownTimer(timeLeftInMS, 1000) {
+    private void setupBroadcastReceiver(){
+        BroadcastReceiver br = new BroadcastReceiver() {
             @Override
-            public void onTick(long l) {
-                timeLeftInMS = l;
-
-                countdownText.setText(timerLogic.getTimerText(timeLeftInMS));
+            public void onReceive(Context context, Intent intent) {
+                timeRemaining = intent.getLongExtra(TimerService.TIME_REMAINING_KEY, -1);
+                countdownText.setText(timerLogic.getTimerText(timeRemaining));
             }
+        };
 
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();
+        IntentFilter filter = new IntentFilter(TimerService.BROADCAST_FILTER);
+        this.registerReceiver(br, filter);
     }
 
-    /**
-     * Adds back button in top left corner
-     */
-    private void generateBackButton() {
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
-    }
-
-    public static Intent makeIntent(Context context){
-        return new Intent(context, Timer.class);
-    }
 }

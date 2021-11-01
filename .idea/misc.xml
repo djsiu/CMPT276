@@ -20,6 +20,9 @@
         <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_manage_family_edit.xml" value="0.55" />
         <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_timer_custom_time.xml" value="0.55" />
         <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_timer_select_time.xml" value="0.55" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.5223958333333333" />
+        <entry key="app/src/main/res/layout/activity_timer.xml" value="0.41530797101449274" />
+        <entry key="app/src/main/res/layout/activity_timer_select_time.xml" value="0.41530797101449274" />
       </map>
     </option>
   </component>
