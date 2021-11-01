@@ -17,6 +17,9 @@ import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
 //TODO Move more of this logic into model
 // Would be a good idea so app can resume timer when pressing
 // button from main menu.
+//
+// Maybe just moving timerRunning into TimerLogic would be enough
+// Find way to resume activity
 public class Timer extends AppCompatActivity {
     private TextView countdownText;
 
@@ -32,13 +35,10 @@ public class Timer extends AppCompatActivity {
 
         countdownText = findViewById(R.id.countdown_text);
 
-        //Adds back button in top left corner
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
-
         timerRunning = true;
         startTimer();
+
+        generateBackButton();
     }
 
     /**
@@ -54,28 +54,6 @@ public class Timer extends AppCompatActivity {
         // If we got here, the user's action was not recognized.
         // Invoke the superclass to handle it.
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Initiates the timer's text counting down
-     */
-    public void startTimer(){
-        // Allows timer to stay accurate even when changing states
-        endTime = System.currentTimeMillis() + timeLeftInMS;
-
-        CountDownTimer countDownTimer = new CountDownTimer(timeLeftInMS, 1000) {
-            @Override
-            public void onTick(long l) {
-                timeLeftInMS = l;
-
-                countdownText.setText(timerLogic.getTimerText(timeLeftInMS));
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();
     }
 
     @Override
@@ -102,6 +80,7 @@ public class Timer extends AppCompatActivity {
         }
     }
 
+    @Override
     protected void onStop(){
         super.onStop();
 
@@ -114,6 +93,37 @@ public class Timer extends AppCompatActivity {
         editor.putLong("EndTime", endTime);
 
         editor.apply();
+    }
+
+    /**
+     * Initiates the timer's text counting down
+     */
+    public void startTimer(){
+        // Allows timer to stay accurate even when changing states
+        endTime = System.currentTimeMillis() + timeLeftInMS;
+
+        CountDownTimer countDownTimer = new CountDownTimer(timeLeftInMS, 1000) {
+            @Override
+            public void onTick(long l) {
+                timeLeftInMS = l;
+
+                countdownText.setText(timerLogic.getTimerText(timeLeftInMS));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+    }
+
+    /**
+     * Adds back button in top left corner
+     */
+    private void generateBackButton() {
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     public static Intent makeIntent(Context context){
