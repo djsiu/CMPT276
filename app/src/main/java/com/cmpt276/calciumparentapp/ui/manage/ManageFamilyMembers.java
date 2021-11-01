@@ -7,14 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.ui.MainMenu;
-import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlip;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMember;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ManageFamilyMembers extends AppCompatActivity {
+
+    private FamilyMembersManager familyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +32,47 @@ public class ManageFamilyMembers extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
+
+        familyManager = FamilyMembersManager.getInstance();
+
+        populateListView();
+    }
+
+    private void populateListView() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                R.layout.family_member_list_view,
+                familyManager.getFamilyMembersNames());
+
+        ListView familyMembersList = (ListView) findViewById(R.id.familyMembersList);
+        familyMembersList.setAdapter(adapter);
+
+        //enabling clicking on list view
+
+        familyMembersList.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent intent = new Intent(view.getContext(), ManageFamilyEdit.class);
+            startActivityForResult(intent, 2);
+        });
     }
 
     private void setupManageFamilyAddButton(FloatingActionButton button) {
         button.setOnClickListener(v -> {
             // Opens the ManageFamilyAdd activity
-            Intent i = ManageFamilyAdd.makeIntent(ManageFamilyMembers.this);
-            startActivity(i);
+            Intent intent = new Intent(ManageFamilyMembers.this, ManageFamilyAdd.class);
+            startActivityForResult(intent, 2);
         });
+    }
+
+    // insuring that the list view updates with the new values
+    // code based of off: https://www.py4u.net/discuss/622982
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==2)
+        {
+            populateListView();
+        }
     }
 
     /**
@@ -57,5 +93,4 @@ public class ManageFamilyMembers extends AppCompatActivity {
     public static Intent makeIntent(Context context){
         return new Intent(context, ManageFamilyMembers.class);
     }
-
 }
