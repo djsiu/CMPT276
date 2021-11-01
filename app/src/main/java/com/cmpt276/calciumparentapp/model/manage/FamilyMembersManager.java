@@ -25,8 +25,12 @@ public class FamilyMembersManager {
         );
     }
 
-    public void editMember(FamilyMember member) {
+    public void editMember(String name, int i) {
+        familyMembersList.set(i, familyMembersList.get(i).changeName(name));
+    }
 
+    public void deleteMember(int i) {
+        familyMembersList.remove(i);
     }
 
     public ArrayList<FamilyMember> getFamilyMembersList() {

@@ -12,4 +12,8 @@ public class FamilyMember {
         return name;
     }
 
+    public FamilyMember changeName(String name) {
+        this.name = name;
+        return this;
+    }
 }

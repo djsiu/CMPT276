@@ -51,7 +51,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
 
             //updating the list view in ManageFamilyMembers activity
             Intent intent=new Intent();
-            intent.putExtra("UPDATE LISTVIEW", "tesing delete later");
+            intent.putExtra("UPDATE LISTVIEW", "testing delete later");
             setResult(2,intent);
             finish();
         });

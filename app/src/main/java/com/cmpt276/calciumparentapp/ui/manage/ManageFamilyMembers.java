@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ManageFamilyMembers extends AppCompatActivity {
 
+    public static final String EDIT_MEMBER = "com.cmpt276.calciumparentapp.manage.ManageFamilyMembers.EDIT_MEMBER";
     private FamilyMembersManager familyManager;
 
     @Override
@@ -44,13 +45,13 @@ public class ManageFamilyMembers extends AppCompatActivity {
                 R.layout.family_member_list_view,
                 familyManager.getFamilyMembersNames());
 
-        ListView familyMembersList = (ListView) findViewById(R.id.familyMembersList);
+        ListView familyMembersList = findViewById(R.id.familyMembersList);
         familyMembersList.setAdapter(adapter);
 
-        //enabling clicking on list view
-
+        //enabling clicking on list view to edit family members
         familyMembersList.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(view.getContext(), ManageFamilyEdit.class);
+            intent.putExtra(EDIT_MEMBER, i);
             startActivityForResult(intent, 2);
         });
     }
@@ -69,7 +70,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==2)
+        if(requestCode > 0)
         {
             populateListView();
         }

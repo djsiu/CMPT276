@@ -17,11 +17,16 @@
     <string name="manage_members_title">Manage Members</string>
     <string name="manage_family_add_title">Add New Family Member</string>
     <string name="manage_family_edit">Edit Family Member</string>
+    <string name="manage_name_autofill">Name</string>
+    <string name="manage_name_title">Name:</string>
+    <string name="manage_add_cancel_btn">Cancel</string>
+    <string name="manage_add_btn_text">Add</string>
+
     <string name="action_history_title">show history</string>
     <string name="select_time_1_minute_text">1 Minute</string>
     <string name="manage_family_add_button_description">Opens ManageFamilyAdd</string>
-    <string name="name_autofill">Name</string>
-    <string name="name_title">Name:</string>
-    <string name="cancel_btn_text">Cancel</string>
-    <string name="add_btn_text">Add</string>
+    <string name="manage_editable_name">Name</string>
+    <string name="manage_edit_delete_btn">delete</string>
+    <string name="manage_edit_save_btn">save</string>
+
 </resources>
