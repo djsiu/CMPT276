@@ -5,5 +5,23 @@
     <string name="coin_message_headsWin">Congratulations!\nHeads Wins!</string>
     <string name="coin_message_tailsWin">Congratulations!\nTails Wins!</string>
 
+    <string name="main_menu_title">Main Menu</string>
+    <string name="main_menu_left_button">Coin Flip</string>
+    <string name="main_menu_right_button">Timer</string>
+    <string name="main_menu_top_button">Manage Members</string>
 
+    <string name="coin_flip_title">Coin Flip</string>
+    <string name="coin_flip_history_title">Coin Flip History</string>
+    <string name="coin_flip_select_first_title">Coin Flip Select First</string>
+
+    <string name="timer_title">Timer</string>
+    <string name="timer_select_time_title">Timer Select Time</string>
+    <string name="timer_custom_time_title">Timer Custom Time</string>
+
+    <string name="manage_members_title">Manage Members</string>
+    <string name="manage_family_add_title">Manage Family (Add)</string>
+    <string name="manage_family_edit">Manage Family (Edit)</string>
+    <string name="action_history_title">show history</string>
+    <string name="select_time_1_minute_text">1 Minute</string>
+    <string name="manage_family_add_button_description">Opens ManageFamilyAdd</string>
 </resources>
