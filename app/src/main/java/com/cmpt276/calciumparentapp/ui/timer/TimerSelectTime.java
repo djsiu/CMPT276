@@ -29,15 +29,7 @@ public class TimerSelectTime extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // There has to be a better way of doing this
-        Button min10 = (Button) findViewById(R.id.button5);
-        min10.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                setupButtons();
-            }
-        });
-
+        setupButtons();
     }
     // This function is repeated in Timer.java. May want to clean up code
     // Function from:
@@ -61,15 +53,6 @@ public class TimerSelectTime extends AppCompatActivity {
         Button min5 = (Button) findViewById(R.id.button4);
         Button min10 = (Button) findViewById(R.id.button5);
         Button custom = (Button) findViewById(R.id.button6);
-
-
-
-        // set the width of the button to be equal to the width of the largest
-        min1.setWidth(min10.getMeasuredWidth());
-        min2.setWidth(min10.getWidth());
-        min3.setWidth(min10.getWidth());
-        min5.setWidth(min10.getWidth());
-        custom.setWidth(min10.getWidth());
 
         min1.setOnClickListener(new ButtonListener());
         min2.setOnClickListener(new ButtonListener());
