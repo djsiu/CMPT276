@@ -63,8 +63,6 @@ public class Timer extends AppCompatActivity {
     }
 
 
-
-
     // Function from:
     // https://stackoverflow.com/questions/600207/how-to-check-if-a-service-is-running-on-android
     private boolean isMyServiceRunning(Class<?> serviceClass) {
