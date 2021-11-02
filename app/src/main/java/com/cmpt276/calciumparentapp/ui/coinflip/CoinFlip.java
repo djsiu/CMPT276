@@ -7,6 +7,7 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -77,26 +78,29 @@ public class CoinFlip extends AppCompatActivity {
 
     private void animateCoin(){
 
-
         int numberOfRotations =  8;
 
+        //play sound
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.coin_flip_sound);
+        mediaPlayer.start();
+
+        //show flip
         ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
-        imageView.animate().setDuration(300*numberOfRotations).rotationYBy(numberOfRotations*180f).setListener(new Animator.AnimatorListener() {
+        imageView.animate().setDuration(250*numberOfRotations).rotationYBy(numberOfRotations*180f).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                //render buttons unclickable while the
+                //render buttons unclickable while moving
                 Button buttonHeads = (Button) findViewById(R.id.coin_button_heads);
                 buttonHeads.setClickable(false);
                 Button buttonTails = (Button) findViewById(R.id.coin_button_tails);
                 buttonTails.setClickable(false);
 
                 imageView.setImageResource(R.drawable.coin_faceless);
-                //start sound
+
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-             //play catch sound
                 ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
                 Log.i(TAG, "run: enter end action");
                 Log.i(TAG, "run: is Heads");
