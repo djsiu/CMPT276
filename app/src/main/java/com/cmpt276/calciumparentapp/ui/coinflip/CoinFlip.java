@@ -3,10 +3,12 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -23,6 +25,8 @@ public class CoinFlip extends AppCompatActivity {
         TAILS
     }
 
+    String TAG = "FlipCoin";
+
     private Face currentFace;
 
     @Override
@@ -35,21 +39,18 @@ public class CoinFlip extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        currentFace = Face.HEADS;
-
+        currentFace = Face.TAILS;
         //set buttons
         Button button = findViewById(R.id.coin_button_heads);
-        button.setOnClickListener(view -> calculateWinner());
+        button.setOnClickListener(view -> flipCoin());
 
         button = findViewById(R.id.coin_button_tails);
-        button.setOnClickListener(view -> calculateWinner());
+        button.setOnClickListener(view -> flipCoin());
     }
 
 
 
-
-
-    private void calculateWinner(){
+    private void updateWinner(){
         if (flipCoin() == Face.HEADS) {
             TextView textView = findViewById(R.id.coin_textView_message);
             textView.setText(R.string.coin_message_headsWin);
@@ -64,21 +65,19 @@ public class CoinFlip extends AppCompatActivity {
 
         //lock screen
         //get random face
-        if((Math.random()*10)%2 == 0) {//Heads represented by 0
-            //perform animation
-            animateCoin();
 
-            ImageView imageView = findViewById(R.id.imageView_coin);
-            imageView.setImageResource(R.drawable.coin_heads);
+        Log.i(TAG, "flipCoin: This is a random number" + (((int)(Math.random()*10))%2));
+        if((((int)(Math.random()*10))%2) == 0) {//Heads represented by 0
+            //perform animation
+            animateCoin(Face.HEADS);
+
             //set face
             currentFace = Face.HEADS;
 
+
         }else{
             //perform animation
-            animateCoin();
-
-            ImageView imageView = findViewById(R.id.imageView_coin);
-            imageView.setImageResource(R.drawable.coin_tails);
+            animateCoin(Face.TAILS);
             //set face
             currentFace = Face.TAILS;
 
@@ -90,7 +89,57 @@ public class CoinFlip extends AppCompatActivity {
         return currentFace;
     }
 
-    private void animateCoin(){
+
+
+    private void animateCoin(Face resultFace){
+
+
+        int numberOfRotations =  8;
+
+        ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
+        imageView.animate().setDuration(300*numberOfRotations).rotationYBy(numberOfRotations*180f).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                //render buttons unclickable while the
+                Button buttonHeads = (Button) findViewById(R.id.coin_button_heads);
+                buttonHeads.setClickable(false);
+                Button buttonTails = (Button) findViewById(R.id.coin_button_tails);
+                buttonTails.setClickable(false);
+
+                imageView.setImageResource(R.drawable.coin_faceless);
+                //start sound
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+             //play catch sound
+                ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
+                Log.i(TAG, "run: enter end action");
+                Log.i(TAG, "run: is Heads");
+                if(Face.HEADS == resultFace){
+                    imageView.setImageResource(R.drawable.coin_heads);
+
+                }else{
+                    imageView.setImageResource(R.drawable.coin_tails);
+
+                }
+
+                Button buttonHeads = (Button) findViewById(R.id.coin_button_heads);
+                buttonHeads.setClickable(true);
+                Button buttonTails = (Button) findViewById(R.id.coin_button_tails);
+                buttonTails.setClickable(true);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).start();
 
     }
 
