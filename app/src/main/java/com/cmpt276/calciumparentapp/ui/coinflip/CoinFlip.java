@@ -48,50 +48,34 @@ public class CoinFlip extends AppCompatActivity {
         button.setOnClickListener(view -> flipCoin());
     }
 
-
-
     private void updateWinner(){
-        if (flipCoin() == Face.HEADS) {
-            TextView textView = findViewById(R.id.coin_textView_message);
+        TextView textView = findViewById(R.id.coin_textView_message);
+        if (currentFace == Face.HEADS) {
             textView.setText(R.string.coin_message_headsWin);
         }else{
-            TextView textView = findViewById(R.id.coin_textView_message);
             textView.setText(R.string.coin_message_tailsWin);
-
         }
     }
 
-    private Face flipCoin(){
+    private void flipCoin(){
 
-        //lock screen
         //get random face
-
         Log.i(TAG, "flipCoin: This is a random number" + (((int)(Math.random()*10))%2));
         if((((int)(Math.random()*10))%2) == 0) {//Heads represented by 0
             //perform animation
-            animateCoin(Face.HEADS);
-
-            //set face
             currentFace = Face.HEADS;
-
-
+            animateCoin();
         }else{
             //perform animation
-            animateCoin(Face.TAILS);
-            //set face
             currentFace = Face.TAILS;
-
+            animateCoin();
         }
 
-        //save roll data
-        //free screen
+        //TODO:save roll data
         //return winner
-        return currentFace;
     }
 
-
-
-    private void animateCoin(Face resultFace){
+    private void animateCoin(){
 
 
         int numberOfRotations =  8;
@@ -116,14 +100,14 @@ public class CoinFlip extends AppCompatActivity {
                 ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
                 Log.i(TAG, "run: enter end action");
                 Log.i(TAG, "run: is Heads");
-                if(Face.HEADS == resultFace){
+                if(Face.HEADS == currentFace){
                     imageView.setImageResource(R.drawable.coin_heads);
 
                 }else{
                     imageView.setImageResource(R.drawable.coin_tails);
 
                 }
-
+                updateWinner();
                 Button buttonHeads = (Button) findViewById(R.id.coin_button_heads);
                 buttonHeads.setClickable(true);
                 Button buttonTails = (Button) findViewById(R.id.coin_button_tails);
