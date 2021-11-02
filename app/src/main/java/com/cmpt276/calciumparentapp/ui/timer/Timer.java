@@ -1,31 +1,48 @@
 package com.cmpt276.calciumparentapp.ui.timer;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
+
+import java.util.Objects;
 
 public class Timer extends AppCompatActivity {
+    private TextView countdownText;
+    public static final String CHANNEL_ID = "timerServiceChannel";
+    private final TimerLogic timerLogic = TimerLogic.getInstance();
+    private long timeRemaining;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timer);
 
-        //Adds back button in top left corner
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_timer);
+        createNotificationChannel();
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        countdownText = findViewById(R.id.countdown_text);
+        setupBroadcastReceiver();
+        if(!timerLogic.isMyServiceRunning(this)){
+            startTimerService();
+        }
+
+        setupButtons();
     }
 
-    /**
-     * Adds logic to action bar
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Top left back arrow
@@ -38,8 +55,55 @@ public class Timer extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent makeIntent(Context context){
-        return new Intent(context, Timer.class);
+    private void setupButtons(){
+        Button stopButton = (Button) findViewById(R.id.btnStop);
+        stopButton.setOnClickListener(v -> {
+            Log.e("Button", "Button clicked!!");
+            timerLogic.setTimerLength(timeRemaining);
+            stopTimerService();
+        });
     }
 
+    // TIMER SERVICE
+
+    // Creates the notification channel for the required versions of android
+    // May need to be called only once for the whole application in which case this needs to be
+    // moved to the main activity
+    private void createNotificationChannel() {
+        NotificationChannel serviceChannel = new NotificationChannel(
+                CHANNEL_ID,
+                "Timer Service Channel",
+                NotificationManager.IMPORTANCE_DEFAULT
+        );
+        serviceChannel.enableVibration(false);
+        serviceChannel.enableLights(false);
+        serviceChannel.setSound(null, null);
+
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        manager.createNotificationChannel(serviceChannel);
+    }
+
+    private void startTimerService(){
+        Intent serviceIntent = new Intent(this, TimerService.class);
+        serviceIntent.putExtra(getString(R.string.timer_length_extra), timerLogic.getTimerLength());
+        startService(serviceIntent);
+    }
+
+    private void stopTimerService(){
+        Intent serviceIntent = new Intent(this, TimerService.class);
+        stopService(serviceIntent);
+    }
+
+    private void setupBroadcastReceiver(){
+        BroadcastReceiver br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                timeRemaining = intent.getLongExtra(TimerService.TIME_REMAINING_KEY, -1);
+                countdownText.setText(timerLogic.getTimerText(timeRemaining));
+            }
+        };
+
+        IntentFilter filter = new IntentFilter(TimerService.BROADCAST_FILTER);
+        this.registerReceiver(br, filter);
+    }
 }

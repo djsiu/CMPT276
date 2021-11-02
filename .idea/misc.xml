@@ -3,16 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Braden/Documents/AdobeMicrosoft/CMPT276/ParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.25" />
-        <entry key="..\:/Users/Braden/Documents/AdobeMicrosoft/CMPT276/ParentApp/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/Braden/Documents/AdobeMicrosoft/CMPT276/ParentApp/app/src/main/res/layout/activity_main_menu.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/Braden/Documents/AdobeMicrosoft/CMPT276/ParentApp/app/src/main/res/layout/fragment_coin_flip_select_first.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/Braden/Documents/AdobeMicrosoft/CMPT276/ParentApp/app/src/main/res/layout/fragment_timer_custom_time.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.328125" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.55" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_coin_flip_select_first.xml" value="0.55" />
         <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_main.xml" value="0.43342391304347827" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_main_menu.xml" value="0.55" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_manage_family_add.xml" value="0.55" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_manage_family_edit.xml" value="0.55" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_manage_family_members.xml" value="0.5" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_timer.xml" value="0.328125" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/activity_timer_select_time.xml" value="0.33" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_coin_first_flip_select.xml" value="0.43342391304347827" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_coin_flip_history.xml" value="0.55" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_coin_flip_select_first.xml" value="0.55" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_manage_family_add.xml" value="0.55" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_manage_family_edit.xml" value="0.55" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_timer_custom_time.xml" value="0.55" />
+        <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_timer_select_time.xml" value="0.55" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -24,4 +24,13 @@
     <string name="action_history_title">show history</string>
     <string name="select_time_1_minute_text">1 Minute</string>
     <string name="manage_family_add_button_description">Opens ManageFamilyAdd</string>
+    <string name="timer_length_extra">TIMER_LENGTH</string>
+    <string name="btnOneMinute">1 Minute</string>
+    <string name="btnTwoMinute">2 Minutes</string>
+    <string name="btnThreeMinute">3 Minutes</string>
+    <string name="btnFiveMinute">5 Minutes</string>
+    <string name="btnTenMinute">10 Minutes</string>
+    <string name="btnCustomMinute">Custom</string>
+    <string name="btnStop">Stop</string>
+    <string name="btnPause">Pause</string>
 </resources>

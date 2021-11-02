@@ -17,14 +17,68 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.2" />
 
-    <Button
-        android:id="@+id/select_time_1_minute_button"
+    <LinearLayout
+        android:id="@+id/buttonLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_time_1_minute_text"
+        android:layout_marginTop="26dp"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/timer_select_time_title"
+        app:layout_constraintVertical_bias="0.19999999">
+
+
+        <Button
+            android:id="@+id/btnOneMinute"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
+            android:layout_weight="1"
+            android:text="@string/btnOneMinute" />
+
+        <Button
+            android:id="@+id/btnTwoMinute"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
+            android:layout_weight="1"
+            android:text="@string/btnTwoMinute" />
+
+        <Button
+            android:id="@+id/btnThreeMinute"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
+            android:layout_weight="1"
+            android:text="@string/btnThreeMinute" />
+
+        <Button
+            android:id="@+id/btnFiveMinute"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
+            android:layout_weight="1"
+            android:text="@string/btnFiveMinute" />
+
+        <Button
+            android:id="@+id/btnTenMinute"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
+            android:layout_weight="1"
+            android:text="@string/btnTenMinute" />
+
+        <Button
+            android:id="@+id/btnCustomMinute"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
+            android:layout_weight="1"
+            android:text="@string/btnCustomMinute"
+            android:textAlignment="center" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
