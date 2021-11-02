@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -61,7 +60,6 @@ public class CoinFlip extends AppCompatActivity {
     private void flipCoin(){
 
         //get random face
-        Log.i(TAG, "flipCoin: This is a random number" + (((int)(Math.random()*10))%2));
         if((((int)(Math.random()*10))%2) == 0) {//Heads represented by 0
             //perform animation
             currentFace = Face.HEADS;
@@ -102,8 +100,6 @@ public class CoinFlip extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
-                Log.i(TAG, "run: enter end action");
-                Log.i(TAG, "run: is Heads");
                 if(Face.HEADS == currentFace){
                     imageView.setImageResource(R.drawable.coin_heads);
 
