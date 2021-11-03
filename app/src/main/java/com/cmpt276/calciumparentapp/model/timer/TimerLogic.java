@@ -55,7 +55,7 @@ public class TimerLogic {
     // Google deprecated 'getRunningServices' because of security issues
     // There isn't a replacement for this implementation so I'm just suppressing the warning
     @SuppressWarnings("deprecation")
-    public boolean isMyServiceRunning(Context context) {
+    public boolean isTimerServiceRunning(Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (TimerService.class.getName().equals(service.service.getClassName())) {
