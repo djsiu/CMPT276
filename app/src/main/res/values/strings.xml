@@ -34,5 +34,5 @@
     <string name="btnStart">Start</string>
     <string name="btnResume">Resume</string>
     <string name="btnPause">Pause</string>
-    <string name="btnCancel">Cancel</string>
+    <string name="btnReset">Reset</string>
 </resources>
