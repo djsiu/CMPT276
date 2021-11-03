@@ -19,23 +19,23 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <Button
-        android:id="@+id/btnStop"
+        android:id="@+id/btnStartPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
-        android:text="@string/btnStop"
+        android:text="@string/btnStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/countdown_text" />
 
     <Button
-        android:id="@+id/btnPause"
+        android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/btnPause"
+        android:text="@string/btnCancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnStop" />
+        app:layout_constraintTop_toBottomOf="@+id/btnStartPause" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
