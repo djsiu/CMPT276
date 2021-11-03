@@ -44,7 +44,15 @@ public class Timer extends AppCompatActivity {
     @Override
     protected void onResume() {
         setupBroadcastReceiver();
-        broadcastTimeRequest();
+        if(timerLogic.isTimerServiceRunning(this)){
+            broadcastTimeRequest();
+        }
+        else{
+            resetCountdownText();
+            Button btn = (Button) findViewById(R.id.btnStartPause);
+            btn.setText(R.string.btnStart);
+        }
+
         super.onResume();
     }
 
@@ -73,7 +81,7 @@ public class Timer extends AppCompatActivity {
             broadcastTimeRequest();
         }
         else{
-            countdownText.setText(timerLogic.getTimerText(timerLogic.getTimerLength()));
+            resetCountdownText();
             setupButtons(false, false);
         }
 
@@ -101,12 +109,15 @@ public class Timer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 stopTimerService();
-                countdownText.setText(timerLogic.getTimerText(timerLogic.getTimerLength()));
+                resetCountdownText();
                 controlButton.setText(R.string.btnStart);
             }
         });
     }
 
+    private void resetCountdownText() {
+        countdownText.setText(timerLogic.getTimerText(timerLogic.getTimerLength()));
+    }
 
     private void onStartPauseButtonClick(Button btn) {
         // Check what the button is supposed to do
