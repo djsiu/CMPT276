@@ -24,7 +24,7 @@ public class TimerSelectTime extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer_select_time);
 
-        if(timerLogic.isMyServiceRunning(this)){
+        if(timerLogic.isTimerServiceRunning(this)){
             startTimerActivity();
         }
 

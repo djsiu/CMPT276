@@ -35,4 +35,5 @@
     <string name="btnResume">Resume</string>
     <string name="btnPause">Pause</string>
     <string name="btnReset">Reset</string>
+    <string name="timer_notification_title">Timer</string>
 </resources>
