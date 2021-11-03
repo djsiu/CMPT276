@@ -68,25 +68,35 @@ public class TimerSelectTime extends AppCompatActivity {
             switch(v.getId()){
                 case R.id.btnOneMinute:
                     timerLogic.setTimerLength(60000);
+                    startTimerActivity();
                     break;
                 case R.id.btnTwoMinute:
                     timerLogic.setTimerLength(60000 * 2);
+                    startTimerActivity();
                     break;
                 case R.id.btnThreeMinute:
                     timerLogic.setTimerLength(60000 * 3);
+                    startTimerActivity();
                     break;
                 case R.id.btnFiveMinute:
                     timerLogic.setTimerLength(60000 * 5);
+                    startTimerActivity();
                     break;
                 case R.id.btnTenMinute:
                     timerLogic.setTimerLength(60000 * 10);
+                    startTimerActivity();
                     break;
                 case R.id.btnCustomMinute:
-                    // TODO: Implement custom time screen
+                    startCustomTimeActivity();
                     break;
             }
-            startTimerActivity();
         }
+    }
+    
+    private void startCustomTimeActivity(){
+        Intent intent = new Intent(this, TimerCustomTime.class);
+        finish();
+        startActivity(intent);
     }
 
     private void startTimerActivity(){

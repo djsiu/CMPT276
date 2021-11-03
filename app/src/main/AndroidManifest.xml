@@ -30,6 +30,9 @@
             android:exported="false"
             android:launchMode = "singleTop" />
         <activity
+            android:name=".ui.timer.TimerCustomTime"
+            android:exported="false"/>
+        <activity
             android:name=".ui.manage.ManageFamilyMembers"
             android:exported="false" />
         <activity

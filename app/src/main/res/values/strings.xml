@@ -36,4 +36,6 @@
     <string name="btnPause">Pause</string>
     <string name="btnReset">Reset</string>
     <string name="timer_notification_title">Timer</string>
+    <string name="custom_time">Custom Time</string>
+    <string name="time">Time:</string>
 </resources>
