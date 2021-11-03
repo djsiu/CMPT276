@@ -41,17 +41,18 @@ public class ManageFamilyAdd extends AppCompatActivity {
         Button addBtn = findViewById(R.id.addNewMemberButton);
         EditText newMemberName = findViewById(R.id.editTextFamilyMemberName);
         addBtn.setOnClickListener(view -> {
-            familyManager.addMember(newMemberName.getText().toString());
+            String newMemberNameStr = newMemberName.getText().toString();
+            familyManager.addMember(newMemberNameStr);
+            saveFamilyMember(newMemberNameStr, familyManager.getAddedMemberKey());
 
             Toast.makeText(getApplicationContext(),
-                    "welcome to the family " + newMemberName.getText().toString(),
+                    "Welcome to the family " + newMemberName.getText().toString() + "!",
                     Toast.LENGTH_SHORT)
                     .show();
             finish();
 
             //updating the list view in ManageFamilyMembers activity
             Intent intent=new Intent();
-            intent.putExtra("UPDATE LISTVIEW", "testing delete later");
             setResult(2,intent);
             finish();
         });
@@ -60,6 +61,13 @@ public class ManageFamilyAdd extends AppCompatActivity {
     private void setupCancelBtn() {
         Button cancelBtn = findViewById(R.id.cancelAddNewMemberButton);
         cancelBtn.setOnClickListener(view -> finish());
+    }
+
+    public void saveFamilyMember(String name, String memberKey) {
+        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(memberKey, name);
+        editor.apply();
     }
 
     /**
