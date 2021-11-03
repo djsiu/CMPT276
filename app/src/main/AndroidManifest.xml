@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CalciumParentApp">
 
-
         <activity
             android:name=".ui.coinflip.CoinFlipHistory"
             android:exported="false" />
@@ -46,6 +45,7 @@
             </intent-filter>
         </activity>
         <service android:name=".model.timer.TimerService"/>
+        <receiver android:name=".model.timer.AlertReceiver" />
     </application>
 
 </manifest>

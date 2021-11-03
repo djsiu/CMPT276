@@ -90,11 +90,11 @@ public class TimerService extends Service {
             public void onTick(long millisUntilFinished) {
                 updateNotification(millisUntilFinished);
                 talk(millisUntilFinished);
-                startAlarm();
             }
 
             @Override
             public void onFinish() {
+                startAlarm();
                 stopSelf();
             }
         }.start();
