@@ -2,7 +2,6 @@ package com.cmpt276.calciumparentapp.ui.timer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -16,7 +15,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.timer.NotificationHelper;
 import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
+import com.cmpt276.calciumparentapp.model.timer.TimerService;
 
 import java.util.Objects;
 
@@ -24,6 +25,7 @@ public class Timer extends AppCompatActivity {
     private TextView countdownText;
     public static final String CHANNEL_ID = "timerServiceChannel";
     private final TimerLogic timerLogic = TimerLogic.getInstance();
+    private NotificationHelper notificationHelper = new NotificationHelper(this);
     private long timeRemaining;
 
     @Override
@@ -31,7 +33,7 @@ public class Timer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_timer);
-        createNotificationChannel();
+        notificationHelper.createNotificationChannel();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         countdownText = findViewById(R.id.countdown_text);
@@ -42,6 +44,8 @@ public class Timer extends AppCompatActivity {
 
         setupButtons();
     }
+
+    // BUTTONS
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -56,7 +60,7 @@ public class Timer extends AppCompatActivity {
     }
 
     private void setupButtons(){
-        Button stopButton = (Button) findViewById(R.id.btnStop);
+        Button stopButton = findViewById(R.id.btnStop);
         stopButton.setOnClickListener(v -> {
             Log.e("Button", "Button clicked!!");
             timerLogic.setTimerLength(timeRemaining);
@@ -65,23 +69,6 @@ public class Timer extends AppCompatActivity {
     }
 
     // TIMER SERVICE
-
-    // Creates the notification channel for the required versions of android
-    // May need to be called only once for the whole application in which case this needs to be
-    // moved to the main activity
-    private void createNotificationChannel() {
-        NotificationChannel serviceChannel = new NotificationChannel(
-                CHANNEL_ID,
-                "Timer Service Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
-        );
-        serviceChannel.enableVibration(false);
-        serviceChannel.enableLights(false);
-        serviceChannel.setSound(null, null);
-
-        NotificationManager manager = getSystemService(NotificationManager.class);
-        manager.createNotificationChannel(serviceChannel);
-    }
 
     private void startTimerService(){
         Intent serviceIntent = new Intent(this, TimerService.class);

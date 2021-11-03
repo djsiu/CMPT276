@@ -1,28 +1,34 @@
-package com.cmpt276.calciumparentapp.ui.timer;
+package com.cmpt276.calciumparentapp.model.timer;
 
 import static com.cmpt276.calciumparentapp.ui.timer.Timer.CHANNEL_ID;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
+import com.cmpt276.calciumparentapp.ui.timer.Timer;
 
+//TODO Find where notification ends with timer
+// setup alarm in that spot
 public class TimerService extends Service {
-
     public static final int NOTIFICATION_ID = 1;
     public static final String BROADCAST_FILTER = "TIMER_FILTER";
     public static final String TIME_REMAINING_KEY = "TIME_REMAINING";
+
+    private boolean enableAlarm = true;
 
     private TimerLogic timerLogic;
     private CountDownTimer timer;
@@ -53,7 +59,6 @@ public class TimerService extends Service {
     }
 
     private Notification getTimerNotification(long timeRemaining){
-
         Intent notificationIntent = new Intent(this, Timer.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this,
@@ -77,6 +82,7 @@ public class TimerService extends Service {
         manager.notify(NOTIFICATION_ID, notification);
     }
 
+    //TODO I think I need to setup the alarm here
     private void setupTimer(long length){
         // update every second
         timer = new CountDownTimer(length, 1000) {
@@ -84,6 +90,7 @@ public class TimerService extends Service {
             public void onTick(long millisUntilFinished) {
                 updateNotification(millisUntilFinished);
                 talk(millisUntilFinished);
+                startAlarm();
             }
 
             @Override
@@ -100,12 +107,31 @@ public class TimerService extends Service {
         sendBroadcast(i);
     }
 
+    public void startAlarm(){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
+}
 
+//TODO This here isn't working for some reason
+class AlertReceiver extends BroadcastReceiver{
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Toast.makeText(context, "Alarm", Toast.LENGTH_SHORT).show();
+
+        NotificationHelper notificationHelper = new NotificationHelper(context);
+        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
+        notificationHelper.getManager().notify(1, nb.build());
+    }
 }
 
 

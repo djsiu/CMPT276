@@ -3,13 +3,10 @@ package com.cmpt276.calciumparentapp.model.timer;
 import android.app.ActivityManager;
 import android.content.Context;
 
-import com.cmpt276.calciumparentapp.ui.timer.TimerService;
-
 /**
  * Singleton class that handles the timer logic
  */
 public class TimerLogic {
-
     private static TimerLogic instance;
     private long ms = 60000;
 
