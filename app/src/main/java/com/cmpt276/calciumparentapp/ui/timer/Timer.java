@@ -80,8 +80,8 @@ public class Timer extends AppCompatActivity {
     }
 
     private void setupButtons(boolean timerServiceRunning, boolean timerRunning){
-        Button btn = (Button) findViewById(R.id.btnStartPause);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button controlButton = (Button) findViewById(R.id.btnStartPause);
+        controlButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onStartPauseButtonClick((Button) v);
@@ -89,12 +89,22 @@ public class Timer extends AppCompatActivity {
         });
 
         if(timerServiceRunning && timerRunning){
-            btn.setText(R.string.btnPause);
+            controlButton.setText(R.string.btnPause);
         }
 
         if(timerServiceRunning && !timerRunning) {
-            btn.setText(R.string.btnResume);
+            controlButton.setText(R.string.btnResume);
         }
+
+        Button resetButton = (Button) findViewById(R.id.btnReset);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopTimerService();
+                countdownText.setText(timerLogic.getTimerText(timerLogic.getTimerLength()));
+                controlButton.setText(R.string.btnStart);
+            }
+        });
     }
 
 
@@ -146,6 +156,11 @@ public class Timer extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, TimerService.class);
         serviceIntent.putExtra(getString(R.string.timer_length_extra), timerLogic.getTimerLength());
         startService(serviceIntent);
+    }
+
+    private void stopTimerService() {
+        Intent serviceIntent = new Intent(this, TimerService.class);
+        stopService(serviceIntent);
     }
 
     private void setupBroadcastReceiver() {
