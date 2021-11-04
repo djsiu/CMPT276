@@ -25,13 +25,14 @@ public class TimerService extends Service {
 
     private boolean enableAlarm = true;
 
-    private final NotificationHelper notificationHelper = new NotificationHelper(this);
+    private NotificationHelper notificationHelper;
     private TimerLogic timerLogic;
     private CountDownTimer timer;
 
     @Override
     public void onCreate() {
         timerLogic = TimerLogic.getInstance();
+        notificationHelper = new NotificationHelper(getApplicationContext());
         super.onCreate();
     }
 
@@ -86,12 +87,14 @@ public class TimerService extends Service {
         sendBroadcast(i);
     }
 
+
     public void startAlarm(){
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, Timer.class);
+        Intent alarmIntent = new Intent(this, Timer.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this,
-                1, intent,
+                1,
+                alarmIntent,
                 PendingIntent.FLAG_IMMUTABLE);
 
         AlarmManager.AlarmClockInfo timeInfo = new AlarmManager.AlarmClockInfo(0, pendingIntent);

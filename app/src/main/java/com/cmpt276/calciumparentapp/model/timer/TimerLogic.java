@@ -20,7 +20,7 @@ public class TimerLogic {
     }
 
     // Private constructor for singleton
-    TimerLogic(){
+    private TimerLogic(){
 
     }
 

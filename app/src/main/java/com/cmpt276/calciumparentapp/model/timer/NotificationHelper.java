@@ -20,8 +20,7 @@ import com.cmpt276.calciumparentapp.ui.timer.Timer;
 public class NotificationHelper extends ContextWrapper {
 
     private NotificationManager notificationManager;
-    private final TimerLogic timerLogic = new TimerLogic();
-
+    private final TimerLogic timerLogic = TimerLogic.getInstance();
     public NotificationHelper(Context base) {
         super(base);
 
@@ -30,40 +29,43 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public void createTimerChannel() {
-        NotificationChannel serviceChannel = new NotificationChannel(
+        NotificationChannel channel = new NotificationChannel(
                 TIMER_CHANNEL_ID,
                 "Timer",
                 NotificationManager.IMPORTANCE_DEFAULT
         );
-        serviceChannel.enableVibration(false);
-        serviceChannel.enableLights(false);
-        serviceChannel.setSound(null, null);
+        channel.enableVibration(false);
+        channel.enableLights(false);
+        channel.setSound(null, null);
 
-        android.app.NotificationManager manager = getSystemService(android.app.NotificationManager.class);
-        manager.createNotificationChannel(serviceChannel);
+        getManager().createNotificationChannel(channel);
+    }
+
+    private void createAlarmChannel() {
+        NotificationChannel channel = new NotificationChannel(
+                ALARM_CHANNEL_ID,
+                "Alarm",
+                NotificationManager.IMPORTANCE_HIGH
+        );
+
+        getManager().createNotificationChannel(channel);
     }
 
     public Notification getTimerNotification(long timeRemaining){
         Intent notificationIntent = new Intent(this, Timer.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
-                this,
+                getApplicationContext(),
                 0,
                 notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE);
 
-        return new NotificationCompat.Builder(this, TIMER_CHANNEL_ID)
+        return new NotificationCompat.Builder(getApplicationContext(), TIMER_CHANNEL_ID)
                 .setContentTitle("Timer")
                 .setContentText(timerLogic.getTimerText(timeRemaining))
                 .setSmallIcon(R.drawable.timer_service_icon)
                 .setContentIntent(pendingIntent)
                 .setOnlyAlertOnce(true)
                 .build();
-    }
-
-    private void createAlarmChannel() {
-        NotificationChannel channel = new NotificationChannel(ALARM_CHANNEL_ID, "Alarm", NotificationManager.IMPORTANCE_HIGH);
-
-        getManager().createNotificationChannel(channel);
     }
 
     public NotificationCompat.Builder getAlarmNotification() {
