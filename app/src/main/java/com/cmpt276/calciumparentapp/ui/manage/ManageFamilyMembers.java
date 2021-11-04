@@ -40,7 +40,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
 
         getFamilyManagerFromSharedPrefs();
         populateListView();
-
     }
 
     private void populateListView() {
@@ -62,8 +61,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
             intent.putExtra(EDIT_MEMBER, i);
             startActivityForResult(intent, 2);
         });
-
-        //saveFamilyManagerToSharedPrefs();
     }
 
     private void setupManageFamilyAddButton(FloatingActionButton button) {
