@@ -4,15 +4,25 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
-import com.cmpt276.calciumparentapp.R;
 
 public class CoinFlipSelectFirst extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    private void populateNames(){
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance();
+        for( String name : familyMembersManager.getFamilyMembersNames()){
+            addMember(name);
+        }
+    }
+
+    private void addMember(String name) {
+
+
+    }
 }
+
