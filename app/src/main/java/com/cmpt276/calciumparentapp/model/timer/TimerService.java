@@ -111,26 +111,15 @@ public class TimerService extends Service {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        AlarmManager.AlarmClockInfo timeInfo = new AlarmManager.AlarmClockInfo(0, pendingIntent);
 
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, 0, pendingIntent);
+        alarmManager.setAlarmClock(timeInfo, pendingIntent);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-}
-
-//TODO This here isn't working for some reason
-class AlertReceiver extends BroadcastReceiver{
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "Alarm", Toast.LENGTH_SHORT).show();
-
-        NotificationHelper notificationHelper = new NotificationHelper(context);
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
-        notificationHelper.getManager().notify(1, nb.build());
     }
 }
 

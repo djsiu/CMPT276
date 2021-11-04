@@ -40,6 +40,7 @@ public class NotificationHelper extends ContextWrapper {
         return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentTitle("Alarm")
                 .setContentText("Timeout is Over!")
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
     }
 
