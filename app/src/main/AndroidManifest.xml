@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cmpt276.calciumparentapp">
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <application
         android:allowBackup="true"
         android:fullBackupOnly="true"
@@ -11,6 +11,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.CalciumParentApp">
+
 
         <activity
             android:name=".ui.coinflip.CoinFlipHistory"
@@ -26,7 +27,11 @@
             android:exported="false" />
         <activity
             android:name=".ui.timer.Timer"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode = "singleTop" />
+        <activity
+            android:name=".ui.timer.TimerCustomTime"
+            android:exported="false"/>
         <activity
             android:name=".ui.manage.ManageFamilyMembers"
             android:exported="false" />
@@ -42,6 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".ui.timer.TimerService"/>
     </application>
 
 </manifest>
