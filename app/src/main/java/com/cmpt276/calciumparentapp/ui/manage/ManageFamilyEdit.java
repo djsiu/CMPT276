@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,11 +32,11 @@ public class ManageFamilyEdit extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        familyManager = FamilyMembersManager.getInstance();
+        getFamilyManagerFromSharedPrefs();
 
         // makes the current name appear in the editText
         EditText editTextName = findViewById(R.id.editTextMemberNameForEdit);
-        editTextName.setText(getFamilyMemberNameString(getFamilyMemberPos()));
+        editTextName.setText(familyManager.getFamilyMembersNames()[getFamilyMemberPos()]);
 
         setupCancelBtn();
         setupSaveBtn();
@@ -51,14 +52,13 @@ public class ManageFamilyEdit extends AppCompatActivity {
         Button deleteBtn = findViewById(R.id.deleteMemberBtn);
 
         deleteBtn.setOnClickListener(view -> {
-            //deleting from shared preferences
-            SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.remove(familyManager.getMemberKeyByIndex(getFamilyMemberPos()));
-            editor.apply();
 
             familyManager.deleteMember(getFamilyMemberPos());
+            saveFamilyManagerToSharedPrefs();
 
+            //updating the list view in ManageFamilyMembers activity
+            Intent intent=new Intent();
+            setResult(2,intent);
             finish();
         });
     }
@@ -68,11 +68,14 @@ public class ManageFamilyEdit extends AppCompatActivity {
 
         EditText editMemberName = findViewById(R.id.editTextMemberNameForEdit);
         saveBtn.setOnClickListener(view -> {
+
+            //edit the person in family manager
             familyManager.editMember(
                     editMemberName.getText().toString(),
                     getFamilyMemberPos()
             );
 
+            saveFamilyManagerToSharedPrefs();
             finish();
         });
     }
@@ -82,34 +85,25 @@ public class ManageFamilyEdit extends AppCompatActivity {
         cancelBtn.setOnClickListener(view -> finish());
     }
 
-    public void saveFamilyMember(String name, String memberKey) {
+    //credit to eamonnmcmanus on github
+    private void saveFamilyManagerToSharedPrefs() {
         SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(memberKey, name);
+        Gson gson = new Gson();
+        String json = gson.toJson(familyManager);
+        editor.putString("FamilyManager", json);
         editor.apply();
     }
 
-//    private int getNumOfMembers() {
-//        int numOfMembers = 0;
-//
-//        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-//        Map<String, String> allEntries = (Map<String, String>) prefs.getAll();
-//        for (Map.Entry<String, String> entry : allEntries.entrySet()) {
-//            numOfMembers++;
-//        }
-//        return numOfMembers;
-//    }
-
-    public String getFamilyMemberNameString(int i) {
-        ArrayList<String> names = new ArrayList<>();
-
+    private void getFamilyManagerFromSharedPrefs() {
         SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        Map<String, String> allEntries = (Map<String, String>) prefs.getAll();
-        for (Map.Entry<String, String> entry : allEntries.entrySet()) {
-            names.add(entry.getValue());
-        }
+        Gson gson = new Gson();
+        String json = prefs.getString("FamilyManager", "");
 
-        return names.get(i);
+        familyManager = gson.fromJson(json, FamilyMembersManager.class);
+        if(familyManager == null) {
+            familyManager = FamilyMembersManager.getInstance();
+        }
     }
 
     /**

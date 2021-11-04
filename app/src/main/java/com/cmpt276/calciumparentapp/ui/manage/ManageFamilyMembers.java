@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -37,19 +38,20 @@ public class ManageFamilyMembers extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        familyManager = FamilyMembersManager.getInstance();
-        restoreFamilyManager();
-
+        getFamilyManagerFromSharedPrefs();
         populateListView();
 
     }
 
     private void populateListView() {
 
+        getFamilyManagerFromSharedPrefs();
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 R.layout.family_member_list_view,
-                getFamilyMembersStrings());
+                familyManager.getFamilyMembersNames());
+
 
         ListView familyMembersList = findViewById(R.id.familyMembersList);
         familyMembersList.setAdapter(adapter);
@@ -60,6 +62,8 @@ public class ManageFamilyMembers extends AppCompatActivity {
             intent.putExtra(EDIT_MEMBER, i);
             startActivityForResult(intent, 2);
         });
+
+        //saveFamilyManagerToSharedPrefs();
     }
 
     private void setupManageFamilyAddButton(FloatingActionButton button) {
@@ -68,6 +72,27 @@ public class ManageFamilyMembers extends AppCompatActivity {
             Intent intent = new Intent(ManageFamilyMembers.this, ManageFamilyAdd.class);
             startActivityForResult(intent, 2);
         });
+    }
+
+    // credit to eamonnmcmanus on github
+    private void getFamilyManagerFromSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString("FamilyManager", "");
+
+        familyManager = gson.fromJson(json, FamilyMembersManager.class);
+        if(familyManager == null) {
+            familyManager = FamilyMembersManager.getInstance();
+        }
+    }
+
+    private void saveFamilyManagerToSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(familyManager);
+        editor.putString("FamilyManager", json);
+        editor.apply();
     }
 
     // insuring that the list view updates with the new values
@@ -82,27 +107,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
         }
     }
 
-    public ArrayList<String> getFamilyMembersStrings() {
-        ArrayList<String> names = new ArrayList<>();
-
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        Map<String, String> allEntries = (Map<String, String>) prefs.getAll();
-        for (Map.Entry<String, String> entry : allEntries.entrySet()) {
-            names.add(entry.getValue());
-        }
-
-        return names;
-    }
-
-    //getting the data from shared preferences
-    public void restoreFamilyManager() { //TODO: move to the main menu?
-        int numOfFamilyMembers = familyManager.getFamilyMembersNames().length;
-        if(numOfFamilyMembers < 1) {
-            for (int i = 0; i < getFamilyMembersStrings().size(); i++) {
-                familyManager.addMember(getFamilyMembersStrings().get(i));
-            }
-        }
-    }
     /**
      * Adds logic to action bar
      */

@@ -30,15 +30,6 @@ public class FamilyMembersManager {
         familyMembersList.add(newMember);
     }
 
-    //only used for adding the family member in shared preferences
-    public String getAddedMemberKey() {
-        return familyMembersList.get(getFamilyMembersNames().length - 1).getMemberKey();
-    }
-
-    public String getMemberKeyByIndex(int i) {
-        return familyMembersList.get(i).getMemberKey();
-    }
-
     public void editMember(String name, int i) {
         familyMembersList.set(i, familyMembersList.get(i).changeName(name));
     }
@@ -48,7 +39,7 @@ public class FamilyMembersManager {
     }
 
     public String[] getFamilyMembersNames() {
-        String[] fm = {};
+        String[] fm = {""};
         if (familyMembersList != null) {
             fm = new String[familyMembersList.size()];
 

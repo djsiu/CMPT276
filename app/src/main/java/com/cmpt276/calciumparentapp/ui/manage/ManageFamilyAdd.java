@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMember;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
+import com.google.gson.Gson;
 
 
 public class ManageFamilyAdd extends AppCompatActivity {
@@ -34,16 +35,17 @@ public class ManageFamilyAdd extends AppCompatActivity {
         setupCancelBtn();
         setupAddBtn();
 
-        familyManager = FamilyMembersManager.getInstance();
+        getFamilyManagerFromSharedPrefs();
     }
 
     private void setupAddBtn() {
         Button addBtn = findViewById(R.id.addNewMemberButton);
         EditText newMemberName = findViewById(R.id.editTextFamilyMemberName);
         addBtn.setOnClickListener(view -> {
+
             String newMemberNameStr = newMemberName.getText().toString();
             familyManager.addMember(newMemberNameStr);
-            saveFamilyMember(newMemberNameStr, familyManager.getAddedMemberKey());
+            saveFamilyManagerToSharedPrefs();
 
             Toast.makeText(getApplicationContext(),
                     "Welcome to the family " + newMemberName.getText().toString() + "!",
@@ -63,11 +65,25 @@ public class ManageFamilyAdd extends AppCompatActivity {
         cancelBtn.setOnClickListener(view -> finish());
     }
 
-    public void saveFamilyMember(String name, String memberKey) {
+    //credit to eamonnmcmanus on github
+    private void saveFamilyManagerToSharedPrefs() {
         SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(memberKey, name);
+        Gson gson = new Gson();
+        String json = gson.toJson(familyManager);
+        editor.putString("FamilyManager", json);
         editor.apply();
+    }
+
+    private void getFamilyManagerFromSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString("FamilyManager", "");
+
+        familyManager = gson.fromJson(json, FamilyMembersManager.class);
+        if(familyManager == null) {
+            familyManager = FamilyMembersManager.getInstance();
+        }
     }
 
     /**
