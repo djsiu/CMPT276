@@ -20,6 +20,9 @@
         <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_manage_family_edit.xml" value="0.55" />
         <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_timer_custom_time.xml" value="0.55" />
         <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_timer_select_time.xml" value="0.55" />
+        <entry key="app/src/main/res/layout/activity_timer_custom_time.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_timer_select_time.xml" value="0.4121376811594203" />
+        <entry key="app/src/main/res/layout/fragment_timer_custom_time.xml" value="0.4121376811594203" />
       </map>
     </option>
   </component>
@@ -28,5 +31,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
   </component>
 </project>
