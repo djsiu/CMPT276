@@ -1,32 +1,39 @@
 package com.cmpt276.calciumparentapp.model.timer;
 
-import static com.cmpt276.calciumparentapp.ui.timer.Timer.CHANNEL_ID;
+import static com.cmpt276.calciumparentapp.ui.timer.Timer.ALARM_CHANNEL_ID;
+import static com.cmpt276.calciumparentapp.ui.timer.Timer.TIMER_CHANNEL_ID;
 
+import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.ui.timer.Timer;
 
 public class NotificationHelper extends ContextWrapper {
 
     private NotificationManager notificationManager;
+    private final TimerLogic timerLogic = new TimerLogic();
 
     public NotificationHelper(Context base) {
         super(base);
+
+        createTimerChannel();
+        createAlarmChannel();
     }
 
-    // Creates the notification channel for the required versions of android
-    // May need to be called only once for the whole application in which case this needs to be
-    // moved to the main activity
-    public void createNotificationChannel() {
+    public void createTimerChannel() {
         NotificationChannel serviceChannel = new NotificationChannel(
-                CHANNEL_ID,
-                "Timer Service Channel",
-                android.app.NotificationManager.IMPORTANCE_DEFAULT
+                TIMER_CHANNEL_ID,
+                "Timer",
+                NotificationManager.IMPORTANCE_DEFAULT
         );
         serviceChannel.enableVibration(false);
         serviceChannel.enableLights(false);
@@ -36,8 +43,31 @@ public class NotificationHelper extends ContextWrapper {
         manager.createNotificationChannel(serviceChannel);
     }
 
-    public NotificationCompat.Builder getChannelNotification() {
-        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+    public Notification getTimerNotification(long timeRemaining){
+        Intent notificationIntent = new Intent(this, Timer.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_IMMUTABLE);
+
+        return new NotificationCompat.Builder(this, TIMER_CHANNEL_ID)
+                .setContentTitle("Timer")
+                .setContentText(timerLogic.getTimerText(timeRemaining))
+                .setSmallIcon(R.drawable.timer_service_icon)
+                .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(true)
+                .build();
+    }
+
+    private void createAlarmChannel() {
+        NotificationChannel channel = new NotificationChannel(ALARM_CHANNEL_ID, "Alarm", NotificationManager.IMPORTANCE_HIGH);
+
+        getManager().createNotificationChannel(channel);
+    }
+
+    public NotificationCompat.Builder getAlarmNotification() {
+        return new NotificationCompat.Builder(getApplicationContext(), ALARM_CHANNEL_ID)
                 .setContentTitle("Alarm")
                 .setContentText("Timeout is Over!")
                 .setPriority(NotificationCompat.PRIORITY_MAX)

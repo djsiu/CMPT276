@@ -1,22 +1,17 @@
 package com.cmpt276.calciumparentapp.model.timer;
 
-import static com.cmpt276.calciumparentapp.ui.timer.Timer.CHANNEL_ID;
-
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.ui.timer.Timer;
@@ -30,6 +25,7 @@ public class TimerService extends Service {
 
     private boolean enableAlarm = true;
 
+    private final NotificationHelper notificationHelper = new NotificationHelper(this);
     private TimerLogic timerLogic;
     private CountDownTimer timer;
 
@@ -54,29 +50,12 @@ public class TimerService extends Service {
         }
 
         setupTimer(length);
-        startForeground(NOTIFICATION_ID, getTimerNotification(length));
+        startForeground(NOTIFICATION_ID, notificationHelper.getTimerNotification(length));
         return START_NOT_STICKY;
     }
 
-    private Notification getTimerNotification(long timeRemaining){
-        Intent notificationIntent = new Intent(this, Timer.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this,
-                0,
-                notificationIntent,
-                PendingIntent.FLAG_IMMUTABLE);
-
-        return new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Timer")
-                .setContentText(timerLogic.getTimerText(timeRemaining))
-                .setSmallIcon(R.drawable.timer_service_icon)
-                .setContentIntent(pendingIntent)
-                .setOnlyAlertOnce(true)
-                .build();
-    }
-
     private void updateNotification(long newTime){
-        Notification notification = getTimerNotification(newTime);
+        Notification notification = notificationHelper.getTimerNotification(newTime);
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(NOTIFICATION_ID, notification);
@@ -109,8 +88,12 @@ public class TimerService extends Service {
 
     public void startAlarm(){
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        Intent intent = new Intent(this, Timer.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                1, intent,
+                PendingIntent.FLAG_IMMUTABLE);
+
         AlarmManager.AlarmClockInfo timeInfo = new AlarmManager.AlarmClockInfo(0, pendingIntent);
 
         alarmManager.setAlarmClock(timeInfo, pendingIntent);

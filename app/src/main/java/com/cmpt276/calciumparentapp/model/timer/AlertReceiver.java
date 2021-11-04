@@ -13,7 +13,7 @@ public class AlertReceiver extends BroadcastReceiver {
         Toast.makeText(context, "Alarm", Toast.LENGTH_SHORT).show();
 
         NotificationHelper notificationHelper = new NotificationHelper(context);
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
+        NotificationCompat.Builder nb = notificationHelper.getAlarmNotification();
         notificationHelper.getManager().notify(1, nb.build());
     }
 }

@@ -2,8 +2,6 @@ package com.cmpt276.calciumparentapp.ui.timer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,22 +20,24 @@ import com.cmpt276.calciumparentapp.model.timer.TimerService;
 import java.util.Objects;
 
 public class Timer extends AppCompatActivity {
+    public static final String TIMER_CHANNEL_ID = "timerServiceChannel";
+    public static final String ALARM_CHANNEL_ID = "alarmServiceChannel";
+
     private TextView countdownText;
-    public static final String CHANNEL_ID = "timerServiceChannel";
     private final TimerLogic timerLogic = TimerLogic.getInstance();
-    private NotificationHelper notificationHelper = new NotificationHelper(this);
     private long timeRemaining;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_timer);
-        notificationHelper.createNotificationChannel();
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        NotificationHelper notificationHelper = new NotificationHelper(this);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         countdownText = findViewById(R.id.countdown_text);
         setupBroadcastReceiver();
+
         if(!timerLogic.isMyServiceRunning(this)){
             startTimerService();
         }
