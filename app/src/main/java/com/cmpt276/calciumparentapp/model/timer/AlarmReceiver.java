@@ -14,7 +14,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         TimerNotifications timerNotifications = new TimerNotifications(context);
-        Notification notification = timerNotifications.getAlarmNotification();
-        timerNotifications.getManager().notify(1, notification);
+        Notification alarmNotification = timerNotifications.getAlarmNotification();
+        timerNotifications.getManager().notify(1, alarmNotification);
     }
 }
