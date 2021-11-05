@@ -46,5 +46,6 @@
     <string name="timer_notification_title">Timer</string>
     <string name="custom_time">Custom Time</string>
     <string name="time">Time:</string>
+    <string name="button_coin_fragment_continue">Continue</string>
 
 </resources>

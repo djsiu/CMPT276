@@ -2,6 +2,7 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
@@ -83,14 +84,14 @@ public class CoinFlip extends AppCompatActivity {
         mediaPlayer.start();
 
         //show flip
-        ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
+        ImageView imageView = findViewById(R.id.imageView_coin);
         imageView.animate().setDuration(250*numberOfRotations).rotationYBy(numberOfRotations*180f).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 //render buttons unclickable while moving
-                Button buttonHeads = (Button) findViewById(R.id.coin_button_heads);
+                Button buttonHeads = findViewById(R.id.coin_button_heads);
                 buttonHeads.setClickable(false);
-                Button buttonTails = (Button) findViewById(R.id.coin_button_tails);
+                Button buttonTails = findViewById(R.id.coin_button_tails);
                 buttonTails.setClickable(false);
 
                 imageView.setImageResource(R.drawable.coin_faceless);
@@ -99,7 +100,7 @@ public class CoinFlip extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
+                ImageView imageView = findViewById(R.id.imageView_coin);
                 if(Face.HEADS == currentFace){
                     imageView.setImageResource(R.drawable.coin_heads);
 
@@ -108,9 +109,9 @@ public class CoinFlip extends AppCompatActivity {
 
                 }
                 updateWinner();
-                Button buttonHeads = (Button) findViewById(R.id.coin_button_heads);
+                Button buttonHeads = findViewById(R.id.coin_button_heads);
                 buttonHeads.setClickable(true);
-                Button buttonTails = (Button) findViewById(R.id.coin_button_tails);
+                Button buttonTails = findViewById(R.id.coin_button_tails);
                 buttonTails.setClickable(true);
             }
 
@@ -126,6 +127,12 @@ public class CoinFlip extends AppCompatActivity {
         }).start();
 
     }
+
+    private void callFragment(){
+        Intent i = new Intent(this, CoinFlipSelectFirst.class);
+        startActivity(i);
+    }
+
 
     /**
      * Displays actionbar buttons
