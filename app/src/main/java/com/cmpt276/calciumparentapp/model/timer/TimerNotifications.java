@@ -70,17 +70,22 @@ public class TimerNotifications extends ContextWrapper {
                 .build();
     }
 
-    public NotificationCompat.Builder getAlarmNotification() {
+    public Notification getAlarmNotification() {
         // Forces Heads-up notification to stay open with this dummy intent
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), PendingIntent.FLAG_IMMUTABLE);
 
-        return new NotificationCompat.Builder(getApplicationContext(), ALARM_CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), ALARM_CHANNEL_ID)
                 .setContentTitle("Alarm")
                 .setContentText("Timeout is Over!")
                 .setAutoCancel(false)
                 .setCategory(Notification.CATEGORY_CALL)
                 .setFullScreenIntent(pendingIntent, true)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
+
+        Notification notification = notificationBuilder.build();
+        notification.flags = Notification.FLAG_INSISTENT; // Loops notification sound
+
+        return notification;
     }
 
     public NotificationManager getManager() {

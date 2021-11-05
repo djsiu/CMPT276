@@ -14,11 +14,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         TimerNotifications timerNotifications = new TimerNotifications(context);
-        NotificationCompat.Builder notificationBuilder = timerNotifications.getAlarmNotification();
-
-        Notification notification = notificationBuilder.build();
-        notification.flags = Notification.FLAG_INSISTENT; // Loops notification sound
-
+        Notification notification = timerNotifications.getAlarmNotification();
         timerNotifications.getManager().notify(1, notification);
     }
 }
