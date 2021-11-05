@@ -7,8 +7,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyEdit;
+
+/*
+    NEEDS TO DISPLAY:
+    - date + time of flip
+    - name of picker
+    - what flip came up
+    - won or lost icon
+ */
 
 public class CoinFlipHistory extends AppCompatActivity {
 
@@ -21,6 +32,21 @@ public class CoinFlipHistory extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
+
+        populateListView();
+    }
+
+    private void populateListView() {
+
+        String[] sample = {"hellp", "hoo", "yes"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                R.layout.family_member_list_view,
+                sample);
+
+        ListView familyMembersList = findViewById(R.id.coinFlipHistoryListView);
+        familyMembersList.setAdapter(adapter);
     }
 
     /**

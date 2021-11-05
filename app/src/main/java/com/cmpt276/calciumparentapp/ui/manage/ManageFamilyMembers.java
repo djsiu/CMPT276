@@ -16,9 +16,6 @@ import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 public class ManageFamilyMembers extends AppCompatActivity {
 
     public static final String EDIT_MEMBER = "com.cmpt276.calciumparentapp.manage.ManageFamilyMembers.EDIT_MEMBER";
@@ -52,7 +49,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
                 familyManager.getFamilyMembersNames());
 
 
-        ListView familyMembersList = findViewById(R.id.familyMembersList);
+        ListView familyMembersList = findViewById(R.id.familyMembersListView);
         familyMembersList.setAdapter(adapter);
 
         //enabling clicking on list view to edit family members
