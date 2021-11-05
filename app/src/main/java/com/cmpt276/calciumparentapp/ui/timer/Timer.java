@@ -13,15 +13,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.timer.NotificationHelper;
 import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
 import com.cmpt276.calciumparentapp.model.timer.TimerService;
 
 import java.util.Objects;
 
+/**
+ * UI for Timer
+ */
 public class Timer extends AppCompatActivity {
-    public static final String TIMER_CHANNEL_ID = "timerServiceChannel";
-    public static final String ALARM_CHANNEL_ID = "alarmServiceChannel";
 
     private TextView countdownText;
     private final TimerLogic timerLogic = TimerLogic.getInstance();
@@ -34,7 +34,7 @@ public class Timer extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         countdownText = findViewById(R.id.countdown_text);
-        setupBroadcastReceiver();
+        setupTimerNotificationReceiver();
 
         if(!timerLogic.isMyServiceRunning(this)){
             startTimerService();
@@ -79,7 +79,7 @@ public class Timer extends AppCompatActivity {
         stopService(serviceIntent);
     }
 
-    private void setupBroadcastReceiver(){
+    private void setupTimerNotificationReceiver(){
         BroadcastReceiver br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

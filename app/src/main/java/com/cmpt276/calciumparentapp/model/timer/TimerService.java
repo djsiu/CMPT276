@@ -10,26 +10,25 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.ui.timer.Timer;
 
-//TODO Find where notification ends with timer
-// setup alarm in that spot
+/**
+ * Logic for the timer background service
+ */
 public class TimerService extends Service {
     public static final int NOTIFICATION_ID = 1;
     public static final String BROADCAST_FILTER = "TIMER_FILTER";
     public static final String TIME_REMAINING_KEY = "TIME_REMAINING";
 
-    private NotificationHelper notificationHelper;
+    private TimerNotifications timerNotifications;
     private CountDownTimer timer;
 
     @Override
     public void onCreate() {
-        notificationHelper = new NotificationHelper(getApplicationContext());
+        timerNotifications = new TimerNotifications(getApplicationContext());
         super.onCreate();
     }
 
@@ -48,12 +47,12 @@ public class TimerService extends Service {
         }
 
         setupTimer(length);
-        startForeground(NOTIFICATION_ID, notificationHelper.getTimerNotification(length));
+        startForeground(NOTIFICATION_ID, timerNotifications.getTimerNotification(length));
         return START_NOT_STICKY;
     }
 
     private void updateNotification(long newTime){
-        Notification notification = notificationHelper.getTimerNotification(newTime);
+        Notification notification = timerNotifications.getTimerNotification(newTime);
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(NOTIFICATION_ID, notification);
@@ -85,7 +84,7 @@ public class TimerService extends Service {
 
     public void startAlarm(){
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent = new Intent(this, AlertReceiver.class);
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this,
                 1,

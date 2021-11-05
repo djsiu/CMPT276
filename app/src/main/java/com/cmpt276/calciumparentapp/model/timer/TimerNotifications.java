@@ -1,8 +1,5 @@
 package com.cmpt276.calciumparentapp.model.timer;
 
-import static com.cmpt276.calciumparentapp.ui.timer.Timer.ALARM_CHANNEL_ID;
-import static com.cmpt276.calciumparentapp.ui.timer.Timer.TIMER_CHANNEL_ID;
-
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -18,18 +15,22 @@ import androidx.core.app.NotificationCompat;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.ui.timer.Timer;
 
-public class NotificationHelper extends ContextWrapper {
+/**
+ * Logic for creating timer related notifications
+ */
+public class TimerNotifications extends ContextWrapper {
+    public static final String TIMER_CHANNEL_ID = "timerServiceChannel";
+    public static final String ALARM_CHANNEL_ID = "alarmServiceChannel";
 
     private NotificationManager notificationManager;
     private final TimerLogic timerLogic = TimerLogic.getInstance();
 
-    public NotificationHelper(Context base) {
+    public TimerNotifications(Context base) {
         super(base);
 
-        //createTimerChannel();
+        createTimerChannel();
         createAlarmChannel();
     }
-
 
     public void createTimerChannel() {
         NotificationChannel channel = new NotificationChannel(
@@ -54,7 +55,6 @@ public class NotificationHelper extends ContextWrapper {
         getManager().createNotificationChannel(channel);
     }
 
-
     public Notification getTimerNotification(long timeRemaining){
         Intent notificationIntent = new Intent(this, Timer.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
@@ -73,9 +73,15 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationCompat.Builder getAlarmNotification() {
+        // Forces Heads-up notification to stay open with this dummy intent
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), PendingIntent.FLAG_IMMUTABLE);
+
         return new NotificationCompat.Builder(getApplicationContext(), ALARM_CHANNEL_ID)
                 .setContentTitle("Alarm")
                 .setContentText("Timeout is Over!")
+                .setAutoCancel(false)
+                .setCategory(Notification.CATEGORY_CALL)
+                .setFullScreenIntent(pendingIntent, true)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
     }
 

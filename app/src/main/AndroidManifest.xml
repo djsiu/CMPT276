@@ -3,6 +3,8 @@
     package="com.cmpt276.calciumparentapp">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -45,7 +47,7 @@
             </intent-filter>
         </activity>
         <service android:name=".model.timer.TimerService"/>
-        <receiver android:name=".model.timer.AlertReceiver"/>
+        <receiver android:name=".model.timer.AlarmReceiver"/>
     </application>
 
 </manifest>
