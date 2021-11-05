@@ -46,5 +46,6 @@
     <string name="timer_notification_title">Timer</string>
     <string name="custom_time">Custom Time</string>
     <string name="time">Time:</string>
+    <string name="invalid_custom_time_toast">Please enter a valid number</string>
 
 </resources>
