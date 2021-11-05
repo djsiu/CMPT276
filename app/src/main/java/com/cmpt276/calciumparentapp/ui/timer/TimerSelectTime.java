@@ -67,7 +67,7 @@ public class TimerSelectTime extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()){
                 case R.id.btnOneMinute:
-                    timerLogic.setTimerLength(60000);
+                    timerLogic.setTimerLength(1000);
                     break;
                 case R.id.btnTwoMinute:
                     timerLogic.setTimerLength(60000 * 2);

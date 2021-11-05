@@ -7,6 +7,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
 
 import androidx.core.app.NotificationCompat;
 
@@ -44,11 +47,19 @@ public class TimerNotifications extends ContextWrapper {
     }
 
     private void createAlarmChannel() {
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM); // Gets system alarm sound
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .build();
+
         NotificationChannel channel = new NotificationChannel(
                 ALARM_CHANNEL_ID,
                 "Alarm",
                 NotificationManager.IMPORTANCE_HIGH
         );
+        channel.setSound(alarmSound, audioAttributes);
+
 
         getManager().createNotificationChannel(channel);
     }
