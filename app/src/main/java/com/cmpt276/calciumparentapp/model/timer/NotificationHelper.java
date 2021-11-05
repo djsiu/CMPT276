@@ -11,6 +11,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
@@ -21,12 +22,14 @@ public class NotificationHelper extends ContextWrapper {
 
     private NotificationManager notificationManager;
     private final TimerLogic timerLogic = TimerLogic.getInstance();
+
     public NotificationHelper(Context base) {
         super(base);
 
-        createTimerChannel();
+        //createTimerChannel();
         createAlarmChannel();
     }
+
 
     public void createTimerChannel() {
         NotificationChannel channel = new NotificationChannel(
@@ -51,6 +54,7 @@ public class NotificationHelper extends ContextWrapper {
         getManager().createNotificationChannel(channel);
     }
 
+
     public Notification getTimerNotification(long timeRemaining){
         Intent notificationIntent = new Intent(this, Timer.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
@@ -72,7 +76,6 @@ public class NotificationHelper extends ContextWrapper {
         return new NotificationCompat.Builder(getApplicationContext(), ALARM_CHANNEL_ID)
                 .setContentTitle("Alarm")
                 .setContentText("Timeout is Over!")
-                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
     }
 

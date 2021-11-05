@@ -32,8 +32,6 @@ public class Timer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
 
-        NotificationHelper notificationHelper = new NotificationHelper(this);
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         countdownText = findViewById(R.id.countdown_text);
         setupBroadcastReceiver();

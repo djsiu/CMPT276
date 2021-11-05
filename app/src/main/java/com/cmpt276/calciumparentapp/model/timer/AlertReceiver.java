@@ -10,6 +10,8 @@ import androidx.core.app.NotificationCompat;
 public class AlertReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        Toast.makeText(context, "This is my Toast message!", Toast.LENGTH_LONG).show();
+
         NotificationHelper notificationHelper = new NotificationHelper(context);
         NotificationCompat.Builder nb = notificationHelper.getAlarmNotification();
         notificationHelper.getManager().notify(1, nb.build());

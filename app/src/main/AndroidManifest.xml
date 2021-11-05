@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <service android:name=".model.timer.TimerService"/>
-        <receiver android:name=".model.timer.AlertReceiver" />
+        <receiver android:name=".model.timer.AlertReceiver"/>
     </application>
 
 </manifest>

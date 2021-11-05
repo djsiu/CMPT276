@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -23,15 +24,11 @@ public class TimerService extends Service {
     public static final String BROADCAST_FILTER = "TIMER_FILTER";
     public static final String TIME_REMAINING_KEY = "TIME_REMAINING";
 
-    private boolean enableAlarm = true;
-
     private NotificationHelper notificationHelper;
-    private TimerLogic timerLogic;
     private CountDownTimer timer;
 
     @Override
     public void onCreate() {
-        timerLogic = TimerLogic.getInstance();
         notificationHelper = new NotificationHelper(getApplicationContext());
         super.onCreate();
     }
@@ -62,7 +59,6 @@ public class TimerService extends Service {
         manager.notify(NOTIFICATION_ID, notification);
     }
 
-    //TODO I think I need to setup the alarm here
     private void setupTimer(long length){
         // update every second
         timer = new CountDownTimer(length, 1000) {
@@ -87,10 +83,9 @@ public class TimerService extends Service {
         sendBroadcast(i);
     }
 
-
     public void startAlarm(){
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent = new Intent(this, Timer.class);
+        Intent alarmIntent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this,
                 1,
