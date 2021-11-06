@@ -46,12 +46,12 @@ public class TimerSelectTime extends AppCompatActivity {
     // BUTTON SETUP
 
     private void setupButtons(){
-        Button min1 = (Button) findViewById(R.id.btnOneMinute);
-        Button min2 = (Button) findViewById(R.id.btnTwoMinute);
-        Button min3 = (Button) findViewById(R.id.btnThreeMinute);
-        Button min5 = (Button) findViewById(R.id.btnFiveMinute);
-        Button min10 = (Button) findViewById(R.id.btnTenMinute);
-        Button custom = (Button) findViewById(R.id.btnCustomMinute);
+        Button min1 = findViewById(R.id.btnOneMinute);
+        Button min2 = findViewById(R.id.btnTwoMinute);
+        Button min3 = findViewById(R.id.btnThreeMinute);
+        Button min5 = findViewById(R.id.btnFiveMinute);
+        Button min10 = findViewById(R.id.btnTenMinute);
+        Button custom = findViewById(R.id.btnCustomMinute);
 
         min1.setOnClickListener(new ButtonListener());
         min2.setOnClickListener(new ButtonListener());
@@ -92,7 +92,7 @@ public class TimerSelectTime extends AppCompatActivity {
             }
         }
     }
-    
+
     private void startCustomTimeActivity(){
         Intent intent = new Intent(this, TimerCustomTime.class);
         finish();
