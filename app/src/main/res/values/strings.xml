@@ -47,5 +47,7 @@
     <string name="custom_time">Custom Time</string>
     <string name="time">Time:</string>
     <string name="button_coin_fragment_continue">Continue</string>
+    <string name="coin_continue">Continue</string>
+    <string name="coin_textview_selection_choose">Choose the children playing</string>
 
 </resources>
