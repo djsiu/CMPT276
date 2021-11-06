@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 // array of options --> array adapter --> ListView
 
@@ -35,6 +37,7 @@ public class CoinFlipSelection extends AppCompatActivity {
     private FamilyMembersManager familyMembersManager;
 
     private int selected;
+    private List<String> selectedIndex = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ public class CoinFlipSelection extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        button.setClickable(false);
+        button.setFocusable(false);
 
 
     }
@@ -77,6 +82,34 @@ public class CoinFlipSelection extends AppCompatActivity {
         Log.i(TAG, "populateListView: assign list");
         list.setAdapter(adapter);
         Log.i(TAG, "populateListView: set adapter");
+
+        list.setOnItemClickListener((adapterView, view, position, id) -> {
+            //if already selected
+            if(selectedIndex.contains(nameArrayList.get(position))){
+                selectedIndex.remove(nameArrayList.get(position));
+                //reset color
+                view.setBackgroundColor(Color.TRANSPARENT);
+
+            }else{// if not already selected
+                if(selectedIndex.size() < 2){
+                    selectedIndex.add(nameArrayList.get(position));
+                    view.setBackgroundColor(Color.GRAY);
+
+                }
+
+            }
+
+            Button button = (Button) findViewById(R.id.coin_selection_button_continue);
+            Log.i(TAG, "populateListView: selectedIndex size is " + selectedIndex.size());
+            if (selectedIndex.size() != 2){
+                button.setClickable(false);
+                button.setFocusable(false);
+            }else{
+                button.setClickable(true);
+                button.setFocusable(true);
+            }
+
+        });
     }
 
     private class MyListAdapter extends ArrayAdapter<String> {
