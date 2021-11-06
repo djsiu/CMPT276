@@ -52,11 +52,6 @@ public class ManageFamilyAdd extends AppCompatActivity {
                     Toast.LENGTH_SHORT)
                     .show();
             finish();
-
-            //updating the list view in ManageFamilyMembers activity
-            Intent intent=new Intent();
-            setResult(2,intent);
-            finish();
         });
     }
 
