@@ -48,6 +48,8 @@ public class TimerNotifications extends ContextWrapper {
     }
 
     private void createAlarmChannel() {
+        long[] vibratePattern = new long[]{200,400,800,600,800,800,800,1000,1000,1000};
+
         NotificationChannel channel = new NotificationChannel(
                 ALARM_CHANNEL_ID,
                 "Alarm",
@@ -62,6 +64,7 @@ public class TimerNotifications extends ContextWrapper {
         channel.enableVibration(true);
         channel.enableLights(true);
         channel.canBypassDnd();
+        channel.setVibrationPattern(vibratePattern);
         channel.setSound(alarmSound, audioAttributes);
 
         getManager().createNotificationChannel(channel);
@@ -99,7 +102,7 @@ public class TimerNotifications extends ContextWrapper {
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
 
         Notification notification = notificationBuilder.build();
-        notification.flags = Notification.FLAG_INSISTENT; // Loops notification sound
+        notification.flags = Notification.FLAG_ONGOING_EVENT; // Loops notification sound
 
         return notification;
     }
