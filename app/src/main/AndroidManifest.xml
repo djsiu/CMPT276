@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cmpt276.calciumparentapp" >
-
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    package="com.cmpt276.calciumparentapp">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -50,8 +52,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service android:name=".ui.timer.TimerService" />
+        <service android:name=".model.timer.TimerService"/>
+        <receiver android:name=".model.timer.AlarmReceiver"/>
     </application>
 
 </manifest>

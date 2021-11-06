@@ -45,6 +45,10 @@
     <string name="btnReset">Reset</string>
     <string name="timer_notification_title">Timer</string>
     <string name="custom_time">Custom Time</string>
+    <string name="txtfieldCustomTimeTitle">Time:</string>
+    <string name="invalid_custom_time_toast">Please enter a valid number</string>
+    <string name="txtFieldCustomTimeHint">Enter Minutes</string>
+    <string name="customTimeBackgroundDescription">Relaxing Background</string>
     <string name="time">Time:</string>
     <string name="button_coin_fragment_continue">Continue</string>
     <string name="coin_continue">Continue</string>
