@@ -22,6 +22,8 @@ import java.util.Map;
 public class ManageFamilyMembers extends AppCompatActivity {
 
     public static final String EDIT_MEMBER = "com.cmpt276.calciumparentapp.manage.ManageFamilyMembers.EDIT_MEMBER";
+    private final String SHARED_PREFS_KEY = "AppPrefs";
+    private final String SHARED_PREFS_FAMILY_MANAGER_KEY = "FamilyManager";
     private FamilyMembersManager familyManager;
 
     @Override
@@ -43,6 +45,14 @@ public class ManageFamilyMembers extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        populateListView();
+    }
+
     private void populateListView() {
 
         getFamilyManagerFromSharedPrefs();
@@ -60,7 +70,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
         familyMembersList.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(view.getContext(), ManageFamilyEdit.class);
             intent.putExtra(EDIT_MEMBER, i);
-            startActivityForResult(intent, 2);
+            startActivity(intent);
         });
 
         //saveFamilyManagerToSharedPrefs();
@@ -70,15 +80,15 @@ public class ManageFamilyMembers extends AppCompatActivity {
         button.setOnClickListener(v -> {
             // Opens the ManageFamilyAdd activity
             Intent intent = new Intent(ManageFamilyMembers.this, ManageFamilyAdd.class);
-            startActivityForResult(intent, 2);
+            startActivity(intent);
         });
     }
 
     // credit to eamonnmcmanus on github
     private void getFamilyManagerFromSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = prefs.getString("FamilyManager", "");
+        String json = prefs.getString(SHARED_PREFS_FAMILY_MANAGER_KEY, "");
 
         familyManager = gson.fromJson(json, FamilyMembersManager.class);
         if(familyManager == null) {
@@ -87,24 +97,12 @@ public class ManageFamilyMembers extends AppCompatActivity {
     }
 
     private void saveFamilyManagerToSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(familyManager);
-        editor.putString("FamilyManager", json);
+        editor.putString(SHARED_PREFS_FAMILY_MANAGER_KEY, json);
         editor.apply();
-    }
-
-    // insuring that the list view updates with the new values
-    // code based of off: https://www.py4u.net/discuss/622982
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode > 0)
-        {
-            populateListView();
-        }
     }
 
     /**
