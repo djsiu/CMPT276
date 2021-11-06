@@ -1,12 +1,11 @@
 package com.cmpt276.calciumparentapp.ui.coinflip;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,30 +13,21 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyEdit;
-import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
+import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
+import com.cmpt276.calciumparentapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// array of options --> array adapter --> ListView
-
 //List View: {views: recycler_name_list_items.xml}
 
 public class CoinFlipSelection extends AppCompatActivity {
-    
-    private String TAG = "CoinFlipSelection";
 
-    private ArrayList<String> nameArrayList = new ArrayList<String>();
 
-    private FamilyMembersManager familyMembersManager;
+    private ArrayList<String> nameArrayList = new ArrayList<>();
 
-    private int selected;
-    private List<String> selectedIndex = new ArrayList<String>();
+    private List<String> selectedIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +35,13 @@ public class CoinFlipSelection extends AppCompatActivity {
         setContentView(R.layout.activity_coin_flip_selection);
 
         populateListView();
-        selected = 0;
 
         Button button = findViewById(R.id.coin_selection_button_continue);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
-                startActivity(i);
-            }
+        button.setOnClickListener(view -> {
+            Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
+            i.putExtra("player1", selectedIndexes.get(0));
+            i.putExtra("player2", selectedIndexes.get(1));
+            startActivity(i);
         });
         button.setClickable(false);
         button.setFocusable(false);
@@ -76,23 +64,20 @@ public class CoinFlipSelection extends AppCompatActivity {
 
         //Build adapter
         ArrayAdapter<String> adapter = new MyListAdapter();
-        Log.i(TAG, "populateListView: After build adapter");
 
         ListView list = (ListView) findViewById(R.id.coin_list_names);
-        Log.i(TAG, "populateListView: assign list");
         list.setAdapter(adapter);
-        Log.i(TAG, "populateListView: set adapter");
 
         list.setOnItemClickListener((adapterView, view, position, id) -> {
             //if already selected
-            if(selectedIndex.contains(nameArrayList.get(position))){
-                selectedIndex.remove(nameArrayList.get(position));
+            if(selectedIndexes.contains(nameArrayList.get(position))){
+                selectedIndexes.remove(nameArrayList.get(position));
                 //reset color
                 view.setBackgroundColor(Color.TRANSPARENT);
 
             }else{// if not already selected
-                if(selectedIndex.size() < 2){
-                    selectedIndex.add(nameArrayList.get(position));
+                if(selectedIndexes.size() < 2){
+                    selectedIndexes.add(nameArrayList.get(position));
                     view.setBackgroundColor(Color.GRAY);
 
                 }
@@ -100,8 +85,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             }
 
             Button button = (Button) findViewById(R.id.coin_selection_button_continue);
-            Log.i(TAG, "populateListView: selectedIndex size is " + selectedIndex.size());
-            if (selectedIndex.size() != 2){
+            if (selectedIndexes.size() != 2){
                 button.setClickable(false);
                 button.setFocusable(false);
             }else{
@@ -129,19 +113,43 @@ public class CoinFlipSelection extends AppCompatActivity {
             String name = nameArrayList.get(position);
 
             //fill the view
-            Log.i(TAG, "getView: Fill view");
             TextView textView = itemView.findViewById(R.id.textView_list_name);
-            Log.i(TAG, "getView: name is \n\n\n" + name + "\n\n\n ");
-            if(textView == null){
-                Log.i(TAG, "getView: tv was null");
-            }else{
-                Log.i(TAG, "getView: set "+ name);
-                textView.setText(name);
-            }
-
-
+            textView.setText(name);
             return itemView;
         }
+    }
+
+
+    /**
+     * Displays actionbar buttons
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu
+        getMenuInflater().inflate(R.menu.menu_coin_flip, menu);
+        return true;
+    }
+
+    /**
+     * Adds logic to action bar
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_history) {      // History Button
+            openCoinFlipHistory();
+            return true;
+        } else if (item.getItemId() == android.R.id.home){  // Top left back arrow
+            finish();
+        }
+
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openCoinFlipHistory() {
+        Intent i = CoinFlipHistory.makeIntent(CoinFlipSelection.this);
+        startActivity(i);
     }
 
     public static Intent makeIntent(Context context){
