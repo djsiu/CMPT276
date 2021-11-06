@@ -61,6 +61,7 @@ public class TimerNotifications extends ContextWrapper {
 
         channel.enableVibration(true);
         channel.enableLights(true);
+        channel.canBypassDnd();
         channel.setSound(alarmSound, audioAttributes);
 
         getManager().createNotificationChannel(channel);
@@ -92,7 +93,8 @@ public class TimerNotifications extends ContextWrapper {
                 .setContentText("Timeout is Over!")
                 .setAutoCancel(false)
                 .setSound(alarmSound)
-                .setCategory(Notification.CATEGORY_CALL)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(Notification.CATEGORY_ALARM)
                 .setFullScreenIntent(pendingIntent, true)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
 
