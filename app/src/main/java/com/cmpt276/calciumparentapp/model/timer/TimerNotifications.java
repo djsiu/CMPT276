@@ -20,8 +20,9 @@ import com.cmpt276.calciumparentapp.ui.timer.Timer;
  * Logic for creating timer related notifications
  */
 public class TimerNotifications extends ContextWrapper {
-    public static final String TIMER_CHANNEL_ID = "timerServiceChannel";
-    public static final String ALARM_CHANNEL_ID = "alarmServiceChannel";
+    public static final String TIMER_CHANNEL_ID = "timerNotificationChannel";
+    public static final String ALARM_CHANNEL_ID = "alarmNotificationChannel";
+    Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM); // Gets system alarm sound
 
     private NotificationManager notificationManager;
     private final TimerLogic timerLogic = TimerLogic.getInstance();
@@ -47,19 +48,20 @@ public class TimerNotifications extends ContextWrapper {
     }
 
     private void createAlarmChannel() {
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM); // Gets system alarm sound
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .setUsage(AudioAttributes.USAGE_ALARM)
-                .build();
-
         NotificationChannel channel = new NotificationChannel(
                 ALARM_CHANNEL_ID,
                 "Alarm",
                 NotificationManager.IMPORTANCE_HIGH
         );
-        channel.setSound(alarmSound, audioAttributes);
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .build();
+
+        channel.enableVibration(true);
+        channel.enableLights(true);
+        channel.setSound(alarmSound, audioAttributes);
 
         getManager().createNotificationChannel(channel);
     }
@@ -89,6 +91,7 @@ public class TimerNotifications extends ContextWrapper {
                 .setContentTitle("Alarm")
                 .setContentText("Timeout is Over!")
                 .setAutoCancel(false)
+                .setSound(alarmSound)
                 .setCategory(Notification.CATEGORY_CALL)
                 .setFullScreenIntent(pendingIntent, true)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
