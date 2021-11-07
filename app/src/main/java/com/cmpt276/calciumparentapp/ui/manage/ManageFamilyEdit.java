@@ -53,9 +53,6 @@ public class ManageFamilyEdit extends AppCompatActivity {
             familyManager.deleteMember(getFamilyMemberName());
             saveFamilyManagerToSharedPrefs();
 
-            //updating the list view in ManageFamilyMembers activity
-            Intent intent=new Intent();
-            setResult(2,intent);
             finish();
         });
     }
