@@ -53,5 +53,6 @@
     <string name="button_coin_fragment_continue">Continue</string>
     <string name="coin_continue">Continue</string>
     <string name="coin_textview_selection_choose">Choose the children playing</string>
+    <string name="imageView_coin">Head or Tail Coin Image</string>
 
 </resources>
