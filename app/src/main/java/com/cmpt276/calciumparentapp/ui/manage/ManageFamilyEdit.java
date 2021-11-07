@@ -15,9 +15,6 @@ import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 public class ManageFamilyEdit extends AppCompatActivity {
 
     private FamilyMembersManager familyManager;
@@ -31,21 +28,21 @@ public class ManageFamilyEdit extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
-
         getFamilyManagerFromSharedPrefs();
 
         // makes the current name appear in the editText
         EditText editTextName = findViewById(R.id.editTextMemberNameForEdit);
-        editTextName.setText(familyManager.getFamilyMembersNames()[getFamilyMemberPos()]);
+        editTextName.setText(getFamilyMemberName());
 
         setupCancelBtn();
         setupSaveBtn();
         setupDeleteBtn();
     }
 
-    private int getFamilyMemberPos() {
+    //retrieving the name that was clicked on in the list view
+    private String getFamilyMemberName() {
         Intent intent = getIntent();
-        return intent.getIntExtra(ManageFamilyMembers.EDIT_MEMBER, 0);
+        return intent.getStringExtra(ManageFamilyMembers.EDIT_MEMBER);
     }
 
     private void setupDeleteBtn() {
@@ -53,7 +50,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
 
         deleteBtn.setOnClickListener(view -> {
 
-            familyManager.deleteMember(getFamilyMemberPos());
+            familyManager.deleteMember(getFamilyMemberName());
             saveFamilyManagerToSharedPrefs();
 
             //updating the list view in ManageFamilyMembers activity
@@ -72,7 +69,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
             //edit the person in family manager
             familyManager.editMember(
                     editMemberName.getText().toString(),
-                    getFamilyMemberPos()
+                    getFamilyMemberName()
             );
 
             saveFamilyManagerToSharedPrefs();
