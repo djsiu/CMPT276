@@ -21,21 +21,67 @@ import com.cmpt276.calciumparentapp.R;
  * Logic for the timer background service
  */
 public class TimerService extends Service {
-    // Key used when this service broadcasts the current time remaining
+
+    /**
+     * TimerService communicates with the activity using broadcasts
+     * There are three different filters used for broadcasts
+     *
+     * TIME_BROADCAST_FILTER is the filter this service uses to
+     *                       broadcast the time remaining on the timer
+     *
+     * TIMER_SERVICE_REQUEST_FILTER is the filter used to broadcast requests to this activity.
+     *
+     * TIMER_RUNNING_BROADCAST_FILTER is the filter this service uses to broadcast
+     *                                if the timer is currently running
+     */
     public static final String TIME_BROADCAST_FILTER = "TIME_BROADCAST_FILTER";
-
-    // Key used to broadcast requests to this service
     public static final String TIMER_SERVICE_REQUEST_FILTER = "TIMER_SERVICE_REQUEST_FILTER";
-
-    // The filter used to broadcast if the timer is running
     public static final String TIMER_RUNNING_BROADCAST_FILTER = "TIMER_RUNNING_BROADCAST_FILTER";
 
+    /**
+     * Keys broadcast by this activity
+     *
+     * TIME_REMAINING_BROADCAST:
+     *      Filter: TIME_BROADCAST_FILTER
+     *      Value: long representing the time remaining on the timer in ms
+     *      Occurrence: Broadcast whenever the timer updates either by time passing or
+     *                  when this service received a request to refresh the time
+     *
+     * TIMER_RUNNING_BROADCAST:
+     *      Filter: TIMER_RUNNING_BROADCAST_FILTER
+     *      Value: boolean indicating if the timer is running or not
+     *      Occurrence: Broadcast after this service received a request to broadcast this
+     */
     public static final String TIME_REMAINING_BROADCAST = "TIME_REMAINING";
+    public static final String TIMER_RUNNING_BROADCAST = "TIMER_RUNNING_BROADCAST";
+
+    /**
+     * Keys received by this activity.
+     * All of these keys use the TIMER_SERVICE_REQUEST_FILTER
+     *
+     * PAUSE_TIMER_INTENT:
+     *      Value: A boolean. True indicates a request to pause the timer
+     *
+     * Resume_TIMER_INTENT:
+     *      Value: A boolean. True indicates a request to resume the timer
+     *
+     * REFRESH_TIME_INTENT:
+     *      Value: A boolean. True indicates a request for this service to update
+     *             the timer notification and immediately broadcast the time remaining on the timer.
+     *
+     * TIMER_RUNNING_REQUEST_INTENT:
+     *      Value: A boolean. True indicates a request for this service to broadcast
+     *             weather or not the timer is currently running.
+     */
     public static final String PAUSE_TIMER_INTENT = "PAUSE_TIMER_INTENT";
     public static final String RESUME_TIMER_INTENT = "RESUME_TIMER_INTENT";
     public static final String REFRESH_TIME_INTENT = "REFRESH_TIMER_SERVICE_TIME";
     public static final String TIMER_RUNNING_REQUEST_INTENT = "REQUEST_TIMER_RUNNING_INTENT";
-    public static final String TIMER_RUNNING_BROADCAST = "TIMER_RUNNING_BROADCAST";
+
+
+
+    // The amount of time in ms between each refresh of the timer
+    private final long timerInterval = 1000;
 
     private TimerNotifications timerNotifications;
     private CountDownTimer timer;
@@ -78,7 +124,7 @@ public class TimerService extends Service {
 
     private void setupTimer(long length){
         // update every second
-        timer = new CountDownTimer(length, 1000) {
+        timer = new CountDownTimer(length, timerInterval) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeRemaining = millisUntilFinished;
