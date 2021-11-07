@@ -1,7 +1,6 @@
-package com.cmpt276.calciumparentapp.ui.timer;
+package com.cmpt276.calciumparentapp.model.timer;
 
-import static com.cmpt276.calciumparentapp.ui.timer.Timer.CHANNEL_ID;
-
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,11 +14,12 @@ import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
 
+/**
+ * Logic for the timer background service
+ */
 public class TimerService extends Service {
     // Key used when this service broadcasts the current time remaining
     public static final String TIME_BROADCAST_FILTER = "TIME_BROADCAST_FILTER";
@@ -36,9 +36,8 @@ public class TimerService extends Service {
     public static final String REFRESH_TIME_INTENT = "REFRESH_TIMER_SERVICE_TIME";
     public static final String TIMER_RUNNING_REQUEST_INTENT = "REQUEST_TIMER_RUNNING_INTENT";
     public static final String TIMER_RUNNING_BROADCAST = "TIMER_RUNNING_BROADCAST";
-    public static final int NOTIFICATION_ID = 1;
 
-    private TimerLogic timerLogic;
+    private TimerNotifications timerNotifications;
     private CountDownTimer timer;
     private NotificationManager notificationManager;
     private long timeRemaining;
@@ -46,9 +45,10 @@ public class TimerService extends Service {
 
     @Override
     public void onCreate() {
-        timerLogic = TimerLogic.getInstance();
         setupBroadcastReceiver();
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        timerNotifications = new TimerNotifications(getApplicationContext());
         super.onCreate();
     }
 
@@ -67,52 +67,14 @@ public class TimerService extends Service {
         }
 
         setupTimer(length);
-        startForeground(NOTIFICATION_ID, getTimerNotification(length));
+        startForeground(TimerNotifications.NOTIFICATION_ID, timerNotifications.getTimerNotification(length));
         return START_NOT_STICKY;
     }
 
-    private PendingIntent getNotificationPendingIntent() {
-        Intent notificationIntent = new Intent(this, Timer.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this,
-                0,
-                notificationIntent,
-                PendingIntent.FLAG_IMMUTABLE);
-
-        return pendingIntent;
-    }
-
-    private Notification getTimerNotification(long timeRemaining){
-
-        PendingIntent pendingIntent = getNotificationPendingIntent();
-
-        return new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(getString(R.string.timer_notification_title))
-                .setContentText(timerLogic.getTimerText(timeRemaining))
-                .setSmallIcon(R.drawable.timer_service_icon)
-                .setContentIntent(pendingIntent)
-                .setOnlyAlertOnce(true)
-                .build();
-    }
-
     private void updateNotification(long newTime){
-        Notification notification = getTimerNotification(newTime);
+        Notification notification = timerNotifications.getTimerNotification(newTime);
 
-        notificationManager.notify(NOTIFICATION_ID, notification);
-    }
-
-    private void generatePauseNotification() {
-        PendingIntent pendingIntent = getNotificationPendingIntent();
-
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(getString(R.string.timer_notification_title))
-                .setContentText("Timer Paused")
-                .setSmallIcon(R.drawable.timer_service_icon)
-                .setContentIntent(pendingIntent)
-                .setOnlyAlertOnce(true)
-                .build();
-
-        notificationManager.notify(NOTIFICATION_ID, notification);
+        notificationManager.notify(TimerNotifications.NOTIFICATION_ID, notification);
     }
 
     private void setupTimer(long length){
@@ -126,6 +88,7 @@ public class TimerService extends Service {
 
             @Override
             public void onFinish() {
+                startAlarm();
                 stopSelf();
             }
         }.start();
@@ -135,7 +98,7 @@ public class TimerService extends Service {
 
     private void pauseTimer() {
         timer.cancel();
-        generatePauseNotification();
+        timerNotifications.generatePauseNotification();
         timerRunning = false;
     }
 
@@ -161,6 +124,20 @@ public class TimerService extends Service {
         i.putExtra(TIME_REMAINING_BROADCAST, ms);
         i.setAction(TIME_BROADCAST_FILTER);
         sendBroadcast(i);
+    }
+
+    public void startAlarm(){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                1,
+                alarmIntent,
+                PendingIntent.FLAG_IMMUTABLE);
+
+        AlarmManager.AlarmClockInfo timeInfo = new AlarmManager.AlarmClockInfo(0, pendingIntent);
+
+        alarmManager.setAlarmClock(timeInfo, pendingIntent);
     }
 
     private void setupBroadcastReceiver() {
@@ -190,13 +167,11 @@ public class TimerService extends Service {
         this.registerReceiver(br, filter);
     }
 
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 }
 
 

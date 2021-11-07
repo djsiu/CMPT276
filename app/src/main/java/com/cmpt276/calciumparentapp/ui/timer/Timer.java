@@ -2,8 +2,6 @@ package com.cmpt276.calciumparentapp.ui.timer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,23 +15,25 @@ import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
+import com.cmpt276.calciumparentapp.model.timer.TimerService;
 
 import java.util.Objects;
 
+/**
+ * UI for Timer
+ */
 public class Timer extends AppCompatActivity {
-    private TextView countdownText;
-    public static final String CHANNEL_ID = "timerServiceChannel";
     private final TimerLogic timerLogic = TimerLogic.getInstance();
     private long timeRemaining;
+    private TextView countdownText;
     private BroadcastReceiver broadcastReceiver;
     private BroadcastReceiver timerRunningBroadcastReciever;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_timer);
-        createNotificationChannel();
+
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         countdownText = findViewById(R.id.countdown_text);
@@ -49,7 +49,7 @@ public class Timer extends AppCompatActivity {
         }
         else{
             resetCountdownText();
-            Button btn = (Button) findViewById(R.id.btnStartPause);
+            Button btn = findViewById(R.id.btnStartPause);
             btn.setText(R.string.btnStart);
         }
 
@@ -61,6 +61,8 @@ public class Timer extends AppCompatActivity {
         unregisterBroadcastReceiver();
         super.onPause();
     }
+
+    // BUTTONS
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -88,13 +90,8 @@ public class Timer extends AppCompatActivity {
     }
 
     private void setupButtons(boolean timerServiceRunning, boolean timerRunning){
-        Button controlButton = (Button) findViewById(R.id.btnStartPause);
-        controlButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onStartPauseButtonClick((Button) v);
-            }
-        });
+        Button controlButton = findViewById(R.id.btnStartPause);
+        controlButton.setOnClickListener(v -> onStartPauseButtonClick((Button) v));
 
         if(timerServiceRunning && timerRunning){
             controlButton.setText(R.string.btnPause);
@@ -104,14 +101,11 @@ public class Timer extends AppCompatActivity {
             controlButton.setText(R.string.btnResume);
         }
 
-        Button resetButton = (Button) findViewById(R.id.btnReset);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopTimerService();
-                resetCountdownText();
-                controlButton.setText(R.string.btnStart);
-            }
+        Button resetButton = findViewById(R.id.btnReset);
+        resetButton.setOnClickListener(v -> {
+            stopTimerService();
+            resetCountdownText();
+            controlButton.setText(R.string.btnStart);
         });
     }
 
@@ -138,7 +132,7 @@ public class Timer extends AppCompatActivity {
     }
 
     private void startTimer() {
-        Button btn = (Button) findViewById(R.id.btnStartPause);
+        Button btn = findViewById(R.id.btnStartPause);
         btn.setText(R.string.btnPause);
         startTimerService();
     }
@@ -146,24 +140,7 @@ public class Timer extends AppCompatActivity {
 
     // TIMER SERVICE
 
-    // Creates the notification channel for the required versions of android
-    // May need to be called only once for the whole application in which case this needs to be
-    // moved to the main activity
-    private void createNotificationChannel() {
-        NotificationChannel serviceChannel = new NotificationChannel(
-                CHANNEL_ID,
-                "Timer Service Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
-        );
-        serviceChannel.enableVibration(false);
-        serviceChannel.enableLights(false);
-        serviceChannel.setSound(null, null);
-
-        NotificationManager manager = getSystemService(NotificationManager.class);
-        manager.createNotificationChannel(serviceChannel);
-    }
-
-    private void startTimerService() {
+    private void startTimerService(){
         Intent serviceIntent = new Intent(this, TimerService.class);
         serviceIntent.putExtra(getString(R.string.timer_length_extra), timerLogic.getTimerLength());
         startService(serviceIntent);

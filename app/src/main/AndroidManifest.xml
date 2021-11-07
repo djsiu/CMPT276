@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cmpt276.calciumparentapp">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:allowBackup="true"
         android:fullBackupOnly="true"
@@ -10,9 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CalciumParentApp">
-
-
+        android:theme="@style/Theme.CalciumParentApp" >
+        <activity
+            android:name=".ui.coinflip.CoinFlipSelection"
+            android:exported="false" />
         <activity
             android:name=".ui.coinflip.CoinFlipHistory"
             android:exported="false" />
@@ -28,10 +33,10 @@
         <activity
             android:name=".ui.timer.Timer"
             android:exported="false"
-            android:launchMode = "singleTop" />
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.timer.TimerCustomTime"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.manage.ManageFamilyMembers"
             android:exported="false" />
@@ -40,14 +45,15 @@
             android:exported="false" />
         <activity
             android:name=".ui.MainMenu"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".ui.timer.TimerService"/>
+        <service android:name=".model.timer.TimerService"/>
+        <receiver android:name=".model.timer.AlarmReceiver"/>
     </application>
 
 </manifest>
