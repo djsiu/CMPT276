@@ -58,14 +58,23 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 familyManager.addMember(newMemberNameStr);
                 saveFamilyManagerToSharedPrefs();
 
+                String welcomeText = String.format(
+                        getString(R.string.family_member_welcome_toast_text_format),
+                        newMemberName.getText().toString());
+
                 Toast.makeText(getApplicationContext(),
-                        "Welcome to the family " + newMemberName.getText().toString() + "!",
+                        welcomeText,
                         Toast.LENGTH_SHORT)
                         .show();
                 finish();
             } else {
+
+                String alreadyPresentText = String.format(
+                        getString(R.string.family_member_present_toast_text_format),
+                        newMemberName.getText().toString());
+
                 Toast.makeText(getApplicationContext(),
-                        newMemberName.getText().toString() + " is already in the family!",
+                        alreadyPresentText,
                         Toast.LENGTH_SHORT)
                         .show();
             }
