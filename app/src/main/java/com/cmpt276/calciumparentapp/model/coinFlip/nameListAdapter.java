@@ -13,9 +13,9 @@ import com.cmpt276.calciumparentapp.R;
 import java.util.ArrayList;
 
 public class nameListAdapter extends RecyclerView.Adapter<nameListAdapter.MyViewHolder> {
-    private String[] nameList;
+    private ArrayList<String> nameList;
 
-    public nameListAdapter(String[] nameList){
+    public nameListAdapter(ArrayList<String> nameList){
         this.nameList = nameList;
     }
 
@@ -38,13 +38,13 @@ public class nameListAdapter extends RecyclerView.Adapter<nameListAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull nameListAdapter.MyViewHolder holder, int position) {
-        String name = nameList[position];
+        String name = nameList.get(position);
         holder.nameTxt.setText(name);
 
     }
 
     @Override
     public int getItemCount() {
-        return nameList.length;
+        return nameList.size();
     }
 }

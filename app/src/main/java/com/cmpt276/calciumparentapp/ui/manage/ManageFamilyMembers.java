@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -38,6 +40,12 @@ public class ManageFamilyMembers extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
+//        //reseting sharedprefs
+//        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.clear();
+//        editor.apply();
+
         getFamilyManagerFromSharedPrefs();
         populateListView();
 
@@ -53,13 +61,14 @@ public class ManageFamilyMembers extends AppCompatActivity {
                 familyManager.getFamilyMembersNames());
 
 
-        ListView familyMembersList = findViewById(R.id.familyMembersList);
-        familyMembersList.setAdapter(adapter);
+        ListView familyMembersListView = findViewById(R.id.familyMembersList);
+        familyMembersListView.setAdapter(adapter);
 
         //enabling clicking on list view to edit family members
-        familyMembersList.setOnItemClickListener((adapterView, view, i, l) -> {
+        familyMembersListView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(view.getContext(), ManageFamilyEdit.class);
-            intent.putExtra(EDIT_MEMBER, i);
+            String name = familyMembersListView.getItemAtPosition(i).toString();
+            intent.putExtra(EDIT_MEMBER, name);
             startActivityForResult(intent, 2);
         });
 
