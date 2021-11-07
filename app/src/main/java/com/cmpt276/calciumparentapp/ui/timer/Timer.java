@@ -79,6 +79,7 @@ public class Timer extends AppCompatActivity {
 
     private void setup(){
         if(timerLogic.isTimerServiceRunning(this)){
+            // The function called when this broadcast is received calls setup buttons
             broadcastTimerRunningRequest();
             broadcastTimeRequest();
         }
