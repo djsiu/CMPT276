@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -63,11 +65,11 @@ public class ManageFamilyMembers extends AppCompatActivity {
                 familyManager.getFamilyMembersNames());
 
 
-        ListView familyMembersList = findViewById(R.id.familyMembersList);
-        familyMembersList.setAdapter(adapter);
+        ListView familyMembersListView = findViewById(R.id.familyMembersList);
+        familyMembersListView.setAdapter(adapter);
 
         //enabling clicking on list view to edit family members
-        familyMembersList.setOnItemClickListener((adapterView, view, i, l) -> {
+        familyMembersListView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(view.getContext(), ManageFamilyEdit.class);
             intent.putExtra(EDIT_MEMBER, i);
             startActivity(intent);
