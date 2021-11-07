@@ -57,13 +57,7 @@ public class CoinFlipSelection extends AppCompatActivity {
     }
 
 
-//    private void populateArray(){
-//        nameArrayList.add("a");
-//        nameArrayList.add("b");
-//        nameArrayList.add("c");
-//        nameArrayList.add("d");
-//
-//    }
+
 
     private void populateListView() {
         //create List of items
