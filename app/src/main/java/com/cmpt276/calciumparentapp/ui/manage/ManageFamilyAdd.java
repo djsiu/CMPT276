@@ -44,19 +44,36 @@ public class ManageFamilyAdd extends AppCompatActivity {
         addBtn.setOnClickListener(view -> {
 
             String newMemberNameStr = newMemberName.getText().toString();
-            familyManager.addMember(newMemberNameStr);
-            saveFamilyManagerToSharedPrefs();
+            boolean nameAlreadyExists = false;
 
-            Toast.makeText(getApplicationContext(),
-                    "Welcome to the family " + newMemberName.getText().toString() + "!",
-                    Toast.LENGTH_SHORT)
-                    .show();
-            finish();
+            if(familyManager.getFamilyMembersNames().size() > 0) {
+                for (int i = 0; i < familyManager.getFamilyMembersNames().size(); i++) {
+                    if (newMemberNameStr.equals(familyManager.getFamilyMembersNames().get(i))) {
+                        nameAlreadyExists = true;
+                    }
+                }
+            }
 
-            //updating the list view in ManageFamilyMembers activity
-            Intent intent=new Intent();
-            setResult(2,intent);
-            finish();
+            if(!nameAlreadyExists) {
+                familyManager.addMember(newMemberNameStr);
+                saveFamilyManagerToSharedPrefs();
+
+                Toast.makeText(getApplicationContext(),
+                        "Welcome to the family " + newMemberName.getText().toString() + "!",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                finish();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        newMemberName.getText().toString() + " is already in the family!",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+//            //updating the list view in ManageFamilyMembers activity
+//            Intent intent=new Intent();
+//            setResult(2,intent);
+//            finish();
         });
     }
 

@@ -24,7 +24,6 @@ import java.util.Map;
 public class ManageFamilyMembers extends AppCompatActivity {
 
     public static final String EDIT_MEMBER = "com.cmpt276.calciumparentapp.manage.ManageFamilyMembers.EDIT_MEMBER";
-    public static final String GET_INDEX_OF_CLICKED = "com.cmpt276.calciumparentapp.manage.ManageFamilyMembers.GET_INDEX_OF_CLICKED";
     private FamilyMembersManager familyManager;
 
     @Override
@@ -42,11 +41,10 @@ public class ManageFamilyMembers extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         //reseting sharedprefs
-//        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.clear();
-//        editor.apply();
-
+        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
 
         getFamilyManagerFromSharedPrefs();
         populateListView();
