@@ -54,7 +54,6 @@ public class TimerService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.e("Service", "service onDestroy called!");
         timer.cancel();
         super.onDestroy();
     }
@@ -144,7 +143,6 @@ public class TimerService extends Service {
         BroadcastReceiver br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.e("Timer service", "Broadcast received!!");
                 if(intent.getBooleanExtra(PAUSE_TIMER_INTENT, false)){
                     pauseTimer();
                 }
