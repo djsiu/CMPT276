@@ -2,6 +2,7 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +27,9 @@ import java.util.List;
 
 public class CoinFlipSelection extends AppCompatActivity {
 
+    private FamilyMembersManager familyManager;
 
-    private ArrayList<String> nameArrayList = new ArrayList<>();
-
+    private ArrayList<String> nameArrayList;
     private List<String> selectedIndexes = new ArrayList<>();
 
     @Override
@@ -34,6 +37,10 @@ public class CoinFlipSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
 
+        getFamilyManagerFromSharedPrefs();
+        nameArrayList = familyManager.getFamilyMembersNames();
+
+        checkNumMembers();
         populateListView();
 
         Button button = findViewById(R.id.coin_selection_button_continue);
@@ -50,17 +57,17 @@ public class CoinFlipSelection extends AppCompatActivity {
     }
 
 
-    private void populateArray(){
-        nameArrayList.add("a");
-        nameArrayList.add("b");
-        nameArrayList.add("c");
-        nameArrayList.add("d");
-
-    }
+//    private void populateArray(){
+//        nameArrayList.add("a");
+//        nameArrayList.add("b");
+//        nameArrayList.add("c");
+//        nameArrayList.add("d");
+//
+//    }
 
     private void populateListView() {
         //create List of items
-        populateArray();
+        //populateArray();
 
         //Build adapter
         ArrayAdapter<String> adapter = new MyListAdapter();
@@ -96,6 +103,13 @@ public class CoinFlipSelection extends AppCompatActivity {
         });
     }
 
+    private void checkNumMembers() {
+        if(nameArrayList.size() < 2) {
+            Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
+            startActivity(i);
+        }
+    }
+
     private class MyListAdapter extends ArrayAdapter<String> {
         public MyListAdapter() {
             super(CoinFlipSelection.this, R.layout.recycler_name_list_items, nameArrayList);
@@ -116,6 +130,17 @@ public class CoinFlipSelection extends AppCompatActivity {
             TextView textView = itemView.findViewById(R.id.textView_list_name);
             textView.setText(name);
             return itemView;
+        }
+    }
+
+    private void getFamilyManagerFromSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString("FamilyManager", "");
+
+        familyManager = gson.fromJson(json, FamilyMembersManager.class);
+        if(familyManager == null) {
+            familyManager = FamilyMembersManager.getInstance();
         }
     }
 

@@ -40,11 +40,11 @@ public class ManageFamilyMembers extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        //reseting sharedprefs
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.apply();
+//        //reseting sharedprefs
+//        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.clear();
+//        editor.apply();
 
         getFamilyManagerFromSharedPrefs();
         populateListView();
