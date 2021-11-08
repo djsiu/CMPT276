@@ -56,13 +56,13 @@ public class TimerNotifications extends ContextWrapper {
         NotificationChannel channel = new NotificationChannel(
                 ALARM_CHANNEL_ID,
                 "Alarm",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
         );
-        channel.enableVibration(true);
         channel.enableLights(true);
-        channel.setSound(null, null);
         channel.canBypassDnd();
         channel.setVibrationPattern(vibratePattern);
+        channel.enableVibration(true);
+        channel.setSound(null, null);
 
         getManager().createNotificationChannel(channel);
     }
@@ -93,7 +93,6 @@ public class TimerNotifications extends ContextWrapper {
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
-    // TODO Fix Alarm Sound Playing Outside of MediaPlayer
     public Notification getAlarmNotification() {
         // Forces Heads-up notification to stay open with this dummy intent
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), PendingIntent.FLAG_IMMUTABLE);
@@ -102,12 +101,13 @@ public class TimerNotifications extends ContextWrapper {
                 .setContentTitle("Alarm")
                 .setContentText("Timeout is Over!")
                 .setAutoCancel(false)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(Notification.CATEGORY_ALARM)
                 .setFullScreenIntent(pendingIntent, true)
                 .setSound(null)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
 
-        //startAlarmSound();
+        startAlarmSound();
 
         return notificationBuilder.build();
     }
