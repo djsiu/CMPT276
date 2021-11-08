@@ -15,6 +15,7 @@ import android.net.Uri;
 import androidx.core.app.NotificationCompat;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.timer.recievers.AlarmDismiss;
 import com.cmpt276.calciumparentapp.ui.timer.Timer;
 
 import java.io.IOException;
@@ -94,8 +95,18 @@ public class TimerNotifications extends ContextWrapper {
     }
 
     public Notification getAlarmNotification() {
-        // Forces Heads-up notification to stay open with this dummy intent
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent fillerIntent = PendingIntent.getActivity(     // Forces Heads-up notification to stay open with this dummy intent
+                getApplicationContext(),
+                0,
+                new Intent(),
+                PendingIntent.FLAG_IMMUTABLE);
+
+        Intent dismissalIntent = new Intent(this, AlarmDismiss.class);      // Runs that happens when alarm notification is closed
+        PendingIntent pendingDismissalIntent = PendingIntent.getBroadcast(
+                getApplicationContext(),
+                1,
+                dismissalIntent,
+                PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), ALARM_CHANNEL_ID)
                 .setContentTitle("Alarm")
@@ -103,38 +114,12 @@ public class TimerNotifications extends ContextWrapper {
                 .setAutoCancel(false)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(Notification.CATEGORY_ALARM)
-                .setFullScreenIntent(pendingIntent, true)
+                .setFullScreenIntent(fillerIntent, true)
                 .setSound(null)
+                .setDeleteIntent(pendingDismissalIntent)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
 
-        startAlarmSound();
-
         return notificationBuilder.build();
-    }
-
-    // TODO Stop alarm loop with notification dismiss
-    private void startAlarmSound() {
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM); // Gets system alarm sound
-
-        MediaPlayer mp = new MediaPlayer();
-
-        mp.setAudioAttributes(
-                new AudioAttributes
-                        .Builder()
-                        .setUsage(AudioAttributes.USAGE_ALARM)
-                        .build());
-
-        try {
-            mp.setDataSource(getApplicationContext(), alarmSound);
-            mp.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if(!mp.isPlaying()) {
-            mp.start();
-            mp.setLooping(true);
-        }
     }
 
     private PendingIntent getNotificationPendingIntent() {
