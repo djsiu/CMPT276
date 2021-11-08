@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 
@@ -66,7 +67,6 @@ public class TimerNotifications extends ContextWrapper {
         channel.enableLights(true);
         channel.canBypassDnd();
         channel.setVibrationPattern(vibratePattern);
-        channel.setSound(alarmSound, audioAttributes);
 
         getManager().createNotificationChannel(channel);
     }
@@ -105,16 +105,32 @@ public class TimerNotifications extends ContextWrapper {
                 .setContentTitle("Alarm")
                 .setContentText("Timeout is Over!")
                 .setAutoCancel(false)
-                .setSound(alarmSound)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(Notification.CATEGORY_ALARM)
                 .setFullScreenIntent(pendingIntent, true)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
 
+        startAlarmSound();
+
         Notification notification = notificationBuilder.build();
-        notification.flags = Notification.FLAG_INSISTENT; // Loops notification sound
+        //notification.flags = Notification.FLAG_INSISTENT; // Loops notification sound
 
         return notification;
+    }
+
+    private void startAlarmSound() {
+        MediaPlayer mp = MediaPlayer.create(this, alarmSound);
+        mp.setAudioAttributes(
+                new AudioAttributes
+                        .Builder()
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build());
+
+        if(!mp.isPlaying()) {
+            mp.start();
+            mp.setLooping(true);
+        }
     }
 
     private PendingIntent getNotificationPendingIntent() {
