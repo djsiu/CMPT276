@@ -1,20 +1,17 @@
 package com.cmpt276.calciumparentapp.ui.manage;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-import com.google.gson.Gson;
 
 public class ManageFamilyEdit extends AppCompatActivity {
 
@@ -97,7 +94,4 @@ public class ManageFamilyEdit extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent makeIntent(Context context){
-        return new Intent(context, ManageFamilyEdit.class);
-    }
 }

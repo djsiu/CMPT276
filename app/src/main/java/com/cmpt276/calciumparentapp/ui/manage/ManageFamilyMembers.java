@@ -18,14 +18,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ManageFamilyMembers extends AppCompatActivity {
 
     public static final String EDIT_MEMBER = "com.cmpt276.calciumparentapp.manage.ManageFamilyMembers.EDIT_MEMBER";
-    private final String SHARED_PREFS_KEY = "AppPrefs";
-    private final String SHARED_PREFS_FAMILY_MANAGER_KEY = "FamilyManager";
+
     private FamilyMembersManager familyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_family_members);
+
+        familyManager = FamilyMembersManager.getInstance();
 
         FloatingActionButton btnAddMember = findViewById(R.id.manage_family_add_button);
 
