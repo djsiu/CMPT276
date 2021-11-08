@@ -45,7 +45,7 @@ public class FamilyMembersManager {
 
     //TODO: Remove the get size function
     public int getSize(){
-        return familyMembersList.size();
+        return instance.familyMembersList.size();
     }
 
     public void deleteMember(String name) {

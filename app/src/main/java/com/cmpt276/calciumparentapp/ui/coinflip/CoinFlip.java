@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinFlip.TurnPicker;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
+import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 
 public class CoinFlip extends AppCompatActivity {
 
@@ -34,6 +35,7 @@ public class CoinFlip extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         familyManager = FamilyMembersManager.getInstance();
+        ManageFamilyMembers.saveFamilyManagerToSharedPrefs(this);
         Log.i("CF", "buttonFunc: size is" + familyManager.getSize());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
