@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlip;
+import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlipSelection;
 import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 import com.cmpt276.calciumparentapp.ui.timer.Timer;
 import com.cmpt276.calciumparentapp.ui.timer.TimerSelectTime;
@@ -31,7 +32,7 @@ public class MainMenu extends AppCompatActivity {
     public void setupCoinFlipButton(Button button) {
         button.setOnClickListener(v -> {
             // Opens the CoinFlip activity
-            Intent i = CoinFlip.makeIntent(MainMenu.this);
+            Intent i = CoinFlipSelection.makeIntent(MainMenu.this);
             startActivity(i);
         });
     }

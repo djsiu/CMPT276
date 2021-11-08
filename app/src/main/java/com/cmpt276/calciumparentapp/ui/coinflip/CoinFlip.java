@@ -4,9 +4,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,9 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.ui.MainMenu;
+import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
+import com.google.gson.Gson;
 
 public class CoinFlip extends AppCompatActivity {
+
+    private CoinFlipHistoryManager flipHistoryManager;
 
     private enum Face{
         HEADS,
@@ -46,19 +49,25 @@ public class CoinFlip extends AppCompatActivity {
 
         button = findViewById(R.id.coin_button_tails);
         button.setOnClickListener(view -> flipCoin());
+
+        getCoinHistoryManagerFromSharedPrefs();
     }
 
     private void updateWinner(){
         TextView textView = findViewById(R.id.coin_textView_message);
         if (currentFace == Face.HEADS) {
             textView.setText(R.string.coin_message_headsWin);
+            flipHistoryManager.addCoinFlip("temp name", "head", true);
+            //TODO: replace temp name with child who chose
+            //TODO: add win/lose status
         }else{
             textView.setText(R.string.coin_message_tailsWin);
+            flipHistoryManager.addCoinFlip("temp name", "head", false);
         }
+        saveFlipHistoryManagerToSharedPrefs();
     }
 
     private void flipCoin(){
-
         //get random face
         if((((int)(Math.random()*10))%2) == 0) {//Heads represented by 0
             //perform animation
@@ -83,14 +92,14 @@ public class CoinFlip extends AppCompatActivity {
         mediaPlayer.start();
 
         //show flip
-        ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
+        ImageView imageView = findViewById(R.id.imageView_coin);
         imageView.animate().setDuration(250*numberOfRotations).rotationYBy(numberOfRotations*180f).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
                 //render buttons unclickable while moving
-                Button buttonHeads = (Button) findViewById(R.id.coin_button_heads);
+                Button buttonHeads = findViewById(R.id.coin_button_heads);
                 buttonHeads.setClickable(false);
-                Button buttonTails = (Button) findViewById(R.id.coin_button_tails);
+                Button buttonTails = findViewById(R.id.coin_button_tails);
                 buttonTails.setClickable(false);
 
                 imageView.setImageResource(R.drawable.coin_faceless);
@@ -99,7 +108,7 @@ public class CoinFlip extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                ImageView imageView = (ImageView) findViewById(R.id.imageView_coin);
+                ImageView imageView = findViewById(R.id.imageView_coin);
                 if(Face.HEADS == currentFace){
                     imageView.setImageResource(R.drawable.coin_heads);
 
@@ -108,9 +117,9 @@ public class CoinFlip extends AppCompatActivity {
 
                 }
                 updateWinner();
-                Button buttonHeads = (Button) findViewById(R.id.coin_button_heads);
+                Button buttonHeads = findViewById(R.id.coin_button_heads);
                 buttonHeads.setClickable(true);
-                Button buttonTails = (Button) findViewById(R.id.coin_button_tails);
+                Button buttonTails = findViewById(R.id.coin_button_tails);
                 buttonTails.setClickable(true);
             }
 
@@ -125,6 +134,32 @@ public class CoinFlip extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    private void callFragment(){
+        Intent i = new Intent(this, CoinFlipSelectFirst.class);
+        startActivity(i);
+    }
+
+    //credit to eamonnmcmanus on github
+    private void saveFlipHistoryManagerToSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(flipHistoryManager);
+        editor.putString("FlipHistoryManager", json);
+        editor.apply();
+    }
+
+    private void getCoinHistoryManagerFromSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString("FlipHistoryManager", "");
+
+        flipHistoryManager = gson.fromJson(json, CoinFlipHistoryManager.class);
+        if(flipHistoryManager == null) {
+            flipHistoryManager = CoinFlipHistoryManager.getInstance();
+        }
     }
 
     /**
