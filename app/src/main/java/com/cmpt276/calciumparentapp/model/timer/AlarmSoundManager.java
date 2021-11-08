@@ -17,21 +17,10 @@ public class AlarmSoundManager {
     private final MediaPlayer mp = new MediaPlayer();
 
     private AlarmSoundManager(Context context){
+
         this.context = context;
-    }
 
-    // Singleton support
-    public static AlarmSoundManager getInstance(Context context){
-        if(instance == null){
-            instance = new AlarmSoundManager(context.getApplicationContext());
-        }
-
-        return instance;
-    }
-
-    public void startAlarmSound() {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM); // Gets system alarm sound
-
         mp.setAudioAttributes(
                 new AudioAttributes
                         .Builder()
@@ -44,6 +33,18 @@ public class AlarmSoundManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Singleton support
+    public static AlarmSoundManager getInstance(Context context){
+        if(instance == null){
+            instance = new AlarmSoundManager(context.getApplicationContext());
+        }
+
+        return instance;
+    }
+
+    public void startAlarmSound() {
 
         if(!mp.isPlaying()) {
             mp.start();
@@ -53,5 +54,15 @@ public class AlarmSoundManager {
 
     public void stopAlarmSound() {
         mp.stop();
+
+        // After the mediaPlayer is stopped, prepare needs to be called again before
+        // its in a state where it can be played again.
+        // See the state diagram: https://developer.android.com/reference/android/media/MediaPlayer#StateDiagram
+        try {
+            mp.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
