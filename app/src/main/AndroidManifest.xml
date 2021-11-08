@@ -53,7 +53,8 @@
             </intent-filter>
         </activity>
         <service android:name=".model.timer.TimerService"/>
-        <receiver android:name=".model.timer.AlarmReceiver"/>
+        <receiver android:name=".model.timer.recievers.AlarmReceiver"/>
+        <receiver android:name=".model.timer.recievers.AlarmDismiss"/>
     </application>
 
 </manifest>
