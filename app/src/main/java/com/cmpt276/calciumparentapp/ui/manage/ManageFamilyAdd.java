@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMember;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.gson.Gson;
 
@@ -27,6 +28,8 @@ public class ManageFamilyAdd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_family_add);
 
+        familyManager = FamilyMembersManager.getInstance();
+
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
         assert ab != null;
@@ -35,7 +38,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
         setupCancelBtn();
         setupAddBtn();
 
-        getFamilyManagerFromSharedPrefs();
+        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
     }
 
     private void setupAddBtn() {
@@ -44,19 +47,11 @@ public class ManageFamilyAdd extends AppCompatActivity {
         addBtn.setOnClickListener(view -> {
 
             String newMemberNameStr = newMemberName.getText().toString();
-            boolean nameAlreadyExists = false;
-
-            if(familyManager.getFamilyMembersNames().size() > 0) {
-                for (int i = 0; i < familyManager.getFamilyMembersNames().size(); i++) {
-                    if (newMemberNameStr.equals(familyManager.getFamilyMembersNames().get(i))) {
-                        nameAlreadyExists = true;
-                    }
-                }
-            }
+            boolean nameAlreadyExists = FamilyMemberSharedPreferences.addMember(newMemberNameStr);
 
             if(!nameAlreadyExists) {
                 familyManager.addMember(newMemberNameStr);
-                saveFamilyManagerToSharedPrefs();
+                FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
 
                 String welcomeText = String.format(
                         getString(R.string.family_member_welcome_toast_text_format),
@@ -79,37 +74,12 @@ public class ManageFamilyAdd extends AppCompatActivity {
                         .show();
             }
 
-//            //updating the list view in ManageFamilyMembers activity
-//            Intent intent=new Intent();
-//            setResult(2,intent);
-//            finish();
         });
     }
 
     private void setupCancelBtn() {
         Button cancelBtn = findViewById(R.id.cancelAddNewMemberButton);
         cancelBtn.setOnClickListener(view -> finish());
-    }
-
-    //credit to eamonnmcmanus on github
-    private void saveFamilyManagerToSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(familyManager);
-        editor.putString("FamilyManager", json);
-        editor.apply();
-    }
-
-    private void getFamilyManagerFromSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString("FamilyManager", "");
-
-        familyManager = gson.fromJson(json, FamilyMembersManager.class);
-        if(familyManager == null) {
-            familyManager = FamilyMembersManager.getInstance();
-        }
     }
 
     /**

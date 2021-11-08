@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.gson.Gson;
 
@@ -24,11 +25,13 @@ public class ManageFamilyEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_family_edit);
 
+        familyManager = FamilyMembersManager.getInstance();
+
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
-        getFamilyManagerFromSharedPrefs();
+        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
 
         // makes the current name appear in the editText
         EditText editTextName = findViewById(R.id.editTextMemberNameForEdit);
@@ -51,7 +54,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
         deleteBtn.setOnClickListener(view -> {
 
             familyManager.deleteMember(getFamilyMemberName());
-            saveFamilyManagerToSharedPrefs();
+            FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
 
             finish();
         });
@@ -69,7 +72,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
                     getFamilyMemberName()
             );
 
-            saveFamilyManagerToSharedPrefs();
+            FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
             finish();
         });
     }
@@ -77,27 +80,6 @@ public class ManageFamilyEdit extends AppCompatActivity {
     private void setupCancelBtn() {
         Button cancelBtn = findViewById(R.id.cancelEditMember);
         cancelBtn.setOnClickListener(view -> finish());
-    }
-
-    //credit to eamonnmcmanus on github
-    private void saveFamilyManagerToSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(familyManager);
-        editor.putString("FamilyManager", json);
-        editor.apply();
-    }
-
-    private void getFamilyManagerFromSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString("FamilyManager", "");
-
-        familyManager = gson.fromJson(json, FamilyMembersManager.class);
-        if(familyManager == null) {
-            familyManager = FamilyMembersManager.getInstance();
-        }
     }
 
     /**
