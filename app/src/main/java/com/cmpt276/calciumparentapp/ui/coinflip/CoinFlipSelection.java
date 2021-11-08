@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
@@ -30,7 +32,7 @@ public class CoinFlipSelection extends AppCompatActivity {
     private FamilyMembersManager familyManager;
 
     private ArrayList<String> nameArrayList;
-    private List<String> selectedIndexes = new ArrayList<>();
+    private List<Integer> selectedIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         Button button = findViewById(R.id.coin_selection_button_continue);
         button.setOnClickListener(view -> {
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
+            Log.i("selection", "buttonFunc: size is" + familyManager.getSize());
             i.putExtra("player1", selectedIndexes.get(0));
             i.putExtra("player2", selectedIndexes.get(1));
             startActivity(i);
@@ -53,7 +56,12 @@ public class CoinFlipSelection extends AppCompatActivity {
         button.setClickable(false);
         button.setFocusable(false);
 
+        //Adds back button in top left corner
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
 
+        Log.i("selection", "onCreate: size is" + familyManager.getSize());
     }
 
 
@@ -71,14 +79,14 @@ public class CoinFlipSelection extends AppCompatActivity {
 
         list.setOnItemClickListener((adapterView, view, position, id) -> {
             //if already selected
-            if(selectedIndexes.contains(nameArrayList.get(position))){
-                selectedIndexes.remove(nameArrayList.get(position));
+            if(selectedIndexes.contains(position)){
+                selectedIndexes.remove(position);
                 //reset color
                 view.setBackgroundColor(Color.TRANSPARENT);
 
             }else{// if not already selected
                 if(selectedIndexes.size() < 2){
-                    selectedIndexes.add(nameArrayList.get(position));
+                    selectedIndexes.add(position);
                     view.setBackgroundColor(Color.GRAY);
 
                 }

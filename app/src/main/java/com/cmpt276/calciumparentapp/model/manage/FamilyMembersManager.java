@@ -1,13 +1,15 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class FamilyMembersManager {
 
-    ArrayList<FamilyMember> familyMembersList;
+    private ArrayList<FamilyMember> familyMembersList;
     private int keyGenerator;
 
-    FamilyMembersManager() {
+    private FamilyMembersManager() {
         familyMembersList = new ArrayList<>();
         keyGenerator = 0;
     }
@@ -23,7 +25,7 @@ public class FamilyMembersManager {
     }
 
     public void addMember(String name) {
-        FamilyMember newMember = new FamilyMember(name, keyGenerator);
+        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size());
         familyMembersList.add(newMember);
         keyGenerator++;
     }
@@ -41,9 +43,15 @@ public class FamilyMembersManager {
         }
     }
 
+    //TODO: Remove the get size function
+    public int getSize(){
+        return familyMembersList.size();
+    }
+
     public void deleteMember(String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
             if(name.equals(familyMembersList.get(i).getMemberName())) {
+                choosePicker(i);
                 familyMembersList.get(i).deleteChild();
             }
         }
@@ -65,6 +73,28 @@ public class FamilyMembersManager {
     public int getMemberKey(int i) {
         return familyMembersList.get(i).getKey();
     }
+
+    public String getNameByKey(int key){
+        return "";
+    }
+    public int getCoinFlipPriority(int index){
+        Log.i("famMemMan", "getCoinFlipPriority: list size is " + familyMembersList.size());
+
+        return familyMembersList.get(index).getCoinFlipPickPriority();
+    }
+
+    public String choosePicker(int index){
+        int playerPriority = familyMembersList.get(index).getCoinFlipPickPriority();
+        int listSize = familyMembersList.size();
+        for (int currentIndex = 0; currentIndex < listSize; currentIndex++ ){
+            if(familyMembersList.get(currentIndex).getCoinFlipPickPriority() >playerPriority){
+                familyMembersList.get(currentIndex).setCoinFlipPickPriority(familyMembersList.get(currentIndex).getCoinFlipPickPriority() -1);
+            }
+        }
+        familyMembersList.get(index).setCoinFlipPickPriority(listSize-1);
+        return familyMembersList.get(index).getMemberName();
+    }
+
 }
 
 //TODO: check for duplicate names

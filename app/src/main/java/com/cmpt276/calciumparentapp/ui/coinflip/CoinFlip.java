@@ -2,14 +2,13 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 
 import android.animation.Animator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -17,7 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.ui.MainMenu;
+import com.cmpt276.calciumparentapp.model.coinFlip.TurnPicker;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 public class CoinFlip extends AppCompatActivity {
 
@@ -26,12 +26,15 @@ public class CoinFlip extends AppCompatActivity {
         TAILS
     }
 
-    String TAG = "FlipCoin";
-
     private Face currentFace;
+    Bundle extras;
+
+    private FamilyMembersManager familyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        familyManager = FamilyMembersManager.getInstance();
+        Log.i("CF", "buttonFunc: size is" + familyManager.getSize());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
 
@@ -40,6 +43,10 @@ public class CoinFlip extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
+        //get players from the selection activity
+        extras = getIntent().getExtras();
+
+
         currentFace = Face.TAILS;
         //set buttons
         Button button = findViewById(R.id.coin_button_heads);
@@ -47,7 +54,35 @@ public class CoinFlip extends AppCompatActivity {
 
         button = findViewById(R.id.coin_button_tails);
         button.setOnClickListener(view -> flipCoin());
+
+
+        //TODO: remove following section
+        familyManager = FamilyMembersManager.getInstance();
+
+        Log.i("CF", " size is "+ familyManager.getSize() );
+
+
+        //set picker
+        getPicker();
     }
+
+    private void getPicker() {
+        familyManager = FamilyMembersManager.getInstance();
+        Log.i("CF", "getPicker: Size is "+familyManager.getSize());
+
+        TextView textView = findViewById(R.id.coin_textView_message);
+        if (extras != null){
+            //get player Indexes
+            int player1Index = (int) extras.get("player1");
+            int player2Index = (int) extras.get("player2");
+
+            //set name
+            textView.setText(getString(R.string.coin_textView_picker, TurnPicker.choosePicker(this,player1Index, player2Index)));
+        }else{
+            textView.setText(getString(R.string.coin_textView_pickerGeneric));
+        }
+    }
+
 
     private void updateWinner(){
         TextView textView = findViewById(R.id.coin_textView_message);
@@ -126,11 +161,6 @@ public class CoinFlip extends AppCompatActivity {
             }
         }).start();
 
-    }
-
-    private void callFragment(){
-        Intent i = new Intent(this, CoinFlipSelectFirst.class);
-        startActivity(i);
     }
 
 

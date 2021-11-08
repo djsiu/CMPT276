@@ -24,9 +24,9 @@ import java.util.Map;
 public class ManageFamilyMembers extends AppCompatActivity {
 
     public static final String EDIT_MEMBER = "com.cmpt276.calciumparentapp.manage.ManageFamilyMembers.EDIT_MEMBER";
-    private final String SHARED_PREFS_KEY = "AppPrefs";
-    private final String SHARED_PREFS_FAMILY_MANAGER_KEY = "FamilyManager";
-    private FamilyMembersManager familyManager;
+    private static final String SHARED_PREFS_KEY = "AppPrefs";
+    private static final String SHARED_PREFS_FAMILY_MANAGER_KEY = "FamilyManager";
+    private static FamilyMembersManager familyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +98,8 @@ public class ManageFamilyMembers extends AppCompatActivity {
         }
     }
 
-    private void saveFamilyManagerToSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
+    public static void saveFamilyManagerToSharedPrefs(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(familyManager);
