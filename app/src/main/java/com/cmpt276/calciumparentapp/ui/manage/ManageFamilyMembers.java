@@ -71,7 +71,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
         //enabling clicking on list view to edit family members
         familyMembersListView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(view.getContext(), ManageFamilyEdit.class);
-            intent.putExtra(EDIT_MEMBER, i);
+            intent.putExtra(EDIT_MEMBER, (String) familyMembersListView.getItemAtPosition(i));
             startActivity(intent);
         });
     }
