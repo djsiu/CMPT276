@@ -3,4 +3,4 @@ Scrum Roles
 Scrum Master: Braden Takashima
 Product Owner: Peter Soava
 Repo Manager: Denise Siu
-Team Member: Matthew 
+Team Member: Matthew So
