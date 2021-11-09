@@ -205,11 +205,6 @@ public class CoinFlip extends AppCompatActivity {
 
     }
 
-    private void callFragment(){
-        Intent i = new Intent(this, CoinFlipSelectFirst.class);
-        startActivity(i);
-    }
-
     //credit to eamonnmcmanus on github
     private void saveFlipHistoryManagerToSharedPrefs() {
         SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
