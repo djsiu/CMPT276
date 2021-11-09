@@ -17,6 +17,7 @@
         android:layout_marginBottom="10dp"
         android:layout_weight="5"
         android:gravity="center_horizontal"
+        android:textColor="@android:color/primary_text_light"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView_coin"
         app:layout_constraintEnd_toEndOf="parent"

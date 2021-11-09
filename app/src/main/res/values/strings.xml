@@ -5,7 +5,7 @@
     <string name="coin_message_headsWin">Congratulations!\nHeads Wins!</string>
     <string name="coin_message_tailsWin">Congratulations!\nTails Wins!</string>
 
-    <string name="main_menu_title">Main Menu</string>
+    <string name="main_menu_title">Practical Parent!</string>
     <string name="main_menu_left_button">Coin Flip</string>
     <string name="main_menu_right_button">Timer</string>
     <string name="main_menu_top_button">Manage Members</string>
