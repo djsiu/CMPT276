@@ -56,56 +56,47 @@ public class CoinFlip extends AppCompatActivity {
         currentFace = Face.TAILS;
         //set buttons
         Button button = findViewById(R.id.coin_button_heads);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flipCoin();
-                Button button = findViewById(R.id.coin_button_heads);
-                button.setVisibility(View.GONE);
+        button.setOnClickListener(view -> {
+            flipCoin();
+            Button button1 = findViewById(R.id.coin_button_heads);
+            button1.setVisibility(View.GONE);
 
-                button = findViewById(R.id.coin_button_tails);
-                button.setVisibility(View.GONE);
+            button1 = findViewById(R.id.coin_button_tails);
+            button1.setVisibility(View.GONE);
 
-                button = findViewById(R.id.coin_button_flipAgain);
-                button.setVisibility(View.VISIBLE);
+            button1 = findViewById(R.id.coin_button_flipAgain);
+            button1.setVisibility(View.VISIBLE);
 
-                buttonClicked = "heads";
-            }
+            buttonClicked = "heads";
         });
 
         button = findViewById(R.id.coin_button_tails);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flipCoin();
-                Button button = findViewById(R.id.coin_button_heads);
-                button.setVisibility(View.GONE);
+        button.setOnClickListener(view -> {
+            flipCoin();
+            Button button12 = findViewById(R.id.coin_button_heads);
+            button12.setVisibility(View.GONE);
 
-                button = findViewById(R.id.coin_button_tails);
-                button.setVisibility(View.GONE);
+            button12 = findViewById(R.id.coin_button_tails);
+            button12.setVisibility(View.GONE);
 
-                button = findViewById(R.id.coin_button_flipAgain);
-                button.setVisibility(View.VISIBLE);
+            button12 = findViewById(R.id.coin_button_flipAgain);
+            button12.setVisibility(View.VISIBLE);
 
-                buttonClicked = "tails";
-            }
+            buttonClicked = "tails";
         });
 
         button = findViewById(R.id.coin_button_flipAgain);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getPicker();
-                Button button = findViewById(R.id.coin_button_heads);
-                button.setVisibility(View.VISIBLE);
+        button.setOnClickListener(view -> {
+            getPicker();
+            Button button13 = findViewById(R.id.coin_button_heads);
+            button13.setVisibility(View.VISIBLE);
 
-                button = findViewById(R.id.coin_button_tails);
-                button.setVisibility(View.VISIBLE);
+            button13 = findViewById(R.id.coin_button_tails);
+            button13.setVisibility(View.VISIBLE);
 
-                button = findViewById(R.id.coin_button_flipAgain);
-                button.setVisibility(View.GONE);
+            button13 = findViewById(R.id.coin_button_flipAgain);
+            button13.setVisibility(View.GONE);
 
-            }
         });
 
         flipHistoryManager = CoinFlipHistoryManager.getFlipHistoryManagerFromSharedPrefs(this);
@@ -136,9 +127,11 @@ public class CoinFlip extends AppCompatActivity {
         if (currentFace == Face.HEADS) {
             textView.setText(R.string.coin_message_headsWin);
             flipHistoryManager.addCoinFlip(picker, getString(R.string.heads), buttonClicked);
+            System.out.println("adding a coin flip HEADSSSSSS");
         }else{
             textView.setText(R.string.coin_message_tailsWin);
             flipHistoryManager.addCoinFlip(picker, getString(R.string.tails), buttonClicked);
+            System.out.println("adding a coin flip TAILSSSS");
         }
         saveFlipHistoryManagerToSharedPrefs();
     }
@@ -149,7 +142,6 @@ public class CoinFlip extends AppCompatActivity {
         if((((int)(Math.random()*10))%2) == 0) {//Heads represented by 0
             //perform animation
             currentFace = Face.HEADS;
-            animateCoin();
         }else{
             //perform animation
             currentFace = Face.TAILS;
