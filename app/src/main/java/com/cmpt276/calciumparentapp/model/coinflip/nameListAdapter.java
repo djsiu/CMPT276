@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cmpt276.calciumparentapp.R;
 
 import java.util.ArrayList;
-
+/*
+A list adapter for the names to use in the coin flip selection
+ */
 public class nameListAdapter extends RecyclerView.Adapter<nameListAdapter.MyViewHolder> {
     private ArrayList<String> nameList;
 

@@ -6,6 +6,9 @@ import android.util.Log;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
+/*
+returns the picker of two options and sets their changes in the stored preferences
+ */
 public class TurnPicker {
 
     public static String choosePicker(Context context, int player1, int player2){
