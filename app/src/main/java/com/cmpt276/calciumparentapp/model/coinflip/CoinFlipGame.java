@@ -5,6 +5,10 @@ import com.cmpt276.calciumparentapp.R;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/*
+Creating individual coin flip games.
+ */
+
 public class CoinFlipGame {
 
     LocalDateTime timeStamp;

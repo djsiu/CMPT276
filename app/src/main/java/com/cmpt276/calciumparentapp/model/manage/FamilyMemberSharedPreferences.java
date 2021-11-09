@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+/*
+storing and retrieving the family members manager in shared preferences
+ */
+
 public class FamilyMemberSharedPreferences {
     private static FamilyMembersManager familyManager;
     private static final String SHARED_PREFS_KEY = "AppPrefs";

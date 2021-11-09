@@ -14,6 +14,10 @@ import java.util.Collections;
 
 import javax.xml.namespace.QName;
 
+
+/*
+managing the history of coin flips: adding, retrieving and storing the game history in shared preferences
+ */
 public class CoinFlipHistoryManager {
 
 

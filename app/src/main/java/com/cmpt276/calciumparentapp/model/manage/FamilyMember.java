@@ -1,5 +1,8 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
+/*
+Storing information relating to individual family members
+ */
 public class FamilyMember {
 
     private String name;
