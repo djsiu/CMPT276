@@ -1,11 +1,6 @@
 package com.cmpt276.calciumparentapp.ui.coinflip;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-
 import android.animation.Animator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -16,8 +11,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.ui.MainMenu;
+import com.cmpt276.calciumparentapp.model.coinFlip.TurnPicker;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 
 public class CoinFlip extends AppCompatActivity {
 
@@ -26,12 +25,12 @@ public class CoinFlip extends AppCompatActivity {
         TAILS
     }
 
-    String TAG = "FlipCoin";
-
     private Face currentFace;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
 
@@ -40,6 +39,10 @@ public class CoinFlip extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
+        //get players from the selection activity
+        extras = getIntent().getExtras();
+
+
         currentFace = Face.TAILS;
         //set buttons
         Button button = findViewById(R.id.coin_button_heads);
@@ -47,7 +50,25 @@ public class CoinFlip extends AppCompatActivity {
 
         button = findViewById(R.id.coin_button_tails);
         button.setOnClickListener(view -> flipCoin());
+
+        //set picker
+        getPicker();
     }
+
+    private void getPicker() {
+        TextView textView = findViewById(R.id.coin_textView_message);
+        if (extras != null){
+            //get player Indexes
+            int player1Index = (int) extras.get("player1");
+            int player2Index = (int) extras.get("player2");
+
+            //set name
+            textView.setText(getString(R.string.coin_textView_picker, TurnPicker.choosePicker(this,player1Index, player2Index)));
+        }else{
+            textView.setText(getString(R.string.coin_textView_pickerGeneric));
+        }
+    }
+
 
     private void updateWinner(){
         TextView textView = findViewById(R.id.coin_textView_message);
@@ -64,12 +85,11 @@ public class CoinFlip extends AppCompatActivity {
         if((((int)(Math.random()*10))%2) == 0) {//Heads represented by 0
             //perform animation
             currentFace = Face.HEADS;
-            animateCoin();
         }else{
             //perform animation
             currentFace = Face.TAILS;
-            animateCoin();
         }
+        animateCoin();
 
         //TODO:save roll data
         //return winner
@@ -126,11 +146,6 @@ public class CoinFlip extends AppCompatActivity {
             }
         }).start();
 
-    }
-
-    private void callFragment(){
-        Intent i = new Intent(this, CoinFlipSelectFirst.class);
-        startActivity(i);
     }
 
 

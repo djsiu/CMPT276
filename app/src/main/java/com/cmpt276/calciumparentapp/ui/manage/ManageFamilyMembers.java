@@ -38,8 +38,8 @@ public class ManageFamilyMembers extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
         populateListView();
+
     }
 
     @Override
@@ -67,6 +67,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
             intent.putExtra(EDIT_MEMBER, (String) familyMembersListView.getItemAtPosition(i));
             startActivity(intent);
         });
+
     }
 
     private void setupManageFamilyAddButton(FloatingActionButton button) {

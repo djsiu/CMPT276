@@ -20,10 +20,7 @@ import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.gson.Gson;
 
-import org.w3c.dom.NameList;
-
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class CoinFlipSelectFirst extends Fragment {

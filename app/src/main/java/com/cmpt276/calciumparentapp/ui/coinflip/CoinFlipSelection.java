@@ -2,7 +2,6 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,21 +29,18 @@ import java.util.List;
 
 public class CoinFlipSelection extends AppCompatActivity {
 
-    private FamilyMembersManager familyManager;
-
     private ArrayList<String> nameArrayList;
-    private List<String> selectedIndexes = new ArrayList<>();
+    private ArrayList<Integer> keyArrayList;
+    private final List<Integer> selectedIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
-
-
+        FamilyMembersManager familyManager = FamilyMembersManager.getInstance();
         FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
-        familyManager = FamilyMembersManager.getInstance();
-
         nameArrayList = familyManager.getFamilyMembersNames();
+        keyArrayList = familyManager.getFamilyMemberKeys();
 
         if(!hasEnoughFamilyMembers()){
             Intent i = CoinFlip.makeIntent(this);
@@ -68,12 +64,21 @@ public class CoinFlipSelection extends AppCompatActivity {
         }
         else{
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
-            i.putExtra("player1", selectedIndexes.get(0));
-            i.putExtra("player2", selectedIndexes.get(1));
-            finish();
+            i.putExtra("player1", keyArrayList.get(selectedIndexes.get(0)));
+            i.putExtra("player2", keyArrayList.get(selectedIndexes.get(1)));
             startActivity(i);
-        }
+        });
+        button.setClickable(false);
+        button.setFocusable(false);
+
+        //Adds back button in top left corner
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
+
     }
+
+
 
 
     private void populateListView() {
@@ -83,22 +88,33 @@ public class CoinFlipSelection extends AppCompatActivity {
         //Build adapter
         ArrayAdapter<String> adapter = new MyListAdapter();
 
-        ListView list = (ListView) findViewById(R.id.coin_list_names);
+        ListView list = findViewById(R.id.coin_list_names);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener((adapterView, view, position, id) -> {
             //if already selected
-            if(selectedIndexes.contains(nameArrayList.get(position))){
-                selectedIndexes.remove(nameArrayList.get(position));
+            int selectedIndex = selectedIndexes.indexOf(position);
+            if(selectedIndex != -1){//must remove at index of contained not at position in master list
+                selectedIndexes.remove(selectedIndex);
                 //reset color
                 view.setBackgroundColor(Color.TRANSPARENT);
 
             }else{// if not already selected
                 if(selectedIndexes.size() < 2){
-                    selectedIndexes.add(nameArrayList.get(position));
+                    selectedIndexes.add(position);
                     view.setBackgroundColor(Color.GRAY);
 
                 }
+
+            }
+
+            Button button = findViewById(R.id.coin_selection_button_continue);
+            if (selectedIndexes.size() != 2){
+                button.setClickable(false);
+                button.setFocusable(false);
+            }else{
+                button.setClickable(true);
+                button.setFocusable(true);
             }
 
         });
@@ -130,6 +146,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             return itemView;
         }
     }
+
 
     /**
      * Displays actionbar buttons

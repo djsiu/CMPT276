@@ -2,6 +2,7 @@ package com.cmpt276.calciumparentapp.ui.manage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +51,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
         Button deleteBtn = findViewById(R.id.deleteMemberBtn);
 
         deleteBtn.setOnClickListener(view -> {
-
+            Log.i("edit", "setupDeleteBtn: before delete");
             familyManager.deleteMember(getFamilyMemberName());
             FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
 
