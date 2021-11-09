@@ -53,10 +53,18 @@
     <string name="button_coin_fragment_continue">Continue</string>
     <string name="coin_continue">Continue</string>
     <string name="coin_textview_selection_choose">Choose the children playing</string>
+    <string name="coin_textView_picker">%1$s,\nPick Heads or Tails</string>
+    <string name="coin_textView_pickerGeneric">Pick Heads or Tails</string>]
+
     <string name="family_member_present_toast_text_format">%s is already in the family!</string>
     <string name="family_member_welcome_toast_text_format">Welcome to the family %s!</string>
     <string name="imageView_coin">Contains images for coin</string>
     <string name="imageView_TimerBackground">Timer Background</string>
+    <string name="timer_paused_notification_text">Timer Paused</string>
+    <string name="alarm_notification_title">Alarm</string>
+    <string name="alarm_notification_text">Timeout is Over!</string>
+    <string name="coinflip_selection_two_children_toast_text">Please select two children!</string>
+    <string name="no_members_text">No family members added yet!</string>
     <string name="editTextFamilyMemberNameHint">Enter name of family member</string>
 
 </resources>

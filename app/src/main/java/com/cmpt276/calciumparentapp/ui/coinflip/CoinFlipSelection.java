@@ -2,7 +2,6 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,12 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,43 +28,53 @@ import java.util.List;
 
 public class CoinFlipSelection extends AppCompatActivity {
 
-    private FamilyMembersManager familyManager;
-
     private ArrayList<String> nameArrayList;
-    private List<String> selectedIndexes = new ArrayList<>();
+    private ArrayList<Integer> keyArrayList;
+    private final List<Integer> selectedIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
-
-        getFamilyManagerFromSharedPrefs();
+        FamilyMembersManager familyManager = FamilyMembersManager.getInstance();
+        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
         nameArrayList = familyManager.getFamilyMembersNames();
+        keyArrayList = familyManager.getFamilyMemberKeys();
 
-        checkNumMembers();
+        if(!hasEnoughFamilyMembers()){
+            Intent i = CoinFlip.makeIntent(this);
+            finish();
+            startActivity(i);
+        }
         populateListView();
 
         Button button = findViewById(R.id.coin_selection_button_continue);
-        button.setOnClickListener(view -> {
-            Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
-            i.putExtra("player1", selectedIndexes.get(0));
-            i.putExtra("player2", selectedIndexes.get(1));
-            startActivity(i);
-        });
-        button.setClickable(false);
-        button.setFocusable(false);
+        button.setOnClickListener(view -> continueButtonOnClick());
+    }
 
+
+
+    private void continueButtonOnClick() {
+        if(selectedIndexes.size() != 2){
+            Toast toast = Toast.makeText(this, R.string.coinflip_selection_two_children_toast_text, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else{
+            Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
+            i.putExtra("player1", keyArrayList.get(selectedIndexes.get(0)));
+            i.putExtra("player2", keyArrayList.get(selectedIndexes.get(1)));
+            startActivity(i);
+        }
+
+        //Adds back button in top left corner
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
 
     }
 
 
-//    private void populateArray(){
-//        nameArrayList.add("a");
-//        nameArrayList.add("b");
-//        nameArrayList.add("c");
-//        nameArrayList.add("d");
-//
-//    }
+
 
     private void populateListView() {
         //create List of items
@@ -72,26 +83,27 @@ public class CoinFlipSelection extends AppCompatActivity {
         //Build adapter
         ArrayAdapter<String> adapter = new MyListAdapter();
 
-        ListView list = (ListView) findViewById(R.id.coin_list_names);
+        ListView list = findViewById(R.id.coin_list_names);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener((adapterView, view, position, id) -> {
             //if already selected
-            if(selectedIndexes.contains(nameArrayList.get(position))){
-                selectedIndexes.remove(nameArrayList.get(position));
+            int selectedIndex = selectedIndexes.indexOf(position);
+            if(selectedIndex != -1){//must remove at index of contained not at position in master list
+                selectedIndexes.remove(selectedIndex);
                 //reset color
                 view.setBackgroundColor(Color.TRANSPARENT);
 
             }else{// if not already selected
                 if(selectedIndexes.size() < 2){
-                    selectedIndexes.add(nameArrayList.get(position));
+                    selectedIndexes.add(position);
                     view.setBackgroundColor(Color.GRAY);
 
                 }
 
             }
 
-            Button button = (Button) findViewById(R.id.coin_selection_button_continue);
+            Button button = findViewById(R.id.coin_selection_button_continue);
             if (selectedIndexes.size() != 2){
                 button.setClickable(false);
                 button.setFocusable(false);
@@ -103,11 +115,8 @@ public class CoinFlipSelection extends AppCompatActivity {
         });
     }
 
-    private void checkNumMembers() {
-        if(nameArrayList.size() < 2) {
-            Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
-            startActivity(i);
-        }
+    private boolean hasEnoughFamilyMembers() {
+        return nameArrayList.size() >= 2;
     }
 
     private class MyListAdapter extends ArrayAdapter<String> {
@@ -130,17 +139,6 @@ public class CoinFlipSelection extends AppCompatActivity {
             TextView textView = itemView.findViewById(R.id.textView_list_name);
             textView.setText(name);
             return itemView;
-        }
-    }
-
-    private void getFamilyManagerFromSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString("FamilyManager", "");
-
-        familyManager = gson.fromJson(json, FamilyMembersManager.class);
-        if(familyManager == null) {
-            familyManager = FamilyMembersManager.getInstance();
         }
     }
 
