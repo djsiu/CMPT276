@@ -40,10 +40,13 @@ public class FamilyMembersManager {
     }
 
     public void addMember(String name) {
+        Log.i("famlistsize", "addMember: " + familyMembersList.size());
         FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size());
         familyMembersList.add(newMember);
         keyGenerator++;
     }
+
+
 
     public void editMember(String newName, String name) {
         System.out.println("inputed old name: "+ name);
@@ -58,9 +61,16 @@ public class FamilyMembersManager {
         }
     }
 
-    //TODO: Remove the get size function
-    public int getSize(){
-        return familyMembersList.size();
+    //TODO: Remove the get size function and get prios
+    public ArrayList<Integer> getPrios() {
+        ArrayList<Integer> prios = new ArrayList<>();
+        if (familyMembersList != null) {
+            for (int i = 0; i < familyMembersList.size(); i++) {
+                if(!familyMembersList.get(i).getDeleted())
+                    prios.add(familyMembersList.get(i).getCoinFlipPickPriority());
+            }
+        }
+        return prios;
     }
 
     public void deleteMember(String name) {
@@ -83,15 +93,23 @@ public class FamilyMembersManager {
         }
         return familyMembersStrings;
     }
+    public ArrayList<Integer> getFamilyMemberKeys() {
+        ArrayList<Integer> familyMembersStrings = new ArrayList<>();
+        if (familyMembersList != null) {
+            for (int i = 0; i < familyMembersList.size(); i++) {
+                if(!familyMembersList.get(i).getDeleted())
+                familyMembersStrings.add(familyMembersList.get(i).getKey());
+            }
+        }
+        return familyMembersStrings;
+    }
 
     //retrieve the family members key by their index
     public int getMemberKey(int i) {
         return familyMembersList.get(i).getKey();
     }
 
-    public String getNameByKey(int key){
-        return "";
-    }
+
     public int getCoinFlipPriority(int index){
         Log.i("famMemMan", "getCoinFlipPriority: list size is " + familyMembersList.size());
 

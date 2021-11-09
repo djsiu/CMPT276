@@ -15,14 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinFlip.nameListAdapter;
-
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.gson.Gson;
 
-import org.w3c.dom.NameList;
-
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class CoinFlipSelectFirst extends Fragment {

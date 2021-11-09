@@ -32,6 +32,7 @@ public class CoinFlipSelection extends AppCompatActivity {
     private FamilyMembersManager familyManager;
 
     private ArrayList<String> nameArrayList;
+    private ArrayList<Integer> keyArrayList;
     private List<Integer> selectedIndexes = new ArrayList<>();
 
     @Override
@@ -41,6 +42,7 @@ public class CoinFlipSelection extends AppCompatActivity {
 
         getFamilyManagerFromSharedPrefs();
         nameArrayList = familyManager.getFamilyMembersNames();
+        keyArrayList = familyManager.getFamilyMemberKeys();
 
         checkNumMembers();
         populateListView();
@@ -48,9 +50,8 @@ public class CoinFlipSelection extends AppCompatActivity {
         Button button = findViewById(R.id.coin_selection_button_continue);
         button.setOnClickListener(view -> {
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
-            Log.i("selection", "buttonFunc: size is" + familyManager.getSize());
-            i.putExtra("player1", selectedIndexes.get(0));
-            i.putExtra("player2", selectedIndexes.get(1));
+            i.putExtra("player1", keyArrayList.get(selectedIndexes.get(0)));
+            i.putExtra("player2", keyArrayList.get(selectedIndexes.get(1)));
             startActivity(i);
         });
         button.setClickable(false);
@@ -61,7 +62,6 @@ public class CoinFlipSelection extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        Log.i("selection", "onCreate: size is" + familyManager.getSize());
     }
 
 
@@ -80,9 +80,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         list.setOnItemClickListener((adapterView, view, position, id) -> {
             //if already selected
             int selectedIndex = selectedIndexes.indexOf(position);
-            if(selectedIndex != -1){
-                Log.i("toggle section", "populateListView: Removing " + position + "and it contains position is " + selectedIndexes.contains(position));
-                //must remove at index of contained not at position in master list
+            if(selectedIndex != -1){//must remove at index of contained not at position in master list
                 selectedIndexes.remove(selectedIndex);
                 //reset color
                 view.setBackgroundColor(Color.TRANSPARENT);

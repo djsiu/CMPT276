@@ -1,25 +1,22 @@
 package com.cmpt276.calciumparentapp.ui.coinflip;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinFlip.TurnPicker;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
-import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 
 public class CoinFlip extends AppCompatActivity {
 
@@ -31,13 +28,9 @@ public class CoinFlip extends AppCompatActivity {
     private Face currentFace;
     Bundle extras;
 
-    private FamilyMembersManager familyManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        familyManager = FamilyMembersManager.getInstance();
         FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
-        Log.i("CF", "buttonFunc: size is" + familyManager.getSize());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
 
@@ -58,21 +51,11 @@ public class CoinFlip extends AppCompatActivity {
         button = findViewById(R.id.coin_button_tails);
         button.setOnClickListener(view -> flipCoin());
 
-
-        //TODO: remove following section
-        familyManager = FamilyMembersManager.getInstance();
-
-        Log.i("CF", " size is "+ familyManager.getSize() );
-
-
         //set picker
         getPicker();
     }
 
     private void getPicker() {
-        familyManager = FamilyMembersManager.getInstance();
-        Log.i("CF", "getPicker: Size is "+familyManager.getSize());
-
         TextView textView = findViewById(R.id.coin_textView_message);
         if (extras != null){
             //get player Indexes
