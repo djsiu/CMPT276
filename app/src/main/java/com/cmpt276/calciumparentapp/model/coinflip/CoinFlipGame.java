@@ -20,15 +20,14 @@ public class CoinFlipGame {
     }
 
     private String createDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss");
         timeStamp = LocalDateTime.now();
         String nowFormatted = timeStamp.format(formatter);
-
         return nowFormatted;
     }
 
     public String getGameData() {
-        return nameOfPicker + "\n" + flipResult + "\n" + timeStamp;
+        return nameOfPicker + "\n" + flipResult + "\n" + date;
     }
 
 

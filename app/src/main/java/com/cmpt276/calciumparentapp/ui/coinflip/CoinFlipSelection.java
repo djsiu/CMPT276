@@ -52,8 +52,6 @@ public class CoinFlipSelection extends AppCompatActivity {
         });
         button.setClickable(false);
         button.setFocusable(false);
-
-
     }
 
 
