@@ -1,8 +1,5 @@
 package com.cmpt276.calciumparentapp.ui.coinflip;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
@@ -20,9 +17,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
 import com.cmpt276.calciumparentapp.model.coinflip.TurnPicker;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
-import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
 import com.google.gson.Gson;
 
 public class CoinFlip extends AppCompatActivity {
@@ -55,47 +52,40 @@ public class CoinFlip extends AppCompatActivity {
 
         currentFace = Face.TAILS;
         //set buttons
-        Button button = findViewById(R.id.coin_button_heads);
-        button.setOnClickListener(view -> {
+        Button buttonHeads = findViewById(R.id.coin_button_heads);
+        Button buttonTails = findViewById(R.id.coin_button_tails);
+        Button buttonFlipAgain = findViewById(R.id.coin_button_flipAgain);
+
+
+        buttonHeads.setOnClickListener(view -> {
             flipCoin();
-            Button button1 = findViewById(R.id.coin_button_heads);
-            button1.setVisibility(View.GONE);
+            buttonHeads.setVisibility(View.GONE);
 
-            button1 = findViewById(R.id.coin_button_tails);
-            button1.setVisibility(View.GONE);
+            buttonTails.setVisibility(View.GONE);
 
-            button1 = findViewById(R.id.coin_button_flipAgain);
-            button1.setVisibility(View.VISIBLE);
+            buttonFlipAgain.setVisibility(View.VISIBLE);
 
             buttonClicked = "heads";
         });
 
-        button = findViewById(R.id.coin_button_tails);
-        button.setOnClickListener(view -> {
+        buttonTails.setOnClickListener(view -> {
             flipCoin();
-            Button button12 = findViewById(R.id.coin_button_heads);
-            button12.setVisibility(View.GONE);
+            buttonHeads.setVisibility(View.GONE);
 
-            button12 = findViewById(R.id.coin_button_tails);
-            button12.setVisibility(View.GONE);
+            buttonTails.setVisibility(View.GONE);
 
-            button12 = findViewById(R.id.coin_button_flipAgain);
-            button12.setVisibility(View.VISIBLE);
+            buttonFlipAgain.setVisibility(View.VISIBLE);
 
             buttonClicked = "tails";
         });
 
-        button = findViewById(R.id.coin_button_flipAgain);
-        button.setOnClickListener(view -> {
+        buttonFlipAgain.setOnClickListener(view -> {
             getPicker();
-            Button button13 = findViewById(R.id.coin_button_heads);
-            button13.setVisibility(View.VISIBLE);
+            buttonHeads.setVisibility(View.VISIBLE);
 
-            button13 = findViewById(R.id.coin_button_tails);
-            button13.setVisibility(View.VISIBLE);
+            buttonTails.setVisibility(View.VISIBLE);
 
-            button13 = findViewById(R.id.coin_button_flipAgain);
-            button13.setVisibility(View.GONE);
+            buttonFlipAgain.setVisibility(View.GONE);
 
         });
 
