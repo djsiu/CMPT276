@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/timer_background_image"/>
+        android:src="@drawable/timer_background_image"
+        android:contentDescription="@string/imageView_TimerBackground"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,11 +34,12 @@
             android:id="@+id/btnStartPause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
             android:text="@string/btnStart"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/countdown_text" />
+            app:layout_constraintTop_toBottomOf="@+id/countdown_text"
+            app:layout_constraintVertical_bias="0.39" />
 
         <Button
             android:id="@+id/btnReset"
@@ -45,9 +47,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="@string/btnReset"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnStartPause" />
+            app:layout_constraintTop_toBottomOf="@+id/btnStartPause"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
