@@ -3,7 +3,7 @@ package com.cmpt276.calciumparentapp.model.manage;
 public class FamilyMember {
 
     private String name;
-    private int key;
+    private final int key;
     private boolean deleted;
 
     FamilyMember(String name, int key) {

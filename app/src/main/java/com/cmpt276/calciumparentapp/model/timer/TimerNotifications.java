@@ -111,12 +111,15 @@ public class TimerNotifications extends ContextWrapper {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), ALARM_CHANNEL_ID)
                 .setContentTitle("Alarm")
                 .setContentText("Timeout is Over!")
-                .setAutoCancel(false)
+                .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(Notification.CATEGORY_ALARM)
                 .setFullScreenIntent(fillerIntent, true)
                 .setSound(null)
                 .setDeleteIntent(pendingDismissalIntent)
+                // delete intent not called when dismissed through auto cancel
+                // need to call the delete intent in the content intent to fix this
+                .setContentIntent(pendingDismissalIntent)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
 
         return notificationBuilder.build();
