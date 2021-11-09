@@ -69,13 +69,12 @@ public class ManageFamilyMembers extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //saveFamilyManagerToSharedPrefs();
     }
 
     private void setupManageFamilyAddButton(FloatingActionButton button) {
         button.setOnClickListener(v -> {
             // Opens the ManageFamilyAdd activity
-            Intent intent = new Intent(ManageFamilyMembers.this, ManageFamilyAdd.class);
+            Intent intent = new Intent(this, ManageFamilyAdd.class);
             startActivity(intent);
         });
     }
