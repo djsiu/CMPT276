@@ -68,6 +68,7 @@ public class CoinFlipSelectFirst extends Fragment {
         }
     }
 
+    // TODO is this safe to delete?
     private void populateNames(){
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance();
         for( String name : nameList){
