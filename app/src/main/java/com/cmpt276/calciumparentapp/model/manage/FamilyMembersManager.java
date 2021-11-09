@@ -3,6 +3,11 @@ package com.cmpt276.calciumparentapp.model.manage;
 
 import java.util.ArrayList;
 
+/*
+Managing the members of the family.
+adding, deleting and retreiving info about all the family members
+ */
+
 public class FamilyMembersManager {
 
     private ArrayList<FamilyMember> familyMembersList;

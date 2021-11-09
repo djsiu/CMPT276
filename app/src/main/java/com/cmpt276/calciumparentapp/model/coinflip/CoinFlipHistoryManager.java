@@ -9,6 +9,10 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+
+/*
+managing the history of coin flips: adding, retrieving and storing the game history in shared preferences
+ */
 public class CoinFlipHistoryManager {
 
 
