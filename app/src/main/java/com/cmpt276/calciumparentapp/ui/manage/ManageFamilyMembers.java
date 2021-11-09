@@ -12,7 +12,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,7 +29,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_family_members);
 
-        familyManager = FamilyMembersManager.getInstance();
+        familyManager = FamilyMembersManager.getInstance(this);
 
         FloatingActionButton btnAddMember = findViewById(R.id.manage_family_add_button);
 
@@ -54,7 +53,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
 
     private void populateListView() {
         showNoMembersMessage();
-        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,

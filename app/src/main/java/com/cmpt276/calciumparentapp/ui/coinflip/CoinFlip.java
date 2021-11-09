@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
 import com.cmpt276.calciumparentapp.model.coinflip.TurnPicker;
-import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.google.gson.Gson;
 
 /*
@@ -41,7 +40,6 @@ public class CoinFlip extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
 

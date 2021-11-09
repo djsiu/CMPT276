@@ -10,7 +10,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 /**
  *Activity to add family members.
@@ -24,7 +23,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_family_add);
 
-        familyManager = FamilyMembersManager.getInstance();
+        familyManager = FamilyMembersManager.getInstance(this);
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
@@ -34,7 +33,6 @@ public class ManageFamilyAdd extends AppCompatActivity {
         setupCancelBtn();
         setupAddBtn();
 
-        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
     }
 
     private void setupAddBtn() {
@@ -47,7 +45,6 @@ public class ManageFamilyAdd extends AppCompatActivity {
 
             if(!nameAlreadyExists) {
                 familyManager.addMember(newMemberNameStr);
-                FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
 
                 String welcomeText = String.format(
                         getString(R.string.family_member_welcome_toast_text_format),
