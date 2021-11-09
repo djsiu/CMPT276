@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -27,7 +25,7 @@ public class Timer extends AppCompatActivity {
     private long timeRemaining;
     private TextView countdownText;
     private BroadcastReceiver broadcastReceiver;
-    private BroadcastReceiver timerRunningBroadcastReciever;
+    private BroadcastReceiver timerRunningBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +159,7 @@ public class Timer extends AppCompatActivity {
             }
         };
 
-        timerRunningBroadcastReciever = new BroadcastReceiver() {
+        timerRunningBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 setupButtons(true, intent.getBooleanExtra(TimerService.TIMER_RUNNING_BROADCAST, false));
@@ -172,7 +170,7 @@ public class Timer extends AppCompatActivity {
         this.registerReceiver(broadcastReceiver, filter);
 
         IntentFilter timerRunningFilter = new IntentFilter(TimerService.TIMER_RUNNING_BROADCAST_FILTER);
-        this.registerReceiver(timerRunningBroadcastReciever, timerRunningFilter);
+        this.registerReceiver(timerRunningBroadcastReceiver, timerRunningFilter);
     }
 
     private void unregisterBroadcastReceiver() {
