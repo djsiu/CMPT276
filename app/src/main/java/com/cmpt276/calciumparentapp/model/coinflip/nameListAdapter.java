@@ -15,14 +15,14 @@ import java.util.ArrayList;
 A list adapter for the names to use in the coin flip selection
  */
 public class nameListAdapter extends RecyclerView.Adapter<nameListAdapter.MyViewHolder> {
-    private ArrayList<String> nameList;
+    private final ArrayList<String> nameList;
 
     public nameListAdapter(ArrayList<String> nameList){
         this.nameList = nameList;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView nameTxt;
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
+        private final TextView nameTxt;
 
         public MyViewHolder(final View view){
             super((view));

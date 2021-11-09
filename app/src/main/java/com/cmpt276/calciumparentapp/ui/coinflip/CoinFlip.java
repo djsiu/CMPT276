@@ -22,6 +22,9 @@ import com.cmpt276.calciumparentapp.model.coinflip.TurnPicker;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.google.gson.Gson;
 
+/*
+ui for the coin flip activity
+ */
 public class CoinFlip extends AppCompatActivity {
 
     private CoinFlipHistoryManager flipHistoryManager;
@@ -117,11 +120,9 @@ public class CoinFlip extends AppCompatActivity {
         if (currentFace == Face.HEADS) {
             textView.setText(R.string.coin_message_headsWin);
             flipHistoryManager.addCoinFlip(picker, getString(R.string.heads), buttonClicked);
-            System.out.println("adding a coin flip HEADSSSSSS");
         }else{
             textView.setText(R.string.coin_message_tailsWin);
             flipHistoryManager.addCoinFlip(picker, getString(R.string.tails), buttonClicked);
-            System.out.println("adding a coin flip TAILSSSS");
         }
         saveFlipHistoryManagerToSharedPrefs();
     }
@@ -137,9 +138,6 @@ public class CoinFlip extends AppCompatActivity {
             currentFace = Face.TAILS;
         }
         animateCoin();
-
-        //TODO:save roll data
-        //return winner
     }
 
     private void animateCoin(){

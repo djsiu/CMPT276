@@ -2,7 +2,6 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,8 +24,9 @@ import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import java.util.ArrayList;
 import java.util.List;
 
-//List View: {views: recycler_name_list_items.xml}
-
+/*
+used to select two members who will play heads or tails
+ */
 public class CoinFlipSelection extends AppCompatActivity {
 
     private ArrayList<String> nameArrayList;

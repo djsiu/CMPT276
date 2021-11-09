@@ -104,11 +104,6 @@ public class FamilyMembersManager {
         return nameUsed;
     }
 
-    //retrieve the family members key by their index
-    public int getMemberKey(int i) {
-        return familyMembersList.get(i).getKey();
-    }
-
     public String choosePicker(int index){
         int playerPriority = familyMembersList.get(index).getCoinFlipPickPriority();
         int listSize = familyMembersList.size();

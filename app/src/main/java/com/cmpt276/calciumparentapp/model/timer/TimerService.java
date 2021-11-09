@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 

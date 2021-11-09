@@ -18,23 +18,11 @@ public class CoinFlipHistoryManager {
 
     ArrayList<CoinFlipGame> coinFlipGames = new ArrayList<>();
 
-    private static CoinFlipHistoryManager instance;
-
     private static final String SHARED_PREFS_KEY = "AppPrefs";
     private static final String SHARED_PREFS_FLIP_HISTORY_MANAGER_KEY = "FlipHistoryManager";
 
     public void addCoinFlip(String nameOfPicker, String flipResult, String pickerChoice) {
         coinFlipGames.add(new CoinFlipGame(nameOfPicker, flipResult, pickerChoice));
-    }
-
-    public ArrayList<String> getCoinFlipGameStrings() {
-        ArrayList<String> gameStrings = new ArrayList<>();
-        if(coinFlipGames != null) {
-            for(int i = 0; i < coinFlipGames.size(); i++) {
-                gameStrings.add(coinFlipGames.get(i).getGameData());
-            }
-        }
-        return gameStrings;
     }
 
     public ArrayList<CoinFlipGame> getCoinFlipGames() {
@@ -47,7 +35,7 @@ public class CoinFlipHistoryManager {
         Gson gson = new Gson();
         String json = prefs.getString(SHARED_PREFS_FLIP_HISTORY_MANAGER_KEY, "");
 
-        instance = gson.fromJson(json, CoinFlipHistoryManager.class);
+        CoinFlipHistoryManager instance = gson.fromJson(json, CoinFlipHistoryManager.class);
         if(instance == null) {
             instance = new CoinFlipHistoryManager();
         }

@@ -1,12 +1,7 @@
 package com.cmpt276.calciumparentapp.ui.coinflip;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,13 +11,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipGame;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /*
     NEEDS TO DISPLAY:

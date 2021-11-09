@@ -1,17 +1,15 @@
 package com.cmpt276.calciumparentapp.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlip;
 import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlipSelection;
 import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
-import com.cmpt276.calciumparentapp.ui.timer.Timer;
 import com.cmpt276.calciumparentapp.ui.timer.TimerSelectTime;
 
 public class MainMenu extends AppCompatActivity {

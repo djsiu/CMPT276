@@ -2,14 +2,12 @@ package com.cmpt276.calciumparentapp.ui.timer;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
@@ -45,17 +43,14 @@ public class TimerCustomTime extends AppCompatActivity {
 
     private void setupButtons() {
         Button startButton = (Button) findViewById(R.id.startButton);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        startButton.setOnClickListener(v -> {
 
-                if(isInputValid()){
-                    setTime();
-                    startTimerActivity();
-                }
-                else{
-                    displayInvalidTextError();
-                }
+            if(isInputValid()){
+                setTime();
+                startTimerActivity();
+            }
+            else{
+                displayInvalidTextError();
             }
         });
     }
@@ -70,9 +65,7 @@ public class TimerCustomTime extends AppCompatActivity {
     private boolean isInputValid() {
         if(customTimeEditText.getText().length() != 0){
             int time = Integer.parseInt(customTimeEditText.getText().toString());
-            if(time != 0){
-                return true;
-            }
+            return time != 0;
         }
 
         return false;
