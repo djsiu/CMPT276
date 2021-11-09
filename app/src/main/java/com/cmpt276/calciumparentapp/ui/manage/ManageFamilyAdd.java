@@ -42,7 +42,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
         addBtn.setOnClickListener(view -> {
 
             String newMemberNameStr = newMemberName.getText().toString();
-            boolean nameAlreadyExists = FamilyMemberSharedPreferences.addMember(newMemberNameStr);
+            boolean nameAlreadyExists = familyManager.isMemberNameUsed(newMemberNameStr);
 
             if(!nameAlreadyExists) {
                 familyManager.addMember(newMemberNameStr);

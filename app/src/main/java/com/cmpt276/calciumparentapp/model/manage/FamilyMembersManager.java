@@ -77,6 +77,17 @@ public class FamilyMembersManager {
         return familyMembersStrings;
     }
 
+    public boolean isMemberNameUsed(String name) {
+        boolean nameUsed = false;
+        for(FamilyMember member : familyMembersList) {
+            if(member.getMemberName().equals(name) && !member.getDeleted()){
+                nameUsed = true;
+            }
+        }
+
+        return nameUsed;
+    }
+
     //retrieve the family members key by their index
     public int getMemberKey(int i) {
         return familyMembersList.get(i).getKey();

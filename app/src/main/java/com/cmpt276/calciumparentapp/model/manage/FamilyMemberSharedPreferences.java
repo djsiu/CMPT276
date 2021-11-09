@@ -10,23 +10,6 @@ public class FamilyMemberSharedPreferences {
     private static final String SHARED_PREFS_KEY = "AppPrefs";
     private static final String SHARED_PREFS_FAMILY_MANAGER_KEY = "FamilyManager";
 
-    public static Boolean addMember(String newMemberNameStr){
-
-        familyManager = FamilyMembersManager.getInstance();
-
-        //String newMemberNameStr = newMemberName.getText().toString();
-        boolean nameAlreadyExists = false;
-
-        if(familyManager.getFamilyMembersNames().size() > 0) {
-            for (int i = 0; i < familyManager.getFamilyMembersNames().size(); i++) {
-                if (newMemberNameStr.equals(familyManager.getFamilyMembersNames().get(i))) {
-                    nameAlreadyExists = true;
-                }
-            }
-        }
-        return nameAlreadyExists;
-    }
-
     //credit to eamonnmcmanus on github
     public static void saveFamilyManagerToSharedPrefs(Context context) {
         familyManager = FamilyMembersManager.getInstance();
