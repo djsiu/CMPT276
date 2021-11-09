@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,9 +49,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         populateListView();
 
         Button button = findViewById(R.id.coin_selection_button_continue);
-        button.setOnClickListener(view -> {
-            continueButtonOnClick();
-        });
+        button.setOnClickListener(view -> continueButtonOnClick());
     }
 
 
@@ -67,9 +64,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             i.putExtra("player1", keyArrayList.get(selectedIndexes.get(0)));
             i.putExtra("player2", keyArrayList.get(selectedIndexes.get(1)));
             startActivity(i);
-        });
-        button.setClickable(false);
-        button.setFocusable(false);
+        }
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
