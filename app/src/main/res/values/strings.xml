@@ -60,5 +60,6 @@
     <string name="timer_paused_notification_text">Timer Paused</string>
     <string name="alarm_notification_title">Alarm</string>
     <string name="alarm_notification_text">Timeout is Over!</string>
+    <string name="imageView_coin">coin view</string>
 
 </resources>
