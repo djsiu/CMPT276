@@ -15,7 +15,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.coinflip.TurnPicker;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
 import com.google.gson.Gson;
 
@@ -28,12 +33,12 @@ public class CoinFlip extends AppCompatActivity {
         TAILS
     }
 
-    String TAG = "FlipCoin";
-
     private Face currentFace;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
 
@@ -41,6 +46,10 @@ public class CoinFlip extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
+
+        //get players from the selection activity
+        extras = getIntent().getExtras();
+
 
         currentFace = Face.TAILS;
         //set buttons
@@ -51,7 +60,25 @@ public class CoinFlip extends AppCompatActivity {
         button.setOnClickListener(view -> flipCoin());
 
         flipHistoryManager = CoinFlipHistoryManager.getFlipHistoryManagerFromSharedPrefs(this);
+
+        //set picker
+        getPicker();
     }
+
+    private void getPicker() {
+        TextView textView = findViewById(R.id.coin_textView_message);
+        if (extras != null){
+            //get player Indexes
+            int player1Index = (int) extras.get("player1");
+            int player2Index = (int) extras.get("player2");
+
+            //set name
+            textView.setText(getString(R.string.coin_textView_picker, TurnPicker.choosePicker(this,player1Index, player2Index)));
+        }else{
+            textView.setText(getString(R.string.coin_textView_pickerGeneric));
+        }
+    }
+
 
     private void updateWinner(){
         TextView textView = findViewById(R.id.coin_textView_message);
@@ -68,6 +95,7 @@ public class CoinFlip extends AppCompatActivity {
     }
 
     private void flipCoin(){
+
         //get random face
         if((((int)(Math.random()*10))%2) == 0) {//Heads represented by 0
             //perform animation
@@ -76,8 +104,8 @@ public class CoinFlip extends AppCompatActivity {
         }else{
             //perform animation
             currentFace = Face.TAILS;
-            animateCoin();
         }
+        animateCoin();
 
         //TODO:save roll data
         //return winner

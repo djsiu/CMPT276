@@ -2,6 +2,7 @@ package com.cmpt276.calciumparentapp.ui.manage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +51,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
         Button deleteBtn = findViewById(R.id.deleteMemberBtn);
 
         deleteBtn.setOnClickListener(view -> {
-
+            Log.i("edit", "setupDeleteBtn: before delete");
             familyManager.deleteMember(getFamilyMemberName());
             FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
 
@@ -64,11 +65,11 @@ public class ManageFamilyEdit extends AppCompatActivity {
         EditText editMemberName = findViewById(R.id.editTextMemberNameForEdit);
         saveBtn.setOnClickListener(view -> {
             String newMemberNameStr = editMemberName.getText().toString();
-            boolean nameAlreadyExists = FamilyMemberSharedPreferences.addMember(newMemberNameStr);
+            boolean nameAlreadyExists = familyManager.isMemberNameUsed(newMemberNameStr);
 
             if(!nameAlreadyExists) {
 
-                familyManager.editMember(
+                familyManager.changeMemberName(
                         editMemberName.getText().toString(),
                         getFamilyMemberName());
                 FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);

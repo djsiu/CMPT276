@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,11 +38,9 @@ public class ManageFamilyMembers extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
         populateListView();
 
     }
-
 
     @Override
     protected void onResume() {
@@ -51,7 +50,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
     }
 
     private void populateListView() {
-
+        showNoMembersMessage();
         FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -68,17 +67,25 @@ public class ManageFamilyMembers extends AppCompatActivity {
             intent.putExtra(EDIT_MEMBER, (String) familyMembersListView.getItemAtPosition(i));
             startActivity(intent);
         });
+
     }
 
     private void setupManageFamilyAddButton(FloatingActionButton button) {
         button.setOnClickListener(v -> {
             // Opens the ManageFamilyAdd activity
-            Intent intent = new Intent(ManageFamilyMembers.this, ManageFamilyAdd.class);
+            Intent intent = new Intent(this, ManageFamilyAdd.class);
             startActivity(intent);
         });
     }
 
-
+    private void showNoMembersMessage() {
+        TextView textView = findViewById(R.id.no_family_members_text);
+        textView.setVisibility(TextView.VISIBLE);
+        System.out.println("size of family names " + familyManager.getFamilyMembersNames().size());
+        if(familyManager.getFamilyMembersNames().size() > 0) {
+            textView.setVisibility(TextView.INVISIBLE);
+        }
+    }
 
     /**
      * Adds logic to action bar
@@ -89,7 +96,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
-
         // If we got here, the user's action was not recognized.
         // Invoke the superclass to handle it.
         return super.onOptionsItemSelected(item);

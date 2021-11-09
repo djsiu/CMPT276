@@ -1,29 +1,17 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
+
 import java.util.ArrayList;
 
 public class FamilyMembersManager {
 
+    private ArrayList<FamilyMember> familyMembersList;
     public ArrayList<FamilyMember> getFamilyMembersList() {
         return familyMembersList;
     }
-
-    public void setFamilyMembersList(ArrayList<FamilyMember> familyMembersList) {
-        this.familyMembersList = familyMembersList;
-    }
-
-    public int getKeyGenerator() {
-        return keyGenerator;
-    }
-
-    public void setKeyGenerator(int keyGenerator) {
-        this.keyGenerator = keyGenerator;
-    }
-
-    private ArrayList<FamilyMember> familyMembersList;
     private int keyGenerator;
 
-    FamilyMembersManager() {
+    private FamilyMembersManager() {
         familyMembersList = new ArrayList<>();
         keyGenerator = 0;
     }
@@ -38,13 +26,26 @@ public class FamilyMembersManager {
         return instance;
     }
 
+    public void setFamilyMembersList(ArrayList<FamilyMember> familyMembersList) {
+        this.familyMembersList = familyMembersList;
+    }
+
+    public int getKeyGenerator() {
+        return keyGenerator;
+    }
+
+    public void setKeyGenerator(int keyGenerator) {
+        this.keyGenerator = keyGenerator;
+    }
+
     public void addMember(String name) {
-        FamilyMember newMember = new FamilyMember(name, keyGenerator);
+        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size());
         familyMembersList.add(newMember);
         keyGenerator++;
     }
 
-    public void editMember(String newName, String name) {
+
+    public void changeMemberName(String newName, String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
             if(name.equals(familyMembersList.get(i).getMemberName())) {
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
@@ -55,6 +56,7 @@ public class FamilyMembersManager {
     public void deleteMember(String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
             if(name.equals(familyMembersList.get(i).getMemberName())) {
+                choosePicker(i);
                 familyMembersList.get(i).deleteChild();
             }
         }
@@ -71,9 +73,47 @@ public class FamilyMembersManager {
         }
         return familyMembersStrings;
     }
+    public ArrayList<Integer> getFamilyMemberKeys() {
+        ArrayList<Integer> familyMembersStrings = new ArrayList<>();
+        if (familyMembersList != null) {
+            for (int i = 0; i < familyMembersList.size(); i++) {
+                if(!familyMembersList.get(i).isDeleted())
+                familyMembersStrings.add(familyMembersList.get(i).getKey());
+            }
+        }
+        return familyMembersStrings;
+    }
+
+    public int getCoinFlipPriority(int index){
+        return familyMembersList.get(index).getCoinFlipPickPriority();
+    }
+
+    public boolean isMemberNameUsed(String name) {
+        boolean nameUsed = false;
+        for(FamilyMember member : familyMembersList) {
+            if(member.getMemberName().equals(name) && !member.isDeleted()){
+                nameUsed = true;
+            }
+        }
+
+        return nameUsed;
+    }
 
     //retrieve the family members key by their index
     public int getMemberKey(int i) {
         return familyMembersList.get(i).getKey();
     }
+
+    public String choosePicker(int index){
+        int playerPriority = familyMembersList.get(index).getCoinFlipPickPriority();
+        int listSize = familyMembersList.size();
+        for (int currentIndex = 0; currentIndex < listSize; currentIndex++ ){
+            if(familyMembersList.get(currentIndex).getCoinFlipPickPriority() >playerPriority){
+                familyMembersList.get(currentIndex).setCoinFlipPickPriority(familyMembersList.get(currentIndex).getCoinFlipPickPriority() -1);
+            }
+        }
+        familyMembersList.get(index).setCoinFlipPickPriority(listSize-1);
+        return familyMembersList.get(index).getMemberName();
+    }
+
 }
