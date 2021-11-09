@@ -8,13 +8,17 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 
 import androidx.core.app.NotificationCompat;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.timer.recievers.AlarmDismiss;
 import com.cmpt276.calciumparentapp.ui.timer.Timer;
+
+import java.io.IOException;
 
 /**
  * Logic for creating timer related notifications
@@ -23,7 +27,6 @@ public class TimerNotifications extends ContextWrapper {
     public static final int NOTIFICATION_ID = 1;
     public static final String TIMER_CHANNEL_ID = "timerNotificationChannel";
     public static final String ALARM_CHANNEL_ID = "alarmNotificationChannel";
-    Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM); // Gets system alarm sound
 
     private NotificationManager notificationManager;
     private final TimerLogic timerLogic = TimerLogic.getInstance();
@@ -56,17 +59,11 @@ public class TimerNotifications extends ContextWrapper {
                 "Alarm",
                 NotificationManager.IMPORTANCE_HIGH
         );
-
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .setUsage(AudioAttributes.USAGE_ALARM)
-                .build();
-
-        channel.enableVibration(true);
         channel.enableLights(true);
         channel.canBypassDnd();
         channel.setVibrationPattern(vibratePattern);
-        channel.setSound(alarmSound, audioAttributes);
+        channel.enableVibration(true);
+        channel.setSound(null, null);
 
         getManager().createNotificationChannel(channel);
     }
@@ -88,7 +85,7 @@ public class TimerNotifications extends ContextWrapper {
 
         Notification notification = new NotificationCompat.Builder(this, TIMER_CHANNEL_ID)
                 .setContentTitle(getString(R.string.timer_notification_title))
-                .setContentText("Timer Paused")
+                .setContentText(getString(R.string.timer_paused_notification_text))
                 .setSmallIcon(R.drawable.timer_service_icon)
                 .setContentIntent(pendingIntent)
                 .setOnlyAlertOnce(true)
@@ -98,23 +95,34 @@ public class TimerNotifications extends ContextWrapper {
     }
 
     public Notification getAlarmNotification() {
-        // Forces Heads-up notification to stay open with this dummy intent
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent fillerIntent = PendingIntent.getActivity(     // Forces Heads-up notification to stay open with this dummy intent
+                getApplicationContext(),
+                0,
+                new Intent(),
+                PendingIntent.FLAG_IMMUTABLE);
+
+        Intent dismissalIntent = new Intent(this, AlarmDismiss.class);      // Runs that happens when alarm notification is closed
+        PendingIntent pendingDismissalIntent = PendingIntent.getBroadcast(
+                getApplicationContext(),
+                1,
+                dismissalIntent,
+                PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), ALARM_CHANNEL_ID)
-                .setContentTitle("Alarm")
-                .setContentText("Timeout is Over!")
-                .setAutoCancel(false)
-                .setSound(alarmSound)
+                .setContentTitle(getString(R.string.alarm_notification_title))
+                .setContentText(getString(R.string.alarm_notification_text))
+                .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(Notification.CATEGORY_ALARM)
-                .setFullScreenIntent(pendingIntent, true)
+                .setFullScreenIntent(fillerIntent, true)
+                .setSound(null)
+                .setDeleteIntent(pendingDismissalIntent)
+                // delete intent not called when dismissed through auto cancel
+                // need to call the delete intent in the content intent to fix this
+                .setContentIntent(pendingDismissalIntent)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24);
 
-        Notification notification = notificationBuilder.build();
-        notification.flags = Notification.FLAG_INSISTENT; // Loops notification sound
-
-        return notification;
+        return notificationBuilder.build();
     }
 
     private PendingIntent getNotificationPendingIntent() {
