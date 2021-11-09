@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,13 +47,60 @@ public class CoinFlip extends AppCompatActivity {
         currentFace = Face.TAILS;
         //set buttons
         Button button = findViewById(R.id.coin_button_heads);
-        button.setOnClickListener(view -> flipCoin());
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flipCoin();
+                Button button = findViewById(R.id.coin_button_heads);
+                button.setVisibility(View.GONE);
+
+                button = findViewById(R.id.coin_button_tails);
+                button.setVisibility(View.GONE);
+
+                button = findViewById(R.id.coin_button_flipAgain);
+                button.setVisibility(View.VISIBLE);
+
+            }
+        });
 
         button = findViewById(R.id.coin_button_tails);
-        button.setOnClickListener(view -> flipCoin());
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flipCoin();
+                Button button = findViewById(R.id.coin_button_heads);
+                button.setVisibility(View.GONE);
+
+                button = findViewById(R.id.coin_button_tails);
+                button.setVisibility(View.GONE);
+
+                button = findViewById(R.id.coin_button_flipAgain);
+                button.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        button = findViewById(R.id.coin_button_flipAgain);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getPicker();
+                Button button = findViewById(R.id.coin_button_heads);
+                button.setVisibility(View.VISIBLE);
+
+                button = findViewById(R.id.coin_button_tails);
+                button.setVisibility(View.VISIBLE);
+
+                button = findViewById(R.id.coin_button_flipAgain);
+                button.setVisibility(View.GONE);
+
+            }
+        });
 
         //set picker
         getPicker();
+
+
     }
 
     private void getPicker() {
@@ -68,6 +116,7 @@ public class CoinFlip extends AppCompatActivity {
             textView.setText(getString(R.string.coin_textView_pickerGeneric));
         }
     }
+
 
 
     private void updateWinner(){
