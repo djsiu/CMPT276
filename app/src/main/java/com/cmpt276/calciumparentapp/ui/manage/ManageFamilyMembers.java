@@ -3,10 +3,10 @@ package com.cmpt276.calciumparentapp.ui.manage;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,24 +29,18 @@ public class ManageFamilyMembers extends AppCompatActivity {
 
         familyManager = FamilyMembersManager.getInstance();
 
-        Log.i("startupBug", "choosePicker: 1" + familyManager.getFamilyMembersNames());
         FloatingActionButton btnAddMember = findViewById(R.id.manage_family_add_button);
 
         setupManageFamilyAddButton(btnAddMember);
 
-        Log.i("startupBug", "choosePicker: 2" + familyManager.getFamilyMembersNames());
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        Log.i("startupBug", "choosePicker: 3" + familyManager.getFamilyMembersNames());
         populateListView();
 
-        Log.i("startupBug", "choosePicker: 4" + familyManager.getFamilyMembersNames());
-
     }
-
 
     @Override
     protected void onResume() {
@@ -56,9 +50,8 @@ public class ManageFamilyMembers extends AppCompatActivity {
     }
 
     private void populateListView() {
-        Log.i("startupBug", "choosePicker: 5" + familyManager.getFamilyMembersNames());
+        showNoMembersMessage();
         FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
-        Log.i("startupBug", "choosePicker: 6" + familyManager.getFamilyMembersNames());
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
@@ -80,12 +73,19 @@ public class ManageFamilyMembers extends AppCompatActivity {
     private void setupManageFamilyAddButton(FloatingActionButton button) {
         button.setOnClickListener(v -> {
             // Opens the ManageFamilyAdd activity
-            Intent intent = new Intent(ManageFamilyMembers.this, ManageFamilyAdd.class);
+            Intent intent = new Intent(this, ManageFamilyAdd.class);
             startActivity(intent);
         });
     }
 
-
+    private void showNoMembersMessage() {
+        TextView textView = findViewById(R.id.no_family_members_text);
+        textView.setVisibility(TextView.VISIBLE);
+        System.out.println("size of family names " + familyManager.getFamilyMembersNames().size());
+        if(familyManager.getFamilyMembersNames().size() > 0) {
+            textView.setVisibility(TextView.INVISIBLE);
+        }
+    }
 
     /**
      * Adds logic to action bar
@@ -96,7 +96,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
-
         // If we got here, the user's action was not recognized.
         // Invoke the superclass to handle it.
         return super.onOptionsItemSelected(item);

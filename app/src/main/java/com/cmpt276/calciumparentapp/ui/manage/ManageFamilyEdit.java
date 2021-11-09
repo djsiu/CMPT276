@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,15 +64,27 @@ public class ManageFamilyEdit extends AppCompatActivity {
 
         EditText editMemberName = findViewById(R.id.editTextMemberNameForEdit);
         saveBtn.setOnClickListener(view -> {
+            String newMemberNameStr = editMemberName.getText().toString();
+            boolean nameAlreadyExists = familyManager.isMemberNameUsed(newMemberNameStr);
 
-            //edit the person in family manager
-            familyManager.editMember(
-                    editMemberName.getText().toString(),
-                    getFamilyMemberName()
-            );
+            if(!nameAlreadyExists) {
 
-            FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
-            finish();
+                familyManager.changeMemberName(
+                        editMemberName.getText().toString(),
+                        getFamilyMemberName());
+                FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
+
+                finish();
+            } else {
+                String alreadyPresentText = String.format(
+                        getString(R.string.family_member_present_toast_text_format),
+                        editMemberName.getText().toString());
+
+                Toast.makeText(getApplicationContext(),
+                        alreadyPresentText,
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
         });
     }
 

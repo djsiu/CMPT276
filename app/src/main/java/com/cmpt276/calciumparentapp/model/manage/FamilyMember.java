@@ -16,7 +16,7 @@ public class FamilyMember {
 
     public String getMemberName() {
         String name = "";
-        if(!getDeleted()) {
+        if(!isDeleted()) {
             name = this.name;
         }
         return name;
@@ -43,7 +43,7 @@ public class FamilyMember {
         deleted = true;
     }
 
-    public boolean getDeleted() {
+    public boolean isDeleted() {
         return deleted;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,11 +42,27 @@ public class CoinFlipSelection extends AppCompatActivity {
         nameArrayList = familyManager.getFamilyMembersNames();
         keyArrayList = familyManager.getFamilyMemberKeys();
 
-        checkNumMembers();
+        if(!hasEnoughFamilyMembers()){
+            Intent i = CoinFlip.makeIntent(this);
+            finish();
+            startActivity(i);
+        }
         populateListView();
 
         Button button = findViewById(R.id.coin_selection_button_continue);
         button.setOnClickListener(view -> {
+            continueButtonOnClick();
+        });
+    }
+
+
+
+    private void continueButtonOnClick() {
+        if(selectedIndexes.size() != 2){
+            Toast toast = Toast.makeText(this, R.string.coinflip_selection_two_children_toast_text, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else{
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
             i.putExtra("player1", keyArrayList.get(selectedIndexes.get(0)));
             i.putExtra("player2", keyArrayList.get(selectedIndexes.get(1)));
@@ -102,11 +120,8 @@ public class CoinFlipSelection extends AppCompatActivity {
         });
     }
 
-    private void checkNumMembers() {
-        if(nameArrayList.size() < 2) {
-            Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
-            startActivity(i);
-        }
+    private boolean hasEnoughFamilyMembers() {
+        return nameArrayList.size() >= 2;
     }
 
     private class MyListAdapter extends ArrayAdapter<String> {
