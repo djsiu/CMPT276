@@ -85,7 +85,7 @@ public class TimerNotifications extends ContextWrapper {
 
         Notification notification = new NotificationCompat.Builder(this, TIMER_CHANNEL_ID)
                 .setContentTitle(getString(R.string.timer_notification_title))
-                .setContentText("Timer Paused")
+                .setContentText(getString(R.string.timer_paused_notification_text))
                 .setSmallIcon(R.drawable.timer_service_icon)
                 .setContentIntent(pendingIntent)
                 .setOnlyAlertOnce(true)
@@ -109,8 +109,8 @@ public class TimerNotifications extends ContextWrapper {
                 PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), ALARM_CHANNEL_ID)
-                .setContentTitle("Alarm")
-                .setContentText("Timeout is Over!")
+                .setContentTitle(getString(R.string.alarm_notification_title))
+                .setContentText(getString(R.string.alarm_notification_text))
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(Notification.CATEGORY_ALARM)
