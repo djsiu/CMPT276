@@ -1,4 +1,4 @@
-package com.cmpt276.calciumparentapp.model.coinFlip;
+package com.cmpt276.calciumparentapp.model.coinflip;
 
 import android.content.Context;
 import android.util.Log;

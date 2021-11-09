@@ -16,7 +16,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.coinFlip.TurnPicker;
+import com.cmpt276.calciumparentapp.model.coinflip.TurnPicker;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 
 public class CoinFlip extends AppCompatActivity {

@@ -5,7 +5,7 @@
     <string name="coin_message_headsWin">Congratulations!\nHeads Wins!</string>
     <string name="coin_message_tailsWin">Congratulations!\nTails Wins!</string>
 
-    <string name="main_menu_title">Main Menu</string>
+    <string name="main_menu_title">Practical Parent!</string>
     <string name="main_menu_left_button">Coin Flip</string>
     <string name="main_menu_right_button">Timer</string>
     <string name="main_menu_top_button">Manage Members</string>
@@ -15,7 +15,7 @@
     <string name="coin_flip_select_first_title">Coin Flip Select First</string>
 
     <string name="timer_title">Timer</string>
-    <string name="timer_select_time_title">Timer Select Time</string>
+    <string name="timer_select_time_title">Select Timer Length</string>
     <string name="timer_custom_time_title">Timer Custom Time</string>
 
     <string name="manage_members_title">Manage Members</string>
@@ -66,4 +66,6 @@
     <string name="coinflip_selection_two_children_toast_text">Please select two children!</string>
     <string name="no_members_text">No family members added yet!</string>
     <string name="coin_button_flipAgain">Flip Again?</string>
+    <string name="editTextFamilyMemberNameHint">Enter name of family member</string>
+
 </resources>
