@@ -40,7 +40,11 @@ public class CoinFlipSelection extends AppCompatActivity {
         getFamilyManagerFromSharedPrefs();
         nameArrayList = familyManager.getFamilyMembersNames();
 
-        checkNumMembers();
+        if(!hasEnoughFamilyMembers()){
+            Intent i = CoinFlip.makeIntent(this);
+            finish();
+            startActivity(i);
+        }
         populateListView();
 
         Button button = findViewById(R.id.coin_selection_button_continue);
@@ -48,6 +52,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
             i.putExtra("player1", selectedIndexes.get(0));
             i.putExtra("player2", selectedIndexes.get(1));
+            finish();
             startActivity(i);
         });
         button.setClickable(false);
@@ -56,14 +61,6 @@ public class CoinFlipSelection extends AppCompatActivity {
 
     }
 
-
-//    private void populateArray(){
-//        nameArrayList.add("a");
-//        nameArrayList.add("b");
-//        nameArrayList.add("c");
-//        nameArrayList.add("d");
-//
-//    }
 
     private void populateListView() {
         //create List of items
@@ -103,11 +100,8 @@ public class CoinFlipSelection extends AppCompatActivity {
         });
     }
 
-    private void checkNumMembers() {
-        if(nameArrayList.size() < 2) {
-            Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
-            startActivity(i);
-        }
+    private boolean hasEnoughFamilyMembers() {
+        return nameArrayList.size() >= 2;
     }
 
     private class MyListAdapter extends ArrayAdapter<String> {
