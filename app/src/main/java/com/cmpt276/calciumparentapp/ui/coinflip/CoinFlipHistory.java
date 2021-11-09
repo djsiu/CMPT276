@@ -22,6 +22,7 @@ import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
     NEEDS TO DISPLAY:
@@ -45,7 +46,7 @@ public class CoinFlipHistory extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        getFlipHistoryManagerFromSharedPrefs();
+        flipHistoryManager = CoinFlipHistoryManager.getFlipHistoryManagerFromSharedPrefs(this);
 
         populateListView();
     }
@@ -85,18 +86,6 @@ public class CoinFlipHistory extends AppCompatActivity {
             makeText.setText(currentGame.getGameData());
 
             return itemView;
-        }
-    }
-
-    //credit to eamonnmcmanus on github
-    private void getFlipHistoryManagerFromSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString("FlipHistoryManager", "");
-
-        flipHistoryManager = gson.fromJson(json, CoinFlipHistoryManager.class);
-        if(flipHistoryManager == null) {
-            flipHistoryManager = CoinFlipHistoryManager.getInstance();
         }
     }
 

@@ -50,19 +50,19 @@ public class CoinFlip extends AppCompatActivity {
         button = findViewById(R.id.coin_button_tails);
         button.setOnClickListener(view -> flipCoin());
 
-        getCoinHistoryManagerFromSharedPrefs();
+        flipHistoryManager = CoinFlipHistoryManager.getFlipHistoryManagerFromSharedPrefs(this);
     }
 
     private void updateWinner(){
         TextView textView = findViewById(R.id.coin_textView_message);
         if (currentFace == Face.HEADS) {
             textView.setText(R.string.coin_message_headsWin);
-            flipHistoryManager.addCoinFlip("temp name", "head", true);
+            flipHistoryManager.addCoinFlip("temp name", "heads", true);
             //TODO: replace temp name with child who chose
             //TODO: add win/lose status
         }else{
             textView.setText(R.string.coin_message_tailsWin);
-            flipHistoryManager.addCoinFlip("temp name", "head", false);
+            flipHistoryManager.addCoinFlip("temp name", "tails", false);
         }
         saveFlipHistoryManagerToSharedPrefs();
     }
@@ -149,17 +149,6 @@ public class CoinFlip extends AppCompatActivity {
         String json = gson.toJson(flipHistoryManager);
         editor.putString("FlipHistoryManager", json);
         editor.apply();
-    }
-
-    private void getCoinHistoryManagerFromSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString("FlipHistoryManager", "");
-
-        flipHistoryManager = gson.fromJson(json, CoinFlipHistoryManager.class);
-        if(flipHistoryManager == null) {
-            flipHistoryManager = CoinFlipHistoryManager.getInstance();
-        }
     }
 
     /**

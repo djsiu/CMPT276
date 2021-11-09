@@ -16,6 +16,7 @@ public class CoinFlipGame {
         this.date = createDate();
         this.flipResult = flipResult;
         this.nameOfPicker = nameOfPicker;
+        this.pickerWon = pickerWon;
     }
 
     private String createDate() {
