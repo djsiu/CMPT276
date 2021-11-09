@@ -64,11 +64,11 @@ public class ManageFamilyEdit extends AppCompatActivity {
         EditText editMemberName = findViewById(R.id.editTextMemberNameForEdit);
         saveBtn.setOnClickListener(view -> {
             String newMemberNameStr = editMemberName.getText().toString();
-            boolean nameAlreadyExists = FamilyMemberSharedPreferences.addMember(newMemberNameStr);
+            boolean nameAlreadyExists = familyManager.isMemberNameUsed(newMemberNameStr);
 
             if(!nameAlreadyExists) {
 
-                familyManager.editMember(
+                familyManager.changeMemberName(
                         editMemberName.getText().toString(),
                         getFamilyMemberName());
                 FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);

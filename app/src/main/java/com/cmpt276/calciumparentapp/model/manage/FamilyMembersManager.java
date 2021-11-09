@@ -44,15 +44,10 @@ public class FamilyMembersManager {
         keyGenerator++;
     }
 
-    public void editMember(String newName, String name) {
-        System.out.println("inputed old name: "+ name);
+    public void changeMemberName(String newName, String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
-            System.out.println("comparing with all names: " + familyMembersList.get(i).getMemberName());
             if(name.equals(familyMembersList.get(i).getMemberName())) {
-//                boolean sameName = (name == familyMembersList.get(i).getMemberName());
-//                System.out.println("names are the same" + (String) sameName);
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
-                System.out.println("new name: " + newName);
             }
         }
     }
@@ -63,18 +58,28 @@ public class FamilyMembersManager {
                 familyMembersList.get(i).deleteChild();
             }
         }
-        //familyMembersList.remove(i);
     }
 
     public ArrayList<String> getFamilyMembersNames() {
         ArrayList<String> familyMembersStrings = new ArrayList<>();
         if (familyMembersList != null) {
             for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).getDeleted())
+                if(!familyMembersList.get(i).isDeleted())
                 familyMembersStrings.add(familyMembersList.get(i).getMemberName());
             }
         }
         return familyMembersStrings;
+    }
+
+    public boolean isMemberNameUsed(String name) {
+        boolean nameUsed = false;
+        for(FamilyMember member : familyMembersList) {
+            if(member.getMemberName().equals(name) && !member.isDeleted()){
+                nameUsed = true;
+            }
+        }
+
+        return nameUsed;
     }
 
     //retrieve the family members key by their index
@@ -83,4 +88,4 @@ public class FamilyMembersManager {
     }
 }
 
-//TODO: check for duplicate names
+
