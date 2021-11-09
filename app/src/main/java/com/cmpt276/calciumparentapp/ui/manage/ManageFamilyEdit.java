@@ -68,7 +68,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
 
             if(!nameAlreadyExists) {
 
-                familyManager.editMember(
+                familyManager.changeMemberName(
                         editMemberName.getText().toString(),
                         getFamilyMemberName());
                 FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);

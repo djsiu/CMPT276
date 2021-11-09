@@ -44,7 +44,7 @@ public class FamilyMembersManager {
         keyGenerator++;
     }
 
-    public void editMember(String newName, String name) {
+    public void changeMemberName(String newName, String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
             if(name.equals(familyMembersList.get(i).getMemberName())) {
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
