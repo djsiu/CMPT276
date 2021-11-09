@@ -30,11 +30,11 @@ public class FamilyMemberSharedPreferences {
     //credit to eamonnmcmanus on github
     public static void saveFamilyManagerToSharedPrefs(Context context) {
         familyManager = FamilyMembersManager.getInstance();
-        SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(familyManager);
-        editor.putString("FamilyManager", json);
+        editor.putString(SHARED_PREFS_FAMILY_MANAGER_KEY, json);
         editor.apply();
     }
 
@@ -48,11 +48,5 @@ public class FamilyMemberSharedPreferences {
             familyManager.setFamilyMembersList(gson.fromJson(json, FamilyMembersManager.class).getFamilyMembersList());
             familyManager.setKeyGenerator(gson.fromJson(json, FamilyMembersManager.class).getKeyGenerator());
         }
-
     }
-
-
-
-
-
 }

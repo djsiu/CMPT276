@@ -55,5 +55,6 @@
     <string name="coin_textview_selection_choose">Choose the children playing</string>
     <string name="family_member_present_toast_text_format">%s is already in the family!</string>
     <string name="family_member_welcome_toast_text_format">Welcome to the family %s!</string>
+    <string name="imageView_coin">coin view</string>
 
 </resources>
