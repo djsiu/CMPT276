@@ -19,6 +19,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.gson.Gson;
 
@@ -39,8 +40,8 @@ public class CoinFlipSelection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
-
-        getFamilyManagerFromSharedPrefs();
+        familyManager = FamilyMembersManager.getInstance();
+        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
         nameArrayList = familyManager.getFamilyMembersNames();
         keyArrayList = familyManager.getFamilyMemberKeys();
 
@@ -133,17 +134,6 @@ public class CoinFlipSelection extends AppCompatActivity {
             TextView textView = itemView.findViewById(R.id.textView_list_name);
             textView.setText(name);
             return itemView;
-        }
-    }
-
-    private void getFamilyManagerFromSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString("FamilyManager", "");
-
-        familyManager = gson.fromJson(json, FamilyMembersManager.class);
-        if(familyManager == null) {
-            familyManager = FamilyMembersManager.getInstance();
         }
     }
 

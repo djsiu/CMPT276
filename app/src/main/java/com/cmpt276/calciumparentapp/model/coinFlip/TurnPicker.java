@@ -1,6 +1,7 @@
 package com.cmpt276.calciumparentapp.model.coinFlip;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
@@ -9,6 +10,7 @@ public class TurnPicker {
 
     public static String choosePicker(Context context, int player1, int player2){
         FamilyMembersManager familyManager = FamilyMembersManager.getInstance();
+        Log.i("startupBug", "choosePicker: " + familyManager.getFamilyMembersNames());
         FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(context);
 
         //find turn order of each member

@@ -3,6 +3,7 @@ package com.cmpt276.calciumparentapp.ui.manage;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -28,17 +29,21 @@ public class ManageFamilyMembers extends AppCompatActivity {
 
         familyManager = FamilyMembersManager.getInstance();
 
+        Log.i("startupBug", "choosePicker: 1" + familyManager.getFamilyMembersNames());
         FloatingActionButton btnAddMember = findViewById(R.id.manage_family_add_button);
 
         setupManageFamilyAddButton(btnAddMember);
 
+        Log.i("startupBug", "choosePicker: 2" + familyManager.getFamilyMembersNames());
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
+        Log.i("startupBug", "choosePicker: 3" + familyManager.getFamilyMembersNames());
         populateListView();
+
+        Log.i("startupBug", "choosePicker: 4" + familyManager.getFamilyMembersNames());
 
     }
 
@@ -51,8 +56,9 @@ public class ManageFamilyMembers extends AppCompatActivity {
     }
 
     private void populateListView() {
-
+        Log.i("startupBug", "choosePicker: 5" + familyManager.getFamilyMembersNames());
         FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
+        Log.i("startupBug", "choosePicker: 6" + familyManager.getFamilyMembersNames());
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
@@ -69,7 +75,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //saveFamilyManagerToSharedPrefs();
     }
 
     private void setupManageFamilyAddButton(FloatingActionButton button) {

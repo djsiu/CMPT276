@@ -104,14 +104,10 @@ public class FamilyMembersManager {
         return familyMembersStrings;
     }
 
-    //retrieve the family members key by their index
-    public int getMemberKey(int i) {
-        return familyMembersList.get(i).getKey();
-    }
-
-
     public int getCoinFlipPriority(int index){
         Log.i("famMemMan", "getCoinFlipPriority: list size is " + familyMembersList.size());
+        Log.i("startupBug", "getCoinFLipPrio: " + this.getFamilyMembersNames());
+        Log.i("startupBug", "getCoinFLipPrio for instance: " + instance.getFamilyMembersNames());
 
         return familyMembersList.get(index).getCoinFlipPickPriority();
     }
