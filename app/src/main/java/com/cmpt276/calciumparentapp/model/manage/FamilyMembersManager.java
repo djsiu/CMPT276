@@ -7,6 +7,23 @@ import java.util.ArrayList;
 public class FamilyMembersManager {
 
     private ArrayList<FamilyMember> familyMembersList;
+    public ArrayList<FamilyMember> getFamilyMembersList() {
+        return familyMembersList;
+    }
+
+    public void setFamilyMembersList(ArrayList<FamilyMember> familyMembersList) {
+        this.familyMembersList = familyMembersList;
+    }
+
+    public int getKeyGenerator() {
+        return keyGenerator;
+    }
+
+    public void setKeyGenerator(int keyGenerator) {
+        this.keyGenerator = keyGenerator;
+    }
+
+    private ArrayList<FamilyMember> familyMembersList;
     private int keyGenerator;
 
     private FamilyMembersManager() {

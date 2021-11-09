@@ -56,5 +56,7 @@
     <string name="coin_textView_picker">%1$s,\nPick Heads or Tails</string>
     <string name="coin_textView_pickerGeneric">Pick Heads or Tails</string>
 
+    <string name="family_member_present_toast_text_format">%s is already in the family!</string>
+    <string name="family_member_welcome_toast_text_format">Welcome to the family %s!</string>
 
 </resources>

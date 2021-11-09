@@ -3,7 +3,7 @@ package com.cmpt276.calciumparentapp.model.manage;
 public class FamilyMember {
 
     private String name;
-    private int key;
+    private final int key;
     private boolean deleted;
     private int coinFlipPickPriority; //lower indexes pick before higher indexes
 

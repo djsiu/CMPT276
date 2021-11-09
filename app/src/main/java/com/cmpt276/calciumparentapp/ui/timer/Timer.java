@@ -79,6 +79,7 @@ public class Timer extends AppCompatActivity {
 
     private void setup(){
         if(timerLogic.isTimerServiceRunning(this)){
+            // The function called when this broadcast is received calls setup buttons
             broadcastTimerRunningRequest();
             broadcastTimeRequest();
         }
@@ -179,7 +180,6 @@ public class Timer extends AppCompatActivity {
     }
 
     private void broadcastPauseIntent() {
-        Log.e("Pause", "Broadcasting pause intent");
         Intent i = new Intent();
         i.putExtra(TimerService.PAUSE_TIMER_INTENT, true);
         i.setAction(TimerService.TIMER_SERVICE_REQUEST_FILTER);
@@ -187,7 +187,6 @@ public class Timer extends AppCompatActivity {
     }
 
     private void broadcastResumeIntent() {
-        Log.e("Resume", "Broadcasting resume intent");
         Intent i = new Intent();
         i.putExtra(TimerService.RESUME_TIMER_INTENT, true);
         i.setAction(TimerService.TIMER_SERVICE_REQUEST_FILTER);

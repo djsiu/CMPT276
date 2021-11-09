@@ -1,6 +1,7 @@
 package com.cmpt276.calciumparentapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ public class MainMenu extends AppCompatActivity {
         setupCoinFlipButton(btnCoinFlip);
         setupTimerButton(btnTimer);
         setupFamilyManageButton(btnFamManage);
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); // Disables Dark Mode
     }
 
     public void setupCoinFlipButton(Button button) {

@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -24,14 +26,15 @@ import java.util.Map;
 public class ManageFamilyMembers extends AppCompatActivity {
 
     public static final String EDIT_MEMBER = "com.cmpt276.calciumparentapp.manage.ManageFamilyMembers.EDIT_MEMBER";
-    private static final String SHARED_PREFS_KEY = "AppPrefs";
-    private static final String SHARED_PREFS_FAMILY_MANAGER_KEY = "FamilyManager";
-    private static FamilyMembersManager familyManager;
+
+    private FamilyMembersManager familyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_family_members);
+
+        familyManager = FamilyMembersManager.getInstance();
 
         FloatingActionButton btnAddMember = findViewById(R.id.manage_family_add_button);
 
@@ -42,7 +45,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        getFamilyManagerFromSharedPrefs();
+        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
         populateListView();
 
     }
@@ -57,13 +60,12 @@ public class ManageFamilyMembers extends AppCompatActivity {
 
     private void populateListView() {
 
-        getFamilyManagerFromSharedPrefs();
+        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 R.layout.family_member_list_view,
                 familyManager.getFamilyMembersNames());
-
 
         ListView familyMembersListView = findViewById(R.id.familyMembersList);
         familyMembersListView.setAdapter(adapter);
@@ -71,7 +73,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
         //enabling clicking on list view to edit family members
         familyMembersListView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(view.getContext(), ManageFamilyEdit.class);
-            intent.putExtra(EDIT_MEMBER, i);
+            intent.putExtra(EDIT_MEMBER, (String) familyMembersListView.getItemAtPosition(i));
             startActivity(intent);
         });
 
@@ -86,26 +88,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
         });
     }
 
-    // credit to eamonnmcmanus on github
-    private void getFamilyManagerFromSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString(SHARED_PREFS_FAMILY_MANAGER_KEY, "");
 
-        familyManager = gson.fromJson(json, FamilyMembersManager.class);
-        if(familyManager == null) {
-            familyManager = FamilyMembersManager.getInstance();
-        }
-    }
-
-    public static void saveFamilyManagerToSharedPrefs(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(familyManager);
-        editor.putString(SHARED_PREFS_FAMILY_MANAGER_KEY, json);
-        editor.apply();
-    }
 
     /**
      * Adds logic to action bar
