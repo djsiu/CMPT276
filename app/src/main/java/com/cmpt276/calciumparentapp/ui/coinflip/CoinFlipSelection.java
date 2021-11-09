@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,10 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.gson.Gson;
 
@@ -37,7 +40,10 @@ public class CoinFlipSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
 
-        getFamilyManagerFromSharedPrefs();
+
+        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
+        familyManager = FamilyMembersManager.getInstance();
+
         nameArrayList = familyManager.getFamilyMembersNames();
 
         if(!hasEnoughFamilyMembers()){
@@ -49,16 +55,24 @@ public class CoinFlipSelection extends AppCompatActivity {
 
         Button button = findViewById(R.id.coin_selection_button_continue);
         button.setOnClickListener(view -> {
+            continueButtonOnClick();
+        });
+    }
+
+
+
+    private void continueButtonOnClick() {
+        if(selectedIndexes.size() != 2){
+            Toast toast = Toast.makeText(this, R.string.coinflip_selection_two_children_toast_text, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else{
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
             i.putExtra("player1", selectedIndexes.get(0));
             i.putExtra("player2", selectedIndexes.get(1));
             finish();
             startActivity(i);
-        });
-        button.setClickable(false);
-        button.setFocusable(false);
-
-
+        }
     }
 
 
@@ -85,16 +99,6 @@ public class CoinFlipSelection extends AppCompatActivity {
                     view.setBackgroundColor(Color.GRAY);
 
                 }
-
-            }
-
-            Button button = (Button) findViewById(R.id.coin_selection_button_continue);
-            if (selectedIndexes.size() != 2){
-                button.setClickable(false);
-                button.setFocusable(false);
-            }else{
-                button.setClickable(true);
-                button.setFocusable(true);
             }
 
         });
@@ -126,18 +130,6 @@ public class CoinFlipSelection extends AppCompatActivity {
             return itemView;
         }
     }
-
-    private void getFamilyManagerFromSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString("FamilyManager", "");
-
-        familyManager = gson.fromJson(json, FamilyMembersManager.class);
-        if(familyManager == null) {
-            familyManager = FamilyMembersManager.getInstance();
-        }
-    }
-
 
     /**
      * Displays actionbar buttons
