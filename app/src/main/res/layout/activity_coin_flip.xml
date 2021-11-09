@@ -64,6 +64,18 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/coin_button_tails" />
-    </LinearLayout>
+        </LinearLayout>
 
+    <Button
+        android:id="@+id/coin_button_flipAgain"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="5"
+        android:text="@string/coin_button_flipAgain"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_coin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

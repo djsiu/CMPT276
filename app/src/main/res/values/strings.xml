@@ -67,6 +67,7 @@
     <string name="alarm_notification_text">Timeout is Over!</string>
     <string name="coinflip_selection_two_children_toast_text">Please select two children!</string>
     <string name="no_members_text">No family members added yet!</string>
+    <string name="coin_button_flipAgain">Flip Again?</string>
     <string name="editTextFamilyMemberNameHint">Enter name of family member</string>
 
 </resources>

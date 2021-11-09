@@ -51,6 +51,11 @@ public class CoinFlipSelection extends AppCompatActivity {
 
         Button button = findViewById(R.id.coin_selection_button_continue);
         button.setOnClickListener(view -> continueButtonOnClick());
+
+        //Adds back button in top left corner
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -78,9 +83,6 @@ public class CoinFlipSelection extends AppCompatActivity {
 
 
     private void populateListView() {
-        //create List of items
-        //populateArray();
-
         //Build adapter
         ArrayAdapter<String> adapter = new MyListAdapter();
 
@@ -103,16 +105,6 @@ public class CoinFlipSelection extends AppCompatActivity {
                 }
 
             }
-
-            Button button = findViewById(R.id.coin_selection_button_continue);
-            if (selectedIndexes.size() != 2){
-                button.setClickable(false);
-                button.setFocusable(false);
-            }else{
-                button.setClickable(true);
-                button.setFocusable(true);
-            }
-
         });
     }
 
