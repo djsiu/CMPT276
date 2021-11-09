@@ -2,10 +2,8 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +27,15 @@ import java.util.List;
 
 public class CoinFlipSelection extends AppCompatActivity {
 
-    private FamilyMembersManager familyManager;
-
     private ArrayList<String> nameArrayList;
     private ArrayList<Integer> keyArrayList;
-    private List<Integer> selectedIndexes = new ArrayList<>();
+    private final List<Integer> selectedIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
-        familyManager = FamilyMembersManager.getInstance();
+        FamilyMembersManager familyManager = FamilyMembersManager.getInstance();
         FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
         nameArrayList = familyManager.getFamilyMembersNames();
         keyArrayList = familyManager.getFamilyMemberKeys();
@@ -75,7 +70,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         //Build adapter
         ArrayAdapter<String> adapter = new MyListAdapter();
 
-        ListView list = (ListView) findViewById(R.id.coin_list_names);
+        ListView list = findViewById(R.id.coin_list_names);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener((adapterView, view, position, id) -> {
@@ -95,7 +90,7 @@ public class CoinFlipSelection extends AppCompatActivity {
 
             }
 
-            Button button = (Button) findViewById(R.id.coin_selection_button_continue);
+            Button button = findViewById(R.id.coin_selection_button_continue);
             if (selectedIndexes.size() != 2){
                 button.setClickable(false);
                 button.setFocusable(false);

@@ -1,6 +1,5 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,6 @@ public class FamilyMembersManager {
     }
 
     public void addMember(String name) {
-        Log.i("famlistsize", "addMember: " + familyMembersList.size());
         FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size());
         familyMembersList.add(newMember);
         keyGenerator++;
@@ -49,28 +47,14 @@ public class FamilyMembersManager {
 
 
     public void editMember(String newName, String name) {
-        System.out.println("inputed old name: "+ name);
+        System.out.println("inputted old name: "+ name);
         for(int i = 0; i < familyMembersList.size(); i++) {
             System.out.println("comparing with all names: " + familyMembersList.get(i).getMemberName());
             if(name.equals(familyMembersList.get(i).getMemberName())) {
-//                boolean sameName = (name == familyMembersList.get(i).getMemberName());
-//                System.out.println("names are the same" + (String) sameName);
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
                 System.out.println("new name: " + newName);
             }
         }
-    }
-
-    //TODO: Remove the get size function and get prios
-    public ArrayList<Integer> getPrios() {
-        ArrayList<Integer> prios = new ArrayList<>();
-        if (familyMembersList != null) {
-            for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).getDeleted())
-                    prios.add(familyMembersList.get(i).getCoinFlipPickPriority());
-            }
-        }
-        return prios;
     }
 
     public void deleteMember(String name) {
@@ -105,10 +89,6 @@ public class FamilyMembersManager {
     }
 
     public int getCoinFlipPriority(int index){
-        Log.i("famMemMan", "getCoinFlipPriority: list size is " + familyMembersList.size());
-        Log.i("startupBug", "getCoinFLipPrio: " + this.getFamilyMembersNames());
-        Log.i("startupBug", "getCoinFLipPrio for instance: " + instance.getFamilyMembersNames());
-
         return familyMembersList.get(index).getCoinFlipPickPriority();
     }
 

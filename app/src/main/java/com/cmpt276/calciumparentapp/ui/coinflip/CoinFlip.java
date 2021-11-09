@@ -85,12 +85,11 @@ public class CoinFlip extends AppCompatActivity {
         if((((int)(Math.random()*10))%2) == 0) {//Heads represented by 0
             //perform animation
             currentFace = Face.HEADS;
-            animateCoin();
         }else{
             //perform animation
             currentFace = Face.TAILS;
-            animateCoin();
         }
+        animateCoin();
 
         //TODO:save roll data
         //return winner
