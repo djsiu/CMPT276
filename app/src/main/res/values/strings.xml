@@ -15,7 +15,7 @@
     <string name="coin_flip_select_first_title">Coin Flip Select First</string>
 
     <string name="timer_title">Timer</string>
-    <string name="timer_select_time_title">Timer Select Time</string>
+    <string name="timer_select_time_title">Select Timer Length</string>
     <string name="timer_custom_time_title">Timer Custom Time</string>
 
     <string name="manage_members_title">Manage Members</string>
