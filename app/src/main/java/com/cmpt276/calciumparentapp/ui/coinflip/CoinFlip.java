@@ -37,6 +37,7 @@ public class CoinFlip extends AppCompatActivity {
     private Face currentFace;
     Bundle extras;
     private String buttonClicked = "";
+    private String picker = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,6 @@ public class CoinFlip extends AppCompatActivity {
 
         //get players from the selection activity
         extras = getIntent().getExtras();
-
 
         currentFace = Face.TAILS;
         //set buttons
@@ -114,22 +114,20 @@ public class CoinFlip extends AppCompatActivity {
         getPicker();
     }
 
-    private String getPicker() {
+    private void getPicker() {
         TextView textView = findViewById(R.id.coin_textView_message);
-        String picker = "";
         if (extras != null){
             //get player Indexes
             int player1Index = (int) extras.get("player1");
             int player2Index = (int) extras.get("player2");
 
-            picker = TurnPicker.choosePicker(this,player1Index, player2Index);
+            picker = TurnPicker.choosePicker(this, player1Index, player2Index);
             //set name
             textView.setText(getString(R.string.coin_textView_picker, picker));
         }else{
             textView.setText(getString(R.string.coin_textView_pickerGeneric));
             picker = getString(R.string.no_picker);
         }
-        return picker;
     }
 
 
@@ -137,10 +135,10 @@ public class CoinFlip extends AppCompatActivity {
         TextView textView = findViewById(R.id.coin_textView_message);
         if (currentFace == Face.HEADS) {
             textView.setText(R.string.coin_message_headsWin);
-            flipHistoryManager.addCoinFlip(getPicker(), getString(R.string.heads), buttonClicked);
+            flipHistoryManager.addCoinFlip(picker, getString(R.string.heads), buttonClicked);
         }else{
             textView.setText(R.string.coin_message_tailsWin);
-            flipHistoryManager.addCoinFlip(getPicker(), getString(R.string.tails), buttonClicked);
+            flipHistoryManager.addCoinFlip(picker, getString(R.string.tails), buttonClicked);
         }
         saveFlipHistoryManagerToSharedPrefs();
     }
