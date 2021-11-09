@@ -15,6 +15,9 @@ import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
 
 import java.util.Objects;
 
+/**
+ * UI for Selecting Length of Timer
+ */
 public class TimerSelectTime extends AppCompatActivity {
 
     TimerLogic timerLogic = TimerLogic.getInstance();

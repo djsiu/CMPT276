@@ -16,6 +16,9 @@ import com.cmpt276.calciumparentapp.model.timer.TimerLogic;
 
 import java.util.Objects;
 
+/**
+ * UI for Setting Custom Length of Timer
+ */
 public class TimerCustomTime extends AppCompatActivity {
 
     private EditText customTimeEditText;

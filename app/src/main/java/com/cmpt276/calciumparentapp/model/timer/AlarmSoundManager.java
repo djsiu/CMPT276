@@ -9,6 +9,9 @@ import android.net.Uri;
 
 import java.io.IOException;
 
+/**
+ * Singleton that handles alarm sound logic
+ */
 public class AlarmSoundManager {
     // By using getApplicationContext in the singleton the memory leak is fixed
     @SuppressLint("StaticFieldLeak")
