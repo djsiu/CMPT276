@@ -1,4 +1,4 @@
-package com.cmpt276.calciumparentapp.model.coinFlip;
+package com.cmpt276.calciumparentapp.model.coinflip;
 
 import android.view.LayoutInflater;
 import android.view.View;
