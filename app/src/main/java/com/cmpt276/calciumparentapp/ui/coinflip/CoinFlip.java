@@ -1,8 +1,12 @@
 package com.cmpt276.calciumparentapp.ui.coinflip;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,8 +22,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.TurnPicker;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
+import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
+import com.google.gson.Gson;
 
 public class CoinFlip extends AppCompatActivity {
+
+    private CoinFlipHistoryManager flipHistoryManager;
 
     private enum Face{
         HEADS,
@@ -28,6 +36,8 @@ public class CoinFlip extends AppCompatActivity {
 
     private Face currentFace;
     Bundle extras;
+    private String buttonClicked = "";
+    private String picker = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +52,6 @@ public class CoinFlip extends AppCompatActivity {
 
         //get players from the selection activity
         extras = getIntent().getExtras();
-
 
         currentFace = Face.TAILS;
         //set buttons
@@ -60,6 +69,7 @@ public class CoinFlip extends AppCompatActivity {
                 button = findViewById(R.id.coin_button_flipAgain);
                 button.setVisibility(View.VISIBLE);
 
+                buttonClicked = "heads";
             }
         });
 
@@ -77,6 +87,7 @@ public class CoinFlip extends AppCompatActivity {
                 button = findViewById(R.id.coin_button_flipAgain);
                 button.setVisibility(View.VISIBLE);
 
+                buttonClicked = "tails";
             }
         });
 
@@ -97,10 +108,10 @@ public class CoinFlip extends AppCompatActivity {
             }
         });
 
+        flipHistoryManager = CoinFlipHistoryManager.getFlipHistoryManagerFromSharedPrefs(this);
+
         //set picker
         getPicker();
-
-
     }
 
     private void getPicker() {
@@ -110,22 +121,26 @@ public class CoinFlip extends AppCompatActivity {
             int player1Index = (int) extras.get("player1");
             int player2Index = (int) extras.get("player2");
 
+            picker = TurnPicker.choosePicker(this, player1Index, player2Index);
             //set name
-            textView.setText(getString(R.string.coin_textView_picker, TurnPicker.choosePicker(this,player1Index, player2Index)));
+            textView.setText(getString(R.string.coin_textView_picker, picker));
         }else{
             textView.setText(getString(R.string.coin_textView_pickerGeneric));
+            picker = getString(R.string.no_picker);
         }
     }
-
 
 
     private void updateWinner(){
         TextView textView = findViewById(R.id.coin_textView_message);
         if (currentFace == Face.HEADS) {
             textView.setText(R.string.coin_message_headsWin);
+            flipHistoryManager.addCoinFlip(picker, getString(R.string.heads), buttonClicked);
         }else{
             textView.setText(R.string.coin_message_tailsWin);
+            flipHistoryManager.addCoinFlip(picker, getString(R.string.tails), buttonClicked);
         }
+        saveFlipHistoryManagerToSharedPrefs();
     }
 
     private void flipCoin(){
@@ -134,6 +149,7 @@ public class CoinFlip extends AppCompatActivity {
         if((((int)(Math.random()*10))%2) == 0) {//Heads represented by 0
             //perform animation
             currentFace = Face.HEADS;
+            animateCoin();
         }else{
             //perform animation
             currentFace = Face.TAILS;
@@ -197,6 +213,20 @@ public class CoinFlip extends AppCompatActivity {
 
     }
 
+    private void callFragment(){
+        Intent i = new Intent(this, CoinFlipSelectFirst.class);
+        startActivity(i);
+    }
+
+    //credit to eamonnmcmanus on github
+    private void saveFlipHistoryManagerToSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(flipHistoryManager);
+        editor.putString("FlipHistoryManager", json);
+        editor.apply();
+    }
 
     /**
      * Displays actionbar buttons

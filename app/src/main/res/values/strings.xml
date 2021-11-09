@@ -56,6 +56,8 @@
     <string name="coin_textView_picker">%1$s,\nPick Heads or Tails</string>
     <string name="coin_textView_pickerGeneric">Pick Heads or Tails</string>]
 
+    <string name="game_data_text">game data text</string>
+
     <string name="family_member_present_toast_text_format">%s is already in the family!</string>
     <string name="family_member_welcome_toast_text_format">Welcome to the family %s!</string>
     <string name="imageView_coin">Contains images for coin</string>
@@ -67,5 +69,9 @@
     <string name="no_members_text">No family members added yet!</string>
     <string name="coin_button_flipAgain">Flip Again?</string>
     <string name="editTextFamilyMemberNameHint">Enter name of family member</string>
+    <string name="no_picker">unknown</string>
+    <string name="heads">heads</string>
+    <string name="tails">tails</string>
+    <string name="flip_result_text">\"Flip Result: \"</string>
 
 </resources>
