@@ -44,11 +44,11 @@ public class FamilyMemberSharedPreferences {
         Gson gson = new Gson();
         String json = prefs.getString(SHARED_PREFS_FAMILY_MANAGER_KEY, "");
 
-        familyManager.setFamilyMembersList(gson.fromJson(json, FamilyMembersManager.class).getFamilyMembersList());
-        familyManager.setKeyGenerator(gson.fromJson(json, FamilyMembersManager.class).getKeyGenerator());
-        if(familyManager == null) {
-            familyManager = FamilyMembersManager.getInstance();
+        if (gson.fromJson(json, FamilyMembersManager.class).getFamilyMembersList() != null){
+            familyManager.setFamilyMembersList(gson.fromJson(json, FamilyMembersManager.class).getFamilyMembersList());
+            familyManager.setKeyGenerator(gson.fromJson(json, FamilyMembersManager.class).getKeyGenerator());
         }
+
     }
 
 
