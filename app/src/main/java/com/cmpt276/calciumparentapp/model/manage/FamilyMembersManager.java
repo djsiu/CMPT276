@@ -45,9 +45,14 @@ public class FamilyMembersManager {
     }
 
     public void editMember(String newName, String name) {
+        System.out.println("inputed old name: "+ name);
         for(int i = 0; i < familyMembersList.size(); i++) {
+            System.out.println("comparing with all names: " + familyMembersList.get(i).getMemberName());
             if(name.equals(familyMembersList.get(i).getMemberName())) {
+//                boolean sameName = (name == familyMembersList.get(i).getMemberName());
+//                System.out.println("names are the same" + (String) sameName);
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
+                System.out.println("new name: " + newName);
             }
         }
     }
@@ -58,6 +63,7 @@ public class FamilyMembersManager {
                 familyMembersList.get(i).deleteChild();
             }
         }
+        //familyMembersList.remove(i);
     }
 
     public ArrayList<String> getFamilyMembersNames() {
@@ -76,3 +82,5 @@ public class FamilyMembersManager {
         return familyMembersList.get(i).getKey();
     }
 }
+
+//TODO: check for duplicate names

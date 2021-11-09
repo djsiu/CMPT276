@@ -68,6 +68,8 @@ public class ManageFamilyMembers extends AppCompatActivity {
             intent.putExtra(EDIT_MEMBER, (String) familyMembersListView.getItemAtPosition(i));
             startActivity(intent);
         });
+
+        //saveFamilyManagerToSharedPrefs();
     }
 
     private void setupManageFamilyAddButton(FloatingActionButton button) {
@@ -77,6 +79,8 @@ public class ManageFamilyMembers extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+
 
     /**
      * Adds logic to action bar
