@@ -36,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <!-- TODO This Error I think should be fixed -->
             <Button
@@ -55,5 +56,13 @@
                 android:layout_weight="1"
                 android:text="@string/coin_button_tails" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/coin_button_flipAgain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="@string/coin_button_flipAgain"
+            android:visibility="gone" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
