@@ -24,7 +24,7 @@ import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
 used to select two members who will play heads or tails
  */
 public class CoinFlipSelection extends AppCompatActivity {

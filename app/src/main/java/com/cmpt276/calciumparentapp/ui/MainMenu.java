@@ -12,6 +12,9 @@ import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlipSelection;
 import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 import com.cmpt276.calciumparentapp.ui.timer.TimerSelectTime;
 
+/**
+ * Main menu activity connects
+ */
 public class MainMenu extends AppCompatActivity {
 
     @Override

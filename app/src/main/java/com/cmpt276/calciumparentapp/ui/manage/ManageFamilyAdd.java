@@ -12,8 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-
-// Activity to add family members.
+/**
+ *Activity to add family members.
+ */
 public class ManageFamilyAdd extends AppCompatActivity {
 
     private FamilyMembersManager familyManager;

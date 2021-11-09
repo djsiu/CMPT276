@@ -15,7 +15,7 @@ import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
-/*
+/**
 Activity to edit family members when clicking on their name
 user can edit name and delete child
  */
