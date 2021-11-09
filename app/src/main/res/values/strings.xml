@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Calcium Parent App</string>
-    <string name="coin_button_heads">Heads</string>
-    <string name="coin_button_tails">Tails</string>
+    <string name="heads_text">Heads</string>
+    <string name="tails_text">Tails</string>
     <string name="coin_message_headsWin">Congratulations!\nHeads Wins!</string>
     <string name="coin_message_tailsWin">Congratulations!\nTails Wins!</string>
 
@@ -73,5 +73,6 @@
     <string name="heads">heads</string>
     <string name="tails">tails</string>
     <string name="flip_result_text">\"Flip Result: \"</string>
+    <string name="app_shared_preferences_key">APP_SHARED_PREFERENCES_KEY</string>
 
 </resources>

@@ -3,7 +3,6 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,17 +16,19 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
-import com.cmpt276.calciumparentapp.model.coinflip.TurnPicker;
+import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipGame;
+import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
-import com.google.gson.Gson;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 /*
 ui for the coin flip activity
  */
 public class CoinFlip extends AppCompatActivity {
 
-    private CoinFlipHistoryManager flipHistoryManager;
+    private FamilyMembersManager familyMembersManager;
+    private CoinFlipManager coinFlipManager;
+    boolean gameWithNamedPlayers;
 
     private enum Face{
         HEADS,
@@ -39,11 +40,14 @@ public class CoinFlip extends AppCompatActivity {
     private String buttonClicked = "";
     private String picker = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
+        familyMembersManager = FamilyMembersManager.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
+        coinFlipManager = CoinFlipManager.getInstance(this);
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
@@ -68,6 +72,10 @@ public class CoinFlip extends AppCompatActivity {
 
             buttonFlipAgain.setVisibility(View.VISIBLE);
 
+            if(gameWithNamedPlayers){
+                coinFlipManager.assignCoinPick(CoinFlipGame.CoinFlipResult.HEADS);
+            }
+
             buttonClicked = "heads";
         });
 
@@ -78,12 +86,19 @@ public class CoinFlip extends AppCompatActivity {
             buttonTails.setVisibility(View.GONE);
 
             buttonFlipAgain.setVisibility(View.VISIBLE);
+            if(gameWithNamedPlayers){
+                coinFlipManager.assignCoinPick(CoinFlipGame.CoinFlipResult.TAILS);
+            }
+
 
             buttonClicked = "tails";
         });
 
         buttonFlipAgain.setOnClickListener(view -> {
-            getPicker();
+            if(gameWithNamedPlayers){
+                coinFlipManager.beginAnotherGame();
+            }
+            setPickerText();
             buttonHeads.setVisibility(View.VISIBLE);
 
             buttonTails.setVisibility(View.VISIBLE);
@@ -92,39 +107,46 @@ public class CoinFlip extends AppCompatActivity {
 
         });
 
-        flipHistoryManager = CoinFlipHistoryManager.getFlipHistoryManagerFromSharedPrefs(this);
 
         //set picker
-        getPicker();
+        setPickerText();
     }
 
-    private void getPicker() {
+    private void setPickerText() {
         TextView textView = findViewById(R.id.coin_textView_message);
-        if (extras != null){
-            //get player Indexes
-            int player1Index = (int) extras.get("player1");
-            int player2Index = (int) extras.get("player2");
-
-            picker = TurnPicker.choosePicker(this, player1Index, player2Index);
-            //set name
+        if(coinFlipManager.isGameRunning()){
+            picker = familyMembersManager.getFamilyMemberNameFromID(coinFlipManager.getPickerID());
             textView.setText(getString(R.string.coin_textView_picker, picker));
-        }else{
+            gameWithNamedPlayers = true;
+        }
+        else{
             textView.setText(getString(R.string.coin_textView_pickerGeneric));
             picker = getString(R.string.no_picker);
+            gameWithNamedPlayers = false;
         }
+
     }
 
 
     private void updateWinner(){
         TextView textView = findViewById(R.id.coin_textView_message);
-        if (currentFace == Face.HEADS) {
+        if(currentFace == Face.HEADS) {
             textView.setText(R.string.coin_message_headsWin);
-            flipHistoryManager.addCoinFlip(picker, getString(R.string.heads), buttonClicked);
-        }else{
-            textView.setText(R.string.coin_message_tailsWin);
-            flipHistoryManager.addCoinFlip(picker, getString(R.string.tails), buttonClicked);
+
+            if(gameWithNamedPlayers){
+                coinFlipManager.assignCoinFlipResult(CoinFlipGame.CoinFlipResult.HEADS);
+            }
+
+
         }
-        saveFlipHistoryManagerToSharedPrefs();
+        else{
+            textView.setText(R.string.coin_message_tailsWin);
+
+            if(gameWithNamedPlayers){
+                coinFlipManager.assignCoinFlipResult(CoinFlipGame.CoinFlipResult.TAILS);
+            }
+        }
+
     }
 
     private void flipCoin(){
@@ -193,15 +215,6 @@ public class CoinFlip extends AppCompatActivity {
 
     }
 
-    //credit to eamonnmcmanus on github
-    private void saveFlipHistoryManagerToSharedPrefs() {
-        SharedPreferences prefs = this.getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(flipHistoryManager);
-        editor.putString("FlipHistoryManager", json);
-        editor.apply();
-    }
 
     /**
      * Displays actionbar buttons

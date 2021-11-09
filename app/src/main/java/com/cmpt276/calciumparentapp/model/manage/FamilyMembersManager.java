@@ -116,4 +116,14 @@ public class FamilyMembersManager {
         return familyMembersList.get(index).getMemberName();
     }
 
+    public String getFamilyMemberNameFromID(int ID) {
+        for(FamilyMember familyMember : familyMembersList) {
+            if(familyMember.getKey() == ID){
+                return familyMember.getMemberName();
+            }
+        }
+
+        throw new IllegalArgumentException("No family member with provided ID");
+    }
+
 }
