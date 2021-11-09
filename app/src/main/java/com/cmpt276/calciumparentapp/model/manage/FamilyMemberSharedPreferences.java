@@ -44,7 +44,7 @@ public class FamilyMemberSharedPreferences {
         Gson gson = new Gson();
         String json = prefs.getString(SHARED_PREFS_FAMILY_MANAGER_KEY, "");
 
-        if (gson.fromJson(json, FamilyMembersManager.class).getFamilyMembersList() != null){
+        if (gson.fromJson(json, FamilyMembersManager.class) != null){
             familyManager.setFamilyMembersList(gson.fromJson(json, FamilyMembersManager.class).getFamilyMembersList());
             familyManager.setKeyGenerator(gson.fromJson(json, FamilyMembersManager.class).getKeyGenerator());
         }
