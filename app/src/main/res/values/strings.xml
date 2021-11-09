@@ -69,5 +69,9 @@
     <string name="no_members_text">No family members added yet!</string>
     <string name="coin_button_flipAgain">Flip Again?</string>
     <string name="editTextFamilyMemberNameHint">Enter name of family member</string>
+    <string name="no_picker">unknown</string>
+    <string name="heads">heads</string>
+    <string name="tails">tails</string>
+    <string name="flip_result_text">\"Flip Result: \"</string>
 
 </resources>

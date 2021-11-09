@@ -36,6 +36,7 @@ public class CoinFlip extends AppCompatActivity {
 
     private Face currentFace;
     Bundle extras;
+    private String buttonClicked = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class CoinFlip extends AppCompatActivity {
                 button = findViewById(R.id.coin_button_flipAgain);
                 button.setVisibility(View.VISIBLE);
 
+                buttonClicked = "heads";
             }
         });
 
@@ -85,6 +87,7 @@ public class CoinFlip extends AppCompatActivity {
                 button = findViewById(R.id.coin_button_flipAgain);
                 button.setVisibility(View.VISIBLE);
 
+                buttonClicked = "tails";
             }
         });
 
@@ -109,36 +112,35 @@ public class CoinFlip extends AppCompatActivity {
 
         //set picker
         getPicker();
-
-
     }
 
-    private void getPicker() {
+    private String getPicker() {
         TextView textView = findViewById(R.id.coin_textView_message);
+        String picker = "";
         if (extras != null){
             //get player Indexes
             int player1Index = (int) extras.get("player1");
             int player2Index = (int) extras.get("player2");
 
+            picker = TurnPicker.choosePicker(this,player1Index, player2Index);
             //set name
-            textView.setText(getString(R.string.coin_textView_picker, TurnPicker.choosePicker(this,player1Index, player2Index)));
+            textView.setText(getString(R.string.coin_textView_picker, picker));
         }else{
             textView.setText(getString(R.string.coin_textView_pickerGeneric));
+            picker = getString(R.string.no_picker);
         }
+        return picker;
     }
-
 
 
     private void updateWinner(){
         TextView textView = findViewById(R.id.coin_textView_message);
         if (currentFace == Face.HEADS) {
             textView.setText(R.string.coin_message_headsWin);
-            flipHistoryManager.addCoinFlip("temp name", "heads", true);
-            //TODO: replace temp name with child who chose
-            //TODO: add win/lose status
+            flipHistoryManager.addCoinFlip(getPicker(), getString(R.string.heads), buttonClicked);
         }else{
             textView.setText(R.string.coin_message_tailsWin);
-            flipHistoryManager.addCoinFlip("temp name", "tails", false);
+            flipHistoryManager.addCoinFlip(getPicker(), getString(R.string.tails), buttonClicked);
         }
         saveFlipHistoryManagerToSharedPrefs();
     }

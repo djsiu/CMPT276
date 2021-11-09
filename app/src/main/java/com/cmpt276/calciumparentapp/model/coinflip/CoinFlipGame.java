@@ -9,21 +9,20 @@ public class CoinFlipGame {
 
     LocalDateTime timeStamp;
     String date, nameOfPicker, flipResult;
-    boolean pickerWon;
+    String pickerChoice;
 
 
-    public CoinFlipGame(String nameOfPicker, String flipResult, boolean pickerWon) {
+    public CoinFlipGame(String nameOfPicker, String flipResult, String pickerChoice) {
         this.date = createDate();
         this.flipResult = flipResult;
         this.nameOfPicker = nameOfPicker;
-        this.pickerWon = pickerWon;
+        this.pickerChoice = pickerChoice;
     }
 
     private String createDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss");
         timeStamp = LocalDateTime.now();
-        String nowFormatted = timeStamp.format(formatter);
-        return nowFormatted;
+        return timeStamp.format(formatter);
     }
 
     public String getGameData() {
@@ -33,7 +32,7 @@ public class CoinFlipGame {
 
     public int getIconID() {
         int id;
-        if(pickerWon) {
+        if(pickerChoice.equals(flipResult)) {
             id = R.drawable.win_flip_history;
         } else {
             id = R.drawable.lose_flip_history;

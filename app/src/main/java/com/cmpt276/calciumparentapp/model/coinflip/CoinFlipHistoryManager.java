@@ -24,8 +24,8 @@ public class CoinFlipHistoryManager {
     private static final String SHARED_PREFS_KEY = "AppPrefs";
     private static final String SHARED_PREFS_FLIP_HISTORY_MANAGER_KEY = "FlipHistoryManager";
 
-    public void addCoinFlip(String nameOfPicker, String flipResult, boolean pickerWon) {
-        coinFlipGames.add(new CoinFlipGame(nameOfPicker, flipResult, pickerWon));
+    public void addCoinFlip(String nameOfPicker, String flipResult, String pickerChoice) {
+        coinFlipGames.add(new CoinFlipGame(nameOfPicker, flipResult, pickerChoice));
     }
 
     public ArrayList<String> getCoinFlipGameStrings() {

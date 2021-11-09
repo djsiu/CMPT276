@@ -66,7 +66,7 @@ public class FamilyMembersManager {
         ArrayList<String> familyMembersStrings = new ArrayList<>();
         if (familyMembersList != null) {
             for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).getDeleted()) {
+                if(!familyMembersList.get(i).isDeleted()) {
                     familyMembersStrings.add(familyMembersList.get(i).getMemberName());
                 }
             }
