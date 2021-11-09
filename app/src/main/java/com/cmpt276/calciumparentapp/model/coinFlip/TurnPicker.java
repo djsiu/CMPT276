@@ -3,6 +3,7 @@ package com.cmpt276.calciumparentapp.model.coinFlip;
 import android.content.Context;
 import android.util.Log;
 
+import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 
@@ -24,7 +25,7 @@ public class TurnPicker {
            pickerName = familyManager.choosePicker(player1);
         }
         Log.i(TAG, "choosePicker: saving to prefs");
-        ManageFamilyMembers.saveFamilyManagerToSharedPrefs(context);
+        FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(context);
         Log.i(TAG, "choosePicker: saved to prefs\n\n\n\n\n\n\n\n\n\n");
         //return the name of the picker
         return pickerName;

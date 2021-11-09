@@ -10,20 +10,6 @@ public class FamilyMembersManager {
     public ArrayList<FamilyMember> getFamilyMembersList() {
         return familyMembersList;
     }
-
-    public void setFamilyMembersList(ArrayList<FamilyMember> familyMembersList) {
-        this.familyMembersList = familyMembersList;
-    }
-
-    public int getKeyGenerator() {
-        return keyGenerator;
-    }
-
-    public void setKeyGenerator(int keyGenerator) {
-        this.keyGenerator = keyGenerator;
-    }
-
-    private ArrayList<FamilyMember> familyMembersList;
     private int keyGenerator;
 
     private FamilyMembersManager() {
@@ -39,6 +25,18 @@ public class FamilyMembersManager {
             instance = new FamilyMembersManager();
         }
         return instance;
+    }
+
+    public void setFamilyMembersList(ArrayList<FamilyMember> familyMembersList) {
+        this.familyMembersList = familyMembersList;
+    }
+
+    public int getKeyGenerator() {
+        return keyGenerator;
+    }
+
+    public void setKeyGenerator(int keyGenerator) {
+        this.keyGenerator = keyGenerator;
     }
 
     public void addMember(String name) {
@@ -62,7 +60,7 @@ public class FamilyMembersManager {
 
     //TODO: Remove the get size function
     public int getSize(){
-        return instance.familyMembersList.size();
+        return familyMembersList.size();
     }
 
     public void deleteMember(String name) {

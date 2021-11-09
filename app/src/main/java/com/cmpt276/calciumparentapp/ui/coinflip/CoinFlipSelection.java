@@ -79,8 +79,11 @@ public class CoinFlipSelection extends AppCompatActivity {
 
         list.setOnItemClickListener((adapterView, view, position, id) -> {
             //if already selected
-            if(selectedIndexes.contains(position)){
-                selectedIndexes.remove(position);
+            int selectedIndex = selectedIndexes.indexOf(position);
+            if(selectedIndex != -1){
+                Log.i("toggle section", "populateListView: Removing " + position + "and it contains position is " + selectedIndexes.contains(position));
+                //must remove at index of contained not at position in master list
+                selectedIndexes.remove(selectedIndex);
                 //reset color
                 view.setBackgroundColor(Color.TRANSPARENT);
 
