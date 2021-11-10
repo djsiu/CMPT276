@@ -12,7 +12,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 /**
@@ -28,13 +27,12 @@ public class ManageFamilyEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_family_edit);
 
-        familyManager = FamilyMembersManager.getInstance();
+        familyManager = FamilyMembersManager.getInstance(this);
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
-        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
 
         // makes the current name appear in the editText
         EditText editTextName = findViewById(R.id.editTextMemberNameForEdit);
@@ -57,7 +55,6 @@ public class ManageFamilyEdit extends AppCompatActivity {
         deleteBtn.setOnClickListener(view -> {
             Log.i("edit", "setupDeleteBtn: before delete");
             familyManager.deleteMember(getFamilyMemberName());
-            FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
 
             finish();
         });
@@ -76,7 +73,6 @@ public class ManageFamilyEdit extends AppCompatActivity {
                 familyManager.changeMemberName(
                         editMemberName.getText().toString(),
                         getFamilyMemberName());
-                FamilyMemberSharedPreferences.saveFamilyManagerToSharedPrefs(this);
 
                 finish();
             } else {

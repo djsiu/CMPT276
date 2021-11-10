@@ -18,7 +18,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 import java.util.ArrayList;
@@ -37,8 +36,7 @@ public class CoinFlipSelection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
-        FamilyMembersManager familyManager = FamilyMembersManager.getInstance();
-        FamilyMemberSharedPreferences.getFamilyManagerFromSharedPrefs(this);
+        FamilyMembersManager familyManager = FamilyMembersManager.getInstance(this);
         nameArrayList = familyManager.getFamilyMembersNames();
         keyArrayList = familyManager.getFamilyMemberKeys();
 
