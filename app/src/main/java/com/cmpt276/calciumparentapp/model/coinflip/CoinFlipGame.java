@@ -1,5 +1,7 @@
 package com.cmpt276.calciumparentapp.model.coinflip;
 
+import android.content.Context;
+
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 import java.time.LocalDateTime;
@@ -49,10 +51,11 @@ public class CoinFlipGame {
     /**
      * Gets the text for the game. In the format:
      * picker name \nflip result \ndate
+     * @param context A context needed to get a FamilyMembersManager for the name
      * @return A string representing the game
      */
-    public String getGameText() {
-        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance();
+    public String getGameText(Context context) {
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         String pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
         String flipResultStr;
         if(coinFlipResult == CoinFace.HEADS){

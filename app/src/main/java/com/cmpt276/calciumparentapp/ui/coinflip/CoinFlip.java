@@ -18,11 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFace;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
-import com.cmpt276.calciumparentapp.model.manage.FamilyMemberSharedPreferences;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
-import com.cmpt276.calciumparentapp.model.coinflip.TurnPicker;
-import com.google.gson.Gson;
 
 /*
 ui for the coin flip activity

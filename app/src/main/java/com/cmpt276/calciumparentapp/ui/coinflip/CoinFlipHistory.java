@@ -77,7 +77,7 @@ public class CoinFlipHistory extends AppCompatActivity {
 
             // Game data text
             TextView makeText = (TextView) itemView.findViewById(R.id.history_text);
-            makeText.setText(currentGame.getGameText());
+            makeText.setText(currentGame.getGameText(getApplicationContext()));
 
             return itemView;
         }
