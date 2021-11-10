@@ -85,11 +85,27 @@ public class CoinFlipManager {
     }
 
     /**
+     * Simulates a coin flip and saves the result in the game if there is currently one running.
+     * Does not require a currently running game to be called.
+     * @return The result of the random coin flip
+     */
+    public CoinFace flipCoin() {
+        Random random = new Random();
+        CoinFace coinFlipResult = random.nextBoolean() ? CoinFace.HEADS : CoinFace.TAILS;
+
+        if(gameRunning){
+            assignCoinFlipResult(coinFlipResult);
+        }
+
+        return coinFlipResult;
+    }
+
+    /**
      * Assigns the provided pick to the currently running game.
      * There must be a current game running which was created by CoinFlipManager.beginGame
      * @param coinFlipPick The pick to be assigned to the currently running game
      */
-    public void assignCoinPick(CoinFlipGame.CoinFlipResult coinFlipPick) {
+    public void assignCoinPick(CoinFace coinFlipPick) {
         if(!gameRunning) {
             throw new IllegalStateException("Attempting to assign a coin pick without a running game");
                     
@@ -107,7 +123,7 @@ public class CoinFlipManager {
      * There must be a current game running which was created by CoinFlipManager.beginGame
      * @param coinFlipResult The result of the game's coin flip
      */
-    public void assignCoinFlipResult(CoinFlipGame.CoinFlipResult coinFlipResult) {
+    private void assignCoinFlipResult(CoinFace coinFlipResult) {
         if(!gameRunning) {
             throw new IllegalStateException("Attempting to assign a coin flip result without a running game");
         }

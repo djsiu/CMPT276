@@ -1,6 +1,5 @@
 package com.cmpt276.calciumparentapp.model.coinflip;
 
-import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 import java.time.LocalDateTime;
@@ -10,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 Creating individual coin flip games.
  */
 
+
 public class CoinFlipGame {
 
     // This doesn't have a context so you can't get a string resource easily
@@ -17,16 +17,13 @@ public class CoinFlipGame {
     private final String HEADS = "Heads";
     private final String TAILS = "Tails";
 
-    private String date;
-    private int pickerID;
-    private int secondPlayerID;
-    private CoinFlipResult coinFlipPick;
-    private CoinFlipResult coinFlipResult;
+    private final String date;
+    private final int pickerID;
+    private final int secondPlayerID;
+    private final CoinFace coinFlipPick;
+    private final CoinFace coinFlipResult;
 
-    public enum CoinFlipResult {
-        HEADS,
-        TAILS
-    }
+
 
     private CoinFlipGame(CoinFlipGameBuilder builder) {
         this.pickerID = builder.pickerID;
@@ -58,7 +55,7 @@ public class CoinFlipGame {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance();
         String pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
         String flipResultStr;
-        if(coinFlipResult == CoinFlipResult.HEADS){
+        if(coinFlipResult == CoinFace.HEADS){
             flipResultStr = HEADS;
         }
         else{
@@ -75,8 +72,8 @@ public class CoinFlipGame {
     public static class CoinFlipGameBuilder {
         private final int pickerID;
         private final int secondPlayerID;
-        private CoinFlipResult coinFlipPick;
-        private CoinFlipResult coinFlipResult;
+        private CoinFace coinFlipPick;
+        private CoinFace coinFlipResult;
 
         /**
          * Create a new builder instance
@@ -88,12 +85,12 @@ public class CoinFlipGame {
             this.secondPlayerID = secondPlayerID;
         }
 
-        public CoinFlipGameBuilder coinFlipResult(CoinFlipResult coinFlipResult) {
+        public CoinFlipGameBuilder coinFlipResult(CoinFace coinFlipResult) {
             this.coinFlipResult = coinFlipResult;
             return this;
         }
 
-        public CoinFlipGameBuilder coinFlipPick(CoinFlipResult pick) {
+        public CoinFlipGameBuilder coinFlipPick(CoinFace pick) {
             coinFlipPick = pick;
             return this;
         }
@@ -116,11 +113,11 @@ public class CoinFlipGame {
             return secondPlayerID;
         }
 
-        public CoinFlipResult getCoinFlipPick() {
+        public CoinFace getCoinFlipPick() {
             return coinFlipPick;
         }
 
-        public CoinFlipResult getCoinFlipResult() {
+        public CoinFace getCoinFlipResult() {
             return coinFlipResult;
         }
     }
