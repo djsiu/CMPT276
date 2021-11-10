@@ -56,9 +56,7 @@ public class CoinFlip extends AppCompatActivity {
 
     }
 
-    /**
-     * Calls the appropriate functions to setup the game
-     */
+
     private void setupGame() {
         messageTextView = findViewById(R.id.coin_textView_message);
         coinImageView = findViewById(R.id.imageView_coin);
