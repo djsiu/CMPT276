@@ -1,54 +1,99 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /*
 Managing the members of the family.
-adding, deleting and retreiving info about all the family members
+adding, deleting and retrieving info about all the family members
  */
 
 public class FamilyMembersManager {
 
-    private ArrayList<FamilyMember> familyMembersList;
-    public ArrayList<FamilyMember> getFamilyMembersList() {
-        return familyMembersList;
-    }
-    private int keyGenerator;
+    private final ArrayList<FamilyMember> familyMembersList;
+    private static final String SHARED_PREFS_KEY = "ParentAppSharedPrefs";
+    private static final String SHARED_PREFS_FAMILY_MANAGER_KEY = "FamilyManagerSharedPrefsKey";
 
-    private FamilyMembersManager() {
-        familyMembersList = new ArrayList<>();
-        keyGenerator = 0;
-    }
+    private int keyGenerator;
+    // Context is transient so it does not get saved to shared prefs
+    private transient Context context;
 
     //singleton support
+    // This will cause a memory leak. If anyone has a way to fix this that doesn't require
+    // passing a context to every public method of this class that uses shared prefs please tell me
     private static FamilyMembersManager instance;
 
-    public static FamilyMembersManager getInstance() {
+    public static FamilyMembersManager getInstance(Context context) {
         if(instance == null) {
-            instance = new FamilyMembersManager();
+            generateInstance(context);
         }
         return instance;
     }
 
-    public void setFamilyMembersList(ArrayList<FamilyMember> familyMembersList) {
-        this.familyMembersList = familyMembersList;
+    private FamilyMembersManager(Context context) {
+        this.context = context;
+        familyMembersList = new ArrayList<>();
+        keyGenerator = 0;
     }
 
-    public int getKeyGenerator() {
-        return keyGenerator;
+    // Sets the instance variable to an instance of this class
+    // Loads the class from shared preferences if one exists
+    // otherwise calls the constructor.
+    private static void generateInstance(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(FamilyMembersManager.class,
+                new FamilyMembersManagerInstanceCreator(context));
+
+        Gson gson = gsonBuilder.create();
+        String json = prefs.getString(SHARED_PREFS_FAMILY_MANAGER_KEY, "");
+        if(!json.equals("")){
+            instance = gson.fromJson(json, FamilyMembersManager.class);
+        }
+        else{
+            instance = new FamilyMembersManager(context);
+        }
+
     }
 
-    public void setKeyGenerator(int keyGenerator) {
-        this.keyGenerator = keyGenerator;
+    private static class FamilyMembersManagerInstanceCreator implements InstanceCreator<FamilyMembersManager> {
+
+        private Context context;
+
+        public FamilyMembersManagerInstanceCreator(Context context){
+            this.context = context;
+        }
+
+        @Override
+        public FamilyMembersManager createInstance(Type type) {
+            FamilyMembersManager familyMembersManager = new FamilyMembersManager(context);
+            return familyMembersManager;
+        }
     }
 
     public void addMember(String name) {
         FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size());
         familyMembersList.add(newMember);
         keyGenerator++;
+        saveToSharedPrefs();
     }
 
+
+    private void saveToSharedPrefs() {
+        SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(this);
+        editor.putString(SHARED_PREFS_FAMILY_MANAGER_KEY, json);
+        editor.apply();
+    }
 
     public void changeMemberName(String newName, String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
@@ -56,6 +101,7 @@ public class FamilyMembersManager {
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
             }
         }
+        saveToSharedPrefs();
     }
 
     public void deleteMember(String name) {
@@ -65,6 +111,7 @@ public class FamilyMembersManager {
                 familyMembersList.get(i).deleteChild();
             }
         }
+        saveToSharedPrefs();
     }
 
     public ArrayList<String> getFamilyMembersNames() {
