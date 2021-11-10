@@ -96,14 +96,9 @@ public class CoinFlipGame {
         }
 
         public CoinFlipGame build() {
-            CoinFlipGame game = new CoinFlipGame(this);
-            validateCoinFlipGame(game);
-            return game;
+            return new CoinFlipGame(this);
         }
 
-        private void validateCoinFlipGame(CoinFlipGame game) {
-            // TODO: implement validation
-        }
 
         public int getPickerID() {
             return pickerID;

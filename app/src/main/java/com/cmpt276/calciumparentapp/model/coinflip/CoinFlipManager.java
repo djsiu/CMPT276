@@ -154,11 +154,11 @@ public class CoinFlipManager {
      * Requires there is a currently running game 
      * and that the coin pick and coin flip result are set
      */
-    public void completeGame() {
+    private void completeGame() {
         if(!gameRunning) {
             throw new IllegalStateException("Attempting to complete game without a running game");
         }
-        // The checks for assigning the coin pick and flip result are handled in the builder
+
         games.add(gameBuilder.build());
         gameRunning = false;
 
