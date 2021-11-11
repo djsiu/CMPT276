@@ -3,7 +3,6 @@ package com.cmpt276.calciumparentapp.model.manage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,7 +24,7 @@ public class FamilyMembersManager {
 
     private int keyGenerator;
     // Context is transient so it does not get saved to shared prefs
-    private transient Context context;
+    private final transient Context context;
 
     //singleton support
     // This will cause a memory leak. If anyone has a way to fix this that doesn't require
@@ -60,14 +59,14 @@ public class FamilyMembersManager {
             instance = gson.fromJson(json, FamilyMembersManager.class);
         }
         else{
-            instance = new FamilyMembersManager(context);
+            instance = new FamilyMembersManager(context.getApplicationContext());
         }
 
     }
 
     private static class FamilyMembersManagerInstanceCreator implements InstanceCreator<FamilyMembersManager> {
 
-        private Context context;
+        private final Context context;
 
         public FamilyMembersManagerInstanceCreator(Context context){
             this.context = context;
@@ -75,13 +74,12 @@ public class FamilyMembersManager {
 
         @Override
         public FamilyMembersManager createInstance(Type type) {
-            FamilyMembersManager familyMembersManager = new FamilyMembersManager(context);
-            return familyMembersManager;
+            return new FamilyMembersManager(context);
         }
     }
 
-    public void addMember(String name) {
-        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size());
+    public void addMember(String name, int profilePhotoID) {
+        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size(), profilePhotoID);
         familyMembersList.add(newMember);
         keyGenerator++;
         saveToSharedPrefs();
@@ -115,6 +113,7 @@ public class FamilyMembersManager {
         saveToSharedPrefs();
     }
 
+    // returns all non-deleted family members' names
     public ArrayList<String> getFamilyMembersNames() {
         ArrayList<String> familyMembersStrings = new ArrayList<>();
         if (familyMembersList != null) {
@@ -137,6 +136,21 @@ public class FamilyMembersManager {
         return familyMembersStrings;
     }
 
+    // returns all non-deleted family member objects
+    public ArrayList<FamilyMember> getFamilyMemberObjects() {
+        ArrayList<FamilyMember> activeMembers = new ArrayList<>();
+
+        for(int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted()) {
+                activeMembers.add(familyMembersList.get(i));
+            }
+        }
+        return activeMembers;
+    }
+
+    public int getCoinFlipPriority(int index){
+        return familyMembersList.get(index).getCoinFlipPickPriority();
+    }
 
     public boolean isMemberNameUsed(String name) {
         boolean nameUsed = false;
@@ -145,7 +159,6 @@ public class FamilyMembersManager {
                 nameUsed = true;
             }
         }
-
         return nameUsed;
     }
 
