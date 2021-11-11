@@ -1,6 +1,7 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -24,16 +25,16 @@ public class FamilyMembersManager {
 
     private int keyGenerator;
     // Context is transient so it does not get saved to shared prefs
-    private transient Context context;
+    private final transient Context context;
 
     //singleton support
-    // This will cause a memory leak. If anyone has a way to fix this that doesn't require
-    // passing a context to every public method of this class that uses shared prefs please tell me
+    // By using getApplicationContext in the singleton the memory leak is fixed
+    @SuppressLint("StaticFieldLeak")
     private static FamilyMembersManager instance;
 
     public static FamilyMembersManager getInstance(Context context) {
         if(instance == null) {
-            generateInstance(context);
+            generateInstance(context.getApplicationContext());
         }
         return instance;
     }
@@ -74,8 +75,7 @@ public class FamilyMembersManager {
 
         @Override
         public FamilyMembersManager createInstance(Type type) {
-            FamilyMembersManager familyMembersManager = new FamilyMembersManager(context);
-            return familyMembersManager;
+            return new FamilyMembersManager(context);
         }
     }
 
@@ -85,7 +85,6 @@ public class FamilyMembersManager {
         keyGenerator++;
         saveToSharedPrefs();
     }
-
 
     private void saveToSharedPrefs() {
         SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE).edit();
