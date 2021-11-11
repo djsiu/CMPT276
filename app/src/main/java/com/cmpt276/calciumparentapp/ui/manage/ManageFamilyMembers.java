@@ -16,7 +16,7 @@ import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
-Activity for displaying family members, choosing members to edit and adding a new member
+ * Activity for displaying family members, choosing members to edit and adding a new member
  */
 public class ManageFamilyMembers extends AppCompatActivity {
 

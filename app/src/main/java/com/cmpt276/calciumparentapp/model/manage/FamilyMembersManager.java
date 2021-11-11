@@ -12,11 +12,10 @@ import com.google.gson.InstanceCreator;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/*
+/**
 Managing the members of the family.
 adding, deleting and retrieving info about all the family members
  */
-
 public class FamilyMembersManager {
 
     private final ArrayList<FamilyMember> familyMembersList;
