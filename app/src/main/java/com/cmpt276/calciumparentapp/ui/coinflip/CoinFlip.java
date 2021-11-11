@@ -43,6 +43,7 @@ public class CoinFlip extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
         coinFlipManager = CoinFlipManager.getInstance(this);
+        familyMembersManager = FamilyMembersManager.getInstance(this);
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
@@ -53,6 +54,11 @@ public class CoinFlip extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        coinFlipManager.cancelGame();
+        super.onDestroy();
+    }
 
     private void setupGame() {
         messageTextView = findViewById(R.id.coin_textView_message);

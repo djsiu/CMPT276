@@ -69,6 +69,14 @@ public class CoinFlipManager {
     }
 
     /**
+     * Cancels the currently running game.
+     * beginAnotherGame cannot be called after this.
+     */
+    public void cancelGame() {
+        gameRunning = false;
+    }
+
+    /**
      * Starts a new game with the same players as the previous game.
      * Must have had at least 1 game played while app was running.
      */
