@@ -65,8 +65,7 @@ public class FamilyMembersManager {
     }
 
     private static class FamilyMembersManagerInstanceCreator implements InstanceCreator<FamilyMembersManager> {
-
-        private Context context;
+        private final Context context;
 
         public FamilyMembersManagerInstanceCreator(Context context){
             this.context = context;

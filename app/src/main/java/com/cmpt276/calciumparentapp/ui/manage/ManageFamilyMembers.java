@@ -41,7 +41,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         populateListView();
-
     }
 
     @Override
@@ -53,7 +52,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
 
     private void populateListView() {
         showNoMembersMessage();
-
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
