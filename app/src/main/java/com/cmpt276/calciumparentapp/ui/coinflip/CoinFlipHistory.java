@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipGame;
-import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipHistoryManager;
+import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /*
     NEEDS TO DISPLAY:
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class CoinFlipHistory extends AppCompatActivity {
 
-    private CoinFlipHistoryManager flipHistoryManager;
+    private CoinFlipManager coinFlipManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +42,12 @@ public class CoinFlipHistory extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        flipHistoryManager = CoinFlipHistoryManager.getFlipHistoryManagerFromSharedPrefs(this);
+        coinFlipManager = CoinFlipManager.getInstance(this);
 
         populateListView();
     }
 
     private void populateListView() {
-
-        ArrayList<CoinFlipGame> storedGames;
 
         ArrayAdapter<CoinFlipGame> adapter = new MyListAdapter();
 
@@ -60,12 +58,12 @@ public class CoinFlipHistory extends AppCompatActivity {
     private class MyListAdapter extends ArrayAdapter<CoinFlipGame>{
 
         public MyListAdapter() {
-            super(CoinFlipHistory.this, R.layout.history_item_view, flipHistoryManager.getCoinFlipGames());
+            super(CoinFlipHistory.this, R.layout.history_item_view, coinFlipManager.getGamesList());
         }
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ArrayList<CoinFlipGame> games = flipHistoryManager.getCoinFlipGames();
+            List<CoinFlipGame> games = coinFlipManager.getGamesList();
             View itemView = convertView;
             if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.history_item_view, parent, false);
@@ -75,15 +73,29 @@ public class CoinFlipHistory extends AppCompatActivity {
 
             // Fill the view
             ImageView imageView = (ImageView) itemView.findViewById(R.id.win_lose_history_icon);
-            imageView.setImageResource(currentGame.getIconID());
+            imageView.setImageResource(getGameIconID(currentGame));
 
             // Game data text
             TextView makeText = (TextView) itemView.findViewById(R.id.history_text);
-            makeText.setText(currentGame.getGameData());
+            makeText.setText(currentGame.getGameText(getApplicationContext()));
 
             return itemView;
         }
     }
+
+    /**
+     * Get the ID for the appropriate game icon
+     * @param game The game which the icon of will be determined
+     * @return The ID of the appropriate game icon
+     */
+    private int getGameIconID(CoinFlipGame game) {
+        if(game.isGameWonByPicker()){
+            return R.drawable.win_flip_history;
+        }
+
+        return R.drawable.lose_flip_history;
+    }
+
 
     /**
      * Adds logic to action bar

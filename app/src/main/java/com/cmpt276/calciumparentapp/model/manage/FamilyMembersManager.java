@@ -3,6 +3,7 @@ package com.cmpt276.calciumparentapp.model.manage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -136,9 +137,6 @@ public class FamilyMembersManager {
         return familyMembersStrings;
     }
 
-    public int getCoinFlipPriority(int index){
-        return familyMembersList.get(index).getCoinFlipPickPriority();
-    }
 
     public boolean isMemberNameUsed(String name) {
         boolean nameUsed = false;
@@ -161,6 +159,16 @@ public class FamilyMembersManager {
         }
         familyMembersList.get(index).setCoinFlipPickPriority(listSize-1);
         return familyMembersList.get(index).getMemberName();
+    }
+
+    public String getFamilyMemberNameFromID(int ID) {
+        for(FamilyMember familyMember : familyMembersList) {
+            if(familyMember.getKey() == ID){
+                return familyMember.getMemberName();
+            }
+        }
+
+        throw new IllegalArgumentException("No family member with provided ID");
     }
 
 }
