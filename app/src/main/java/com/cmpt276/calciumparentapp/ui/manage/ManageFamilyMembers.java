@@ -58,7 +58,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 R.layout.family_member_list_view,
-                familyManager.getFamilyMembersNames());
+                familyManager.getFamilyMemberNames());
 
         ListView familyMembersListView = findViewById(R.id.familyMembersList);
         familyMembersListView.setAdapter(adapter);
@@ -83,8 +83,8 @@ public class ManageFamilyMembers extends AppCompatActivity {
     private void showNoMembersMessage() {
         TextView textView = findViewById(R.id.no_family_members_text);
         textView.setVisibility(TextView.VISIBLE);
-        System.out.println("size of family names " + familyManager.getFamilyMembersNames().size());
-        if(familyManager.getFamilyMembersNames().size() > 0) {
+        System.out.println("size of family names " + familyManager.getFamilyMemberNames().size());
+        if(familyManager.getFamilyMemberNames().size() > 0) {
             textView.setVisibility(TextView.INVISIBLE);
         }
     }

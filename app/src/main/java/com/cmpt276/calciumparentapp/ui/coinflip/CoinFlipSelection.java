@@ -37,7 +37,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
         FamilyMembersManager familyManager = FamilyMembersManager.getInstance(this);
-        nameArrayList = familyManager.getFamilyMembersNames();
+        nameArrayList = familyManager.getFamilyMemberNames();
         keyArrayList = familyManager.getFamilyMemberKeys();
 
         if(!hasEnoughFamilyMembers()){

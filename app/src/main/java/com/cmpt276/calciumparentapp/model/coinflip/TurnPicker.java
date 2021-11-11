@@ -12,7 +12,7 @@ public class TurnPicker {
 
     public static String choosePicker(Context context, int player1, int player2){
         FamilyMembersManager familyManager = FamilyMembersManager.getInstance(context);
-        Log.i("startupBug", "choosePicker: " + familyManager.getFamilyMembersNames());
+        Log.i("startupBug", "choosePicker: " + familyManager.getFamilyMemberNames());
 
         //find turn order of each member
         int player1Priority = familyManager.getCoinFlipPriority(player1);

@@ -113,24 +113,21 @@ public class FamilyMembersManager {
         saveToSharedPrefs();
     }
 
-    public ArrayList<String> getFamilyMembersNames() {
+    public ArrayList<String> getFamilyMemberNames() {
         ArrayList<String> familyMembersStrings = new ArrayList<>();
-        if (familyMembersList != null) {
-            for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).isDeleted()) {
-                    familyMembersStrings.add(familyMembersList.get(i).getMemberName());
-                }
+        for (int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted()) {
+                familyMembersStrings.add(familyMembersList.get(i).getMemberName());
             }
         }
         return familyMembersStrings;
     }
+
     public ArrayList<Integer> getFamilyMemberKeys() {
         ArrayList<Integer> familyMembersStrings = new ArrayList<>();
-        if (familyMembersList != null) {
-            for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).isDeleted())
-                familyMembersStrings.add(familyMembersList.get(i).getKey());
-            }
+        for (int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted())
+            familyMembersStrings.add(familyMembersList.get(i).getKey());
         }
         return familyMembersStrings;
     }
