@@ -16,20 +16,20 @@ public class AlarmSoundManager {
     // By using getApplicationContext in the singleton the memory leak is fixed
     @SuppressLint("StaticFieldLeak")
     private static AlarmSoundManager instance;
-    private final MediaPlayer mp = new MediaPlayer();
+    private final MediaPlayer mediaPlayer = new MediaPlayer();
 
     private AlarmSoundManager(Context context){
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM); // Gets system alarm sound
-        mp.setAudioAttributes(
+        mediaPlayer.setAudioAttributes(
                 new AudioAttributes
                         .Builder()
                         .setUsage(AudioAttributes.USAGE_ALARM)
                         .build());
 
         try {
-            mp.setDataSource(context, alarmSound);
-            mp.prepare();
+            mediaPlayer.setDataSource(context, alarmSound);
+            mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,20 +45,20 @@ public class AlarmSoundManager {
 
     public void startAlarmSound() {
 
-        if(!mp.isPlaying()) {
-            mp.start();
-            mp.setLooping(true);
+        if(!mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+            mediaPlayer.setLooping(true);
         }
     }
 
     public void stopAlarmSound() {
-        mp.stop();
+        mediaPlayer.stop();
 
         // After the mediaPlayer is stopped, prepare needs to be called again before
         // its in a state where it can be played again.
         // See the state diagram: https://developer.android.com/reference/android/media/MediaPlayer#StateDiagram
         try {
-            mp.prepare();
+            mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
