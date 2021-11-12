@@ -1,6 +1,7 @@
 package com.cmpt276.calciumparentapp.ui.tasks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,14 +42,17 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecycler
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: stuff here!!
+                // position is not fixed. Must use getAdapterPosition
+                int index = holder.getAdapterPosition();
+                Intent i = ConfigureTask.makeEditTaskIntent(mContext, taskManager.getTaskID(index));
+                v.getContext().startActivity(i);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return taskManager.getSize();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

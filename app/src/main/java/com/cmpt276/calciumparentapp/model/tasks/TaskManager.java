@@ -8,9 +8,11 @@ public class TaskManager {
     private List<Task> taskList;
 
     private static TaskManager instance;
+    private int taskIDCounter; // Used to generate new task IDs. Incremented everytime a new task is made
 
     private TaskManager() {
         taskList = new ArrayList<>();
+        taskIDCounter = 0;
     }
 
     public static TaskManager getInstance() {
@@ -33,7 +35,16 @@ public class TaskManager {
 
     }
 
-    public void addTask(Task task) {
+    /**
+     * Gets the total number of tasks in the manager
+     * @return The number of tasks
+     */
+    public int getSize() {
+        return taskList.size();
+    }
+
+    public void createNewTask(String taskName) {
+        Task task = new Task(taskName, generateNewTaskID());
         setChildID(task);
         taskList.add(task);
     }
@@ -54,6 +65,25 @@ public class TaskManager {
      */
     public String getTaskName(int i ) {
         return taskList.get(i).getTaskName();
+    }
+
+    /**
+     * Generates a new ID for a task. Increments the taskIDCounter.
+     * @return A new task ID
+     */
+    private int generateNewTaskID() {
+        int id = taskIDCounter;
+        taskIDCounter++;
+        return id;
+    }
+
+    /**
+     * Gets the task ID of the task at a given index
+     * @param i The index of the task
+     * @return The task ID
+     */
+    public int getTaskID(int i) {
+        return taskList.get(i).getTaskID();
     }
 
 

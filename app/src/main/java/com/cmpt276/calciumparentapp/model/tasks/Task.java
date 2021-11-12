@@ -1,20 +1,27 @@
 package com.cmpt276.calciumparentapp.model.tasks;
 
+/**
+ * The class representing a Task.
+ * New tasks should only be created via the TaskManager.createNewTask method
+ */
 public class Task {
 
     private String taskName;
     // The ID of the child currently responsible for the task
     private int childID;
+    private int taskID; // A unique, unchanging ID for this task
 
-    public Task(String taskName) {
+    // protected to prevent creating new tasks outside of the TaskManager
+    protected Task(String taskName, int taskID) {
         this.taskName = taskName;
+        this.taskID = taskID;
     }
 
     public String getTaskName() {
         return taskName;
     }
 
-    public void setChildID(int childID) {
+    protected void setChildID(int childID) {
         this.childID = childID;
     }
 
@@ -23,4 +30,7 @@ public class Task {
     }
 
 
+    public int getTaskID() {
+        return taskID;
+    }
 }

@@ -9,14 +9,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlip;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class TaskMenu extends AppCompatActivity {
 
     TaskManager taskManager;
+    TasksRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +35,29 @@ public class TaskMenu extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         setupRecyclerView();
+        setupAddTaskButton();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
 
     private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.tasks_recycler_view);
-        TasksRecyclerViewAdapter adapter = new TasksRecyclerViewAdapter(this, taskManager);
+        adapter = new TasksRecyclerViewAdapter(this, taskManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    private void setupAddTaskButton() {
+        FloatingActionButton addTaskBtn = findViewById(R.id.addTaskButton);
+        addTaskBtn.setOnClickListener(v -> {
+            Intent i = ConfigureTask.makeAddTaskIntent(TaskMenu.this);
+            startActivity(i);
+        });
+    }
 
 
 
