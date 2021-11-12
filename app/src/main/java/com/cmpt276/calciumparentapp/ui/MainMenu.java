@@ -25,10 +25,12 @@ public class MainMenu extends AppCompatActivity {
         Button btnCoinFlip = findViewById(R.id.main_menu_left_button);
         Button btnTimer = findViewById(R.id.main_menu_right_button);
         Button btnFamManage = findViewById(R.id.main_menu_top_button);
+        Button btnHelp = findViewById(R.id.main_menu_help_button);
 
         setupCoinFlipButton(btnCoinFlip);
         setupTimerButton(btnTimer);
         setupFamilyManageButton(btnFamManage);
+        setupHelpButton(btnHelp);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); // Disables Dark Mode
     }
@@ -53,6 +55,13 @@ public class MainMenu extends AppCompatActivity {
         button.setOnClickListener(v -> {
             // Opens the ManageFamilyMembers activity
             Intent i = ManageFamilyMembers.makeIntent(MainMenu.this);
+            startActivity(i);
+        });
+    }
+    public void setupHelpButton(Button button) {
+        button.setOnClickListener(v -> {
+            // Opens the ManageFamilyMembers activity
+            Intent i = HelpScreen.makeIntent(MainMenu.this);
             startActivity(i);
         });
     }

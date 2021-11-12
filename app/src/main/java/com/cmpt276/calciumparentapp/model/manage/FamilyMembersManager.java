@@ -77,8 +77,8 @@ public class FamilyMembersManager {
         }
     }
 
-    public void addMember(String name) {
-        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size());
+    public void addMember(String name, int profilePhotoID) {
+        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size(), profilePhotoID);
         familyMembersList.add(newMember);
         keyGenerator++;
         saveToSharedPrefs();
@@ -111,7 +111,8 @@ public class FamilyMembersManager {
         saveToSharedPrefs();
     }
 
-    public ArrayList<String> getFamilyMemberNames() {
+    // returns all non-deleted family members' names
+    public ArrayList<String> getFamilyMembersNames() {
         ArrayList<String> familyMembersStrings = new ArrayList<>();
         for (int i = 0; i < familyMembersList.size(); i++) {
             if(!familyMembersList.get(i).isDeleted()) {
@@ -130,6 +131,18 @@ public class FamilyMembersManager {
         return familyMembersStrings;
     }
 
+    // returns all non-deleted family member objects
+    public ArrayList<FamilyMember> getFamilyMemberObjects() {
+        ArrayList<FamilyMember> activeMembers = new ArrayList<>();
+
+        for(int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted()) {
+                activeMembers.add(familyMembersList.get(i));
+            }
+        }
+        return activeMembers;
+    }
+
     public int getCoinFlipPriority(int index){
         return familyMembersList.get(index).getCoinFlipPickPriority();
     }
@@ -141,7 +154,6 @@ public class FamilyMembersManager {
                 nameUsed = true;
             }
         }
-
         return nameUsed;
     }
 
@@ -155,6 +167,16 @@ public class FamilyMembersManager {
         }
         familyMembersList.get(index).setCoinFlipPickPriority(listSize-1);
         return familyMembersList.get(index).getMemberName();
+    }
+
+    public String getFamilyMemberNameFromID(int ID) {
+        for(FamilyMember familyMember : familyMembersList) {
+            if(familyMember.getKey() == ID){
+                return familyMember.getMemberName();
+            }
+        }
+
+        throw new IllegalArgumentException("No family member with provided ID");
     }
 
 }
