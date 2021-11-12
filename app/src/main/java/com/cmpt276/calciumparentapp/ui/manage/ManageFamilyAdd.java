@@ -44,7 +44,8 @@ public class ManageFamilyAdd extends AppCompatActivity {
             boolean nameAlreadyExists = familyManager.isMemberNameUsed(newMemberNameStr);
 
             if(!nameAlreadyExists) {
-                familyManager.addMember(newMemberNameStr);
+                int profilePhotoID = R.drawable.default_profile_photo;
+                familyManager.addMember(newMemberNameStr, profilePhotoID);
 
                 String welcomeText = String.format(
                         getString(R.string.family_member_welcome_toast_text_format),

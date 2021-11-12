@@ -31,9 +31,11 @@
         <entry key="app/src/main/res/layout/activity_manage_family_members.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/activity_timer_custom_time.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_timer_select_time.xml" value="0.4121376811594203" />
+        <entry key="app/src/main/res/layout/family_member_item_view.xml" value="0.20336134453781513" />
         <entry key="app/src/main/res/layout/family_member_list_view.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/fragment_coin_flip_select_first.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/fragment_timer_custom_time.xml" value="0.4121376811594203" />
+        <entry key="app/src/main/res/layout/history_item_view.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/menu/menu_coin_flip.xml" value="0.30512820512820515" />
       </map>
     </option>

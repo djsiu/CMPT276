@@ -73,5 +73,6 @@
     <string name="tails">tails</string>
     <string name="flip_result_text">\"Flip Result: \"</string>
     <string name="app_shared_preferences_key">APP_SHARED_PREFERENCES_KEY</string>
+    <string name="member_name">Member Name</string>
 
 </resources>
