@@ -1,9 +1,9 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,11 +12,10 @@ import com.google.gson.InstanceCreator;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/*
+/**
 Managing the members of the family.
 adding, deleting and retrieving info about all the family members
  */
-
 public class FamilyMembersManager {
 
     private final ArrayList<FamilyMember> familyMembersList;
@@ -25,16 +24,16 @@ public class FamilyMembersManager {
 
     private int keyGenerator;
     // Context is transient so it does not get saved to shared prefs
-    private transient Context context;
+    private final transient Context context;
 
     //singleton support
-    // This will cause a memory leak. If anyone has a way to fix this that doesn't require
-    // passing a context to every public method of this class that uses shared prefs please tell me
+    // By using getApplicationContext in the singleton the memory leak is fixed
+    @SuppressLint("StaticFieldLeak")
     private static FamilyMembersManager instance;
 
     public static FamilyMembersManager getInstance(Context context) {
         if(instance == null) {
-            generateInstance(context);
+            generateInstance(context.getApplicationContext());
         }
         return instance;
     }
@@ -66,8 +65,7 @@ public class FamilyMembersManager {
     }
 
     private static class FamilyMembersManagerInstanceCreator implements InstanceCreator<FamilyMembersManager> {
-
-        private Context context;
+        private final Context context;
 
         public FamilyMembersManagerInstanceCreator(Context context){
             this.context = context;
@@ -75,18 +73,16 @@ public class FamilyMembersManager {
 
         @Override
         public FamilyMembersManager createInstance(Type type) {
-            FamilyMembersManager familyMembersManager = new FamilyMembersManager(context);
-            return familyMembersManager;
+            return new FamilyMembersManager(context);
         }
     }
 
-    public void addMember(String name) {
-        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size());
+    public void addMember(String name, int profilePhotoID) {
+        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size(), profilePhotoID);
         familyMembersList.add(newMember);
         keyGenerator++;
         saveToSharedPrefs();
     }
-
 
     private void saveToSharedPrefs() {
         SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE).edit();
@@ -115,28 +111,41 @@ public class FamilyMembersManager {
         saveToSharedPrefs();
     }
 
+    // returns all non-deleted family members' names
     public ArrayList<String> getFamilyMembersNames() {
         ArrayList<String> familyMembersStrings = new ArrayList<>();
-        if (familyMembersList != null) {
-            for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).isDeleted()) {
-                    familyMembersStrings.add(familyMembersList.get(i).getMemberName());
-                }
-            }
-        }
-        return familyMembersStrings;
-    }
-    public ArrayList<Integer> getFamilyMemberKeys() {
-        ArrayList<Integer> familyMembersStrings = new ArrayList<>();
-        if (familyMembersList != null) {
-            for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).isDeleted())
-                familyMembersStrings.add(familyMembersList.get(i).getKey());
+        for (int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted()) {
+                familyMembersStrings.add(familyMembersList.get(i).getMemberName());
             }
         }
         return familyMembersStrings;
     }
 
+    public ArrayList<Integer> getFamilyMemberKeys() {
+        ArrayList<Integer> familyMembersStrings = new ArrayList<>();
+        for (int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted())
+            familyMembersStrings.add(familyMembersList.get(i).getKey());
+        }
+        return familyMembersStrings;
+    }
+
+    // returns all non-deleted family member objects
+    public ArrayList<FamilyMember> getFamilyMemberObjects() {
+        ArrayList<FamilyMember> activeMembers = new ArrayList<>();
+
+        for(int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted()) {
+                activeMembers.add(familyMembersList.get(i));
+            }
+        }
+        return activeMembers;
+    }
+
+    public int getCoinFlipPriority(int index){
+        return familyMembersList.get(index).getCoinFlipPickPriority();
+    }
 
     public boolean isMemberNameUsed(String name) {
         boolean nameUsed = false;
@@ -145,7 +154,6 @@ public class FamilyMembersManager {
                 nameUsed = true;
             }
         }
-
         return nameUsed;
     }
 
