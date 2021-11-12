@@ -1,6 +1,7 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -11,11 +12,10 @@ import com.google.gson.InstanceCreator;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/*
+/**
 Managing the members of the family.
 adding, deleting and retrieving info about all the family members
  */
-
 public class FamilyMembersManager {
 
     private final ArrayList<FamilyMember> familyMembersList;
@@ -27,13 +27,13 @@ public class FamilyMembersManager {
     private final transient Context context;
 
     //singleton support
-    // This will cause a memory leak. If anyone has a way to fix this that doesn't require
-    // passing a context to every public method of this class that uses shared prefs please tell me
+    // By using getApplicationContext in the singleton the memory leak is fixed
+    @SuppressLint("StaticFieldLeak")
     private static FamilyMembersManager instance;
 
     public static FamilyMembersManager getInstance(Context context) {
         if(instance == null) {
-            generateInstance(context);
+            generateInstance(context.getApplicationContext());
         }
         return instance;
     }
@@ -59,13 +59,12 @@ public class FamilyMembersManager {
             instance = gson.fromJson(json, FamilyMembersManager.class);
         }
         else{
-            instance = new FamilyMembersManager(context.getApplicationContext());
+            instance = new FamilyMembersManager(context);
         }
 
     }
 
     private static class FamilyMembersManagerInstanceCreator implements InstanceCreator<FamilyMembersManager> {
-
         private final Context context;
 
         public FamilyMembersManagerInstanceCreator(Context context){
@@ -84,7 +83,6 @@ public class FamilyMembersManager {
         keyGenerator++;
         saveToSharedPrefs();
     }
-
 
     private void saveToSharedPrefs() {
         SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE).edit();
@@ -116,22 +114,19 @@ public class FamilyMembersManager {
     // returns all non-deleted family members' names
     public ArrayList<String> getFamilyMembersNames() {
         ArrayList<String> familyMembersStrings = new ArrayList<>();
-        if (familyMembersList != null) {
-            for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).isDeleted()) {
-                    familyMembersStrings.add(familyMembersList.get(i).getMemberName());
-                }
+        for (int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted()) {
+                familyMembersStrings.add(familyMembersList.get(i).getMemberName());
             }
         }
         return familyMembersStrings;
     }
+
     public ArrayList<Integer> getFamilyMemberKeys() {
         ArrayList<Integer> familyMembersStrings = new ArrayList<>();
-        if (familyMembersList != null) {
-            for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).isDeleted())
-                familyMembersStrings.add(familyMembersList.get(i).getKey());
-            }
+        for (int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted())
+            familyMembersStrings.add(familyMembersList.get(i).getKey());
         }
         return familyMembersStrings;
     }
