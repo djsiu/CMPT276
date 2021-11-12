@@ -206,7 +206,6 @@ public class TimerService extends Service {
                 }
             }
         };
-
         IntentFilter filter = new IntentFilter(TIMER_SERVICE_REQUEST_FILTER);
         this.registerReceiver(br, filter);
     }
