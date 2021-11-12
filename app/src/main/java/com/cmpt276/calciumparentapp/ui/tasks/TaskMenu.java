@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
+import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlip;
 
 public class TaskMenu extends AppCompatActivity {
 
@@ -54,5 +57,9 @@ public class TaskMenu extends AppCompatActivity {
         // If we got here, the user's action was not recognized.
         // Invoke the superclass to handle it.
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Intent makeIntent(Context context){
+        return new Intent(context, TaskMenu.class);
     }
 }
