@@ -81,7 +81,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
     private void showNoMembersMessage() {
         TextView textView = findViewById(R.id.no_family_members_text);
         textView.setVisibility(TextView.VISIBLE);
-        System.out.println("size of family names " + familyManager.getFamilyMemberNames().size());
         if(familyManager.getFamilyMemberNames().size() > 0) {
             textView.setVisibility(TextView.INVISIBLE);
         }
