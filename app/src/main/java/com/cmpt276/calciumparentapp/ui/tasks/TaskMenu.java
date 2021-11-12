@@ -41,6 +41,7 @@ public class TaskMenu extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // TODO: Implement better updating of recyclerview
         adapter.notifyDataSetChanged();
     }
 

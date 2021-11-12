@@ -1,5 +1,7 @@
 package com.cmpt276.calciumparentapp.model.tasks;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +77,25 @@ public class TaskManager {
         int id = taskIDCounter;
         taskIDCounter++;
         return id;
+    }
+
+    /**
+     * Changes the name of the given task by its ID
+     * @param taskID The id of the task to be changed
+     * @param newName The new name of the task
+     */
+    public void editTaskNameByID(int taskID, String newName) {
+        getTaskByID(taskID).setTaskName(newName);
+    }
+
+    private Task getTaskByID(int taskID) {
+        for(Task task : taskList) {
+            if(task.getTaskID() == taskID) {
+                return task;
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid task ID in getTaskByID");
     }
 
     /**

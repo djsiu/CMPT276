@@ -25,6 +25,10 @@ public class Task {
         this.childID = childID;
     }
 
+    protected void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
     public int getChildID() {
         return childID;
     }

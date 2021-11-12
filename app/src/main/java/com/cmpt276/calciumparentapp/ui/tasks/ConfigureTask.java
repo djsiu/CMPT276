@@ -52,13 +52,14 @@ public class ConfigureTask extends AppCompatActivity {
     private void loadIntentExtras() {
         // taskIDs are always positive so a value of -1 means that no extra was passed
         // meaning configure tasks was created to add a task rather than edit one.
-        int taskID = getIntent().getIntExtra(EDIT_TASK_INTENT, -1);
+        taskID = getIntent().getIntExtra(EDIT_TASK_INTENT, -1);
         if(taskID == -1){
             addTask = true;
         }
         else {
             addTask = false;
         }
+
     }
 
     private void configureText() {
@@ -85,14 +86,20 @@ public class ConfigureTask extends AppCompatActivity {
     }
 
     private void saveButtonOnClick() {
-        if(isTaskNameValid()){
-            String taskName = taskNameEditText.getText().toString();
+        if(!isTaskNameValid()) {
+            // TODO: display error toast
+            return;
+        }
+
+        String taskName = taskNameEditText.getText().toString();
+        if(addTask){
             taskManager.createNewTask(taskName);
-            finish();
+
         }
         else{
-            // TODO: display error toast
+            taskManager.editTaskNameByID(taskID, taskName);
         }
+        finish();
     }
 
     private boolean isTaskNameValid() {
