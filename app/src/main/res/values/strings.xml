@@ -73,6 +73,16 @@
     <string name="tails">tails</string>
     <string name="flip_result_text">\"Flip Result: \"</string>
     <string name="app_shared_preferences_key">APP_SHARED_PREFERENCES_KEY</string>
+    <string name="helpscreen_credits">Created by the Calcium group\n\n
+    Authored by:\n
+      Braden Takashima\n
+      Denise Siu\n
+      Matthew So\n
+      Peter Soava\n</string>
+    <string name="helpscreen_resourceCredits">Resource Sources:\n
+Corgi head:\n https://i.pinimg.com/originals/61/52/40/6152408126fe3d5445c60af2f8474812.jpg\n\n
+Corgi butt:\n https://ih1.redbubble.net/image.596763878.0973/st,small,507x507-pad,600x600,f8f8f8.u1.jpg</string>
+    <string name="button_help">HELP</string>
     <string name="member_name">Member Name</string>
 
 </resources>
