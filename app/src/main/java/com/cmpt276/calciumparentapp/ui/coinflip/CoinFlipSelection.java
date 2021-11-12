@@ -18,6 +18,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
         FamilyMembersManager familyManager = FamilyMembersManager.getInstance(this);
+
         nameArrayList = familyManager.getFamilyMembersNames();
         keyArrayList = familyManager.getFamilyMemberKeys();
 
@@ -64,9 +66,12 @@ public class CoinFlipSelection extends AppCompatActivity {
             toast.show();
         }
         else{
+
+            CoinFlipManager coinFlipManager = CoinFlipManager.getInstance(this);
+            coinFlipManager.beginGame(keyArrayList.get(selectedIndexes.get(0)),
+                    keyArrayList.get(selectedIndexes.get(1)));
+
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
-            i.putExtra("player1", keyArrayList.get(selectedIndexes.get(0)));
-            i.putExtra("player2", keyArrayList.get(selectedIndexes.get(1)));
             startActivity(i);
         }
 
@@ -76,8 +81,6 @@ public class CoinFlipSelection extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
     }
-
-
 
 
     private void populateListView() {
@@ -95,13 +98,12 @@ public class CoinFlipSelection extends AppCompatActivity {
                 //reset color
                 view.setBackgroundColor(Color.TRANSPARENT);
 
-            }else{// if not already selected
+            }
+            else {// if not already selected
                 if(selectedIndexes.size() < 2){
                     selectedIndexes.add(position);
                     view.setBackgroundColor(Color.GRAY);
-
                 }
-
             }
         });
     }

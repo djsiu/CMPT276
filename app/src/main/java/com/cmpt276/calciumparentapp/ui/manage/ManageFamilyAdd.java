@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 /**
- *Activity to add family members.
+ * Activity to add family members.
  */
 public class ManageFamilyAdd extends AppCompatActivity {
 
@@ -44,7 +44,8 @@ public class ManageFamilyAdd extends AppCompatActivity {
             boolean nameAlreadyExists = familyManager.isMemberNameUsed(newMemberNameStr);
 
             if(!nameAlreadyExists) {
-                familyManager.addMember(newMemberNameStr);
+                int profilePhotoID = R.drawable.default_profile_photo;
+                familyManager.addMember(newMemberNameStr, profilePhotoID);
 
                 String welcomeText = String.format(
                         getString(R.string.family_member_welcome_toast_text_format),

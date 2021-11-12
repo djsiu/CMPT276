@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Calcium Parent App</string>
-    <string name="coin_button_heads">Heads</string>
-    <string name="coin_button_tails">Tails</string>
+    <string name="heads_text">Heads</string>
+    <string name="tails_text">Tails</string>
     <string name="coin_message_headsWin">Congratulations!\nHeads Wins!</string>
     <string name="coin_message_tailsWin">Congratulations!\nTails Wins!</string>
 
@@ -69,9 +69,20 @@
     <string name="no_members_text">No family members added yet!</string>
     <string name="coin_button_flipAgain">Flip Again?</string>
     <string name="editTextFamilyMemberNameHint">Enter name of family member</string>
-    <string name="no_picker">unknown</string>
     <string name="heads">heads</string>
     <string name="tails">tails</string>
     <string name="flip_result_text">\"Flip Result: \"</string>
+    <string name="app_shared_preferences_key">APP_SHARED_PREFERENCES_KEY</string>
+    <string name="helpscreen_credits">Created by the Calcium group\n\n
+    Authored by:\n
+      Braden Takashima\n
+      Denise Siu\n
+      Matthew So\n
+      Peter Soava\n</string>
+    <string name="helpscreen_resourceCredits">Resource Sources:\n
+Corgi head:\n https://i.pinimg.com/originals/61/52/40/6152408126fe3d5445c60af2f8474812.jpg\n\n
+Corgi butt:\n https://ih1.redbubble.net/image.596763878.0973/st,small,507x507-pad,600x600,f8f8f8.u1.jpg</string>
+    <string name="button_help">HELP</string>
+    <string name="member_name">Member Name</string>
 
 </resources>

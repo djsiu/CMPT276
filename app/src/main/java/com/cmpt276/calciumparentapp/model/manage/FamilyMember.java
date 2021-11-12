@@ -1,7 +1,7 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
-/*
-Storing information relating to individual family members
+/**
+ * Storing information relating to individual family members
  */
 public class FamilyMember {
 
@@ -9,11 +9,13 @@ public class FamilyMember {
     private final int key;
     private boolean deleted;
     private int coinFlipPickPriority; //lower indexes pick before higher indexes
+    private int profilePhotoID;
 
-    FamilyMember(String name, int key, int coinFlipPickPriority) {
+    FamilyMember(String name, int key, int coinFlipPickPriority, int profilePhotoID) {
         this.name = name;
         this.key = key;
         this.coinFlipPickPriority = coinFlipPickPriority;
+        this.profilePhotoID = profilePhotoID;
         deleted = false;
     }
 
@@ -48,5 +50,9 @@ public class FamilyMember {
 
     public boolean isDeleted() {
         return deleted;
+    }
+
+    public int getIconID() {
+        return profilePhotoID;
     }
 }
