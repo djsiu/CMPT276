@@ -19,11 +19,6 @@ public class TimerLogic {
         return instance;
     }
 
-    // Private constructor for singleton
-    private TimerLogic(){
-
-    }
-
     // Sets the length of the timer in milliseconds
     public void setTimerLength(long ms){
         this.ms = ms;

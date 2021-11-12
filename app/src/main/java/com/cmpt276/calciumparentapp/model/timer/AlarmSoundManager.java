@@ -16,12 +16,9 @@ public class AlarmSoundManager {
     // By using getApplicationContext in the singleton the memory leak is fixed
     @SuppressLint("StaticFieldLeak")
     private static AlarmSoundManager instance;
-    private final Context context;
     private final MediaPlayer mp = new MediaPlayer();
 
     private AlarmSoundManager(Context context){
-
-        this.context = context;
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM); // Gets system alarm sound
         mp.setAudioAttributes(
@@ -43,7 +40,6 @@ public class AlarmSoundManager {
         if(instance == null){
             instance = new AlarmSoundManager(context.getApplicationContext());
         }
-
         return instance;
     }
 
