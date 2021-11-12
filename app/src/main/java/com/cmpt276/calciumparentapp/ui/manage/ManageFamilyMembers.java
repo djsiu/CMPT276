@@ -46,7 +46,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         populateListViewAndLaunchEdit();
-
     }
 
     @Override
