@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/task_child_icon_image_view"
+        android:id="@+id/view_task_child_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="32dp"
@@ -34,9 +34,9 @@
         android:layout_marginStart="28dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/task_child_icon_image_view"
-        app:layout_constraintStart_toEndOf="@+id/task_child_icon_image_view"
-        app:layout_constraintTop_toTopOf="@+id/task_child_icon_image_view" />
+        app:layout_constraintBottom_toBottomOf="@+id/view_task_child_icon"
+        app:layout_constraintStart_toEndOf="@+id/view_task_child_icon"
+        app:layout_constraintTop_toTopOf="@+id/view_task_child_icon" />
 
     <TextView
         android:id="@+id/textView6"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="Up Next"
-        app:layout_constraintBottom_toTopOf="@+id/task_child_icon_image_view"
+        app:layout_constraintBottom_toTopOf="@+id/view_task_child_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -55,7 +55,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_child_icon_image_view">
+        app:layout_constraintTop_toBottomOf="@+id/view_task_child_icon">
 
         <Button
             android:id="@+id/view_task_cancel"

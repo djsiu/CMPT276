@@ -131,6 +131,15 @@ public class TaskManager {
         task.setChildID(familyMembersManager.getNextFamilyMemberInOrder(0));
     }
 
+    /**
+     * Gets the ID of the child responsible for the given task
+     * @param i The index of the task
+     * @return The ID of the child
+     */
+    public int getChildID(int i) {
+        return taskList.get(i).getChildID();
+    }
+
 
 
     /**

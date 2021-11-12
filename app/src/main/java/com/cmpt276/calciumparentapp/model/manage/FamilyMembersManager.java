@@ -203,7 +203,7 @@ public class FamilyMembersManager {
         throw new IllegalArgumentException("No family member with provided ID");
     }
 
-    private FamilyMember getFamilyMemberFromID(int ID) {
+    public FamilyMember getFamilyMemberFromID(int ID) {
         for(FamilyMember familyMember : familyMembersList) {
             if(familyMember.getKey() == ID){
                 return familyMember;

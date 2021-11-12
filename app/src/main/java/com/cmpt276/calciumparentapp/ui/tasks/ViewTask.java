@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
@@ -37,7 +38,7 @@ public class ViewTask extends AppCompatActivity {
         loadIntentExtra();
         setupText();
         setupButtons();
-
+        setupChildIcon();
     }
 
     @Override
@@ -73,7 +74,9 @@ public class ViewTask extends AppCompatActivity {
     }
 
     private void setupChildIcon() {
-
+        ImageView childIconImageView = findViewById(R.id.view_task_child_icon);
+        int childID = taskManager.getChildID(taskIndex);
+        childIconImageView.setImageResource(familyManager.getFamilyMemberFromID(childID).getIconID());
     }
 
     /**
