@@ -85,5 +85,6 @@ Corgi butt:\n https://ih1.redbubble.net/image.596763878.0973/st,small,507x507-pa
     <string name="button_help">HELP</string>
     <string name="member_name">Member Name</string>
     <string name="button_tasks">Tasks</string>
+    <string name="action_edit_task">Edit Task</string>
 
 </resources>

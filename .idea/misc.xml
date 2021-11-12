@@ -36,6 +36,7 @@
         <entry key="app/src/main/res/layout/activity_manage_family_add.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/activity_manage_family_edit.xml" value="1.0" />
         <entry key="app/src/main/res/layout/activity_manage_family_members.xml" value="0.30512820512820515" />
+        <entry key="app/src/main/res/layout/activity_task.xml" value="0.44021739130434784" />
         <entry key="app/src/main/res/layout/activity_task_menu.xml" value="0.39492753623188404" />
         <entry key="app/src/main/res/layout/activity_timer_custom_time.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_timer_select_time.xml" value="0.4121376811594203" />
@@ -45,6 +46,7 @@
         <entry key="app/src/main/res/layout/fragment_timer_custom_time.xml" value="0.4121376811594203" />
         <entry key="app/src/main/res/layout/history_item_view.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/menu/menu_coin_flip.xml" value="0.30512820512820515" />
+        <entry key="app/src/main/res/menu/menu_view_task.xml" value="0.5020833333333333" />
       </map>
     </option>
   </component>

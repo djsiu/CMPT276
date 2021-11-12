@@ -46,7 +46,7 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecycler
             public void onClick(View v) {
                 // position is not fixed. Must use getAdapterPosition
                 int index = holder.getAdapterPosition();
-                Intent i = ConfigureTask.makeEditTaskIntent(mContext, taskManager.getTaskID(index));
+                Intent i = ViewTask.makeIntent(mContext, index);
                 v.getContext().startActivity(i);
             }
         });

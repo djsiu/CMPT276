@@ -1,6 +1,9 @@
 package com.cmpt276.calciumparentapp.model.tasks;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +15,25 @@ public class TaskManager {
     private static TaskManager instance;
     private int taskIDCounter; // Used to generate new task IDs. Incremented everytime a new task is made
 
+    private transient Context context;
+
     private TaskManager() {
         taskList = new ArrayList<>();
         taskIDCounter = 0;
     }
 
-    public static TaskManager getInstance() {
+    public static TaskManager getInstance(Context context) {
         if(instance == null){
-            instance = new TaskManager();
+            generateInstance(context.getApplicationContext());
         }
         return instance;
+    }
+
+    private static void generateInstance(Context context) {
+        // TODO: implement saving and loading
+
+        instance = new TaskManager();
+        instance.context = context;
     }
 
     /**
@@ -57,7 +69,8 @@ public class TaskManager {
      * @return The name of the child responsible for the given task.
      */
     public String getChildName(int i) {
-        return "TEST STRING";
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
+        return familyMembersManager.getFamilyMemberNameFromID(taskList.get(i).getChildID());
     }
 
     /**
@@ -80,13 +93,14 @@ public class TaskManager {
     }
 
     /**
-     * Changes the name of the given task by its ID
-     * @param taskID The id of the task to be changed
+     * Changes the name of the given task
      * @param newName The new name of the task
+     * @param i The index of the task
      */
-    public void editTaskNameByID(int taskID, String newName) {
-        getTaskByID(taskID).setTaskName(newName);
+    public void editTaskName(String newName, int i) {
+        taskList.get(i).setTaskName(newName);
     }
+
 
     private Task getTaskByID(int taskID) {
         for(Task task : taskList) {
@@ -113,7 +127,21 @@ public class TaskManager {
      * @param task The task which will have its childID set
      */
     private void setChildID(Task task) {
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
+        task.setChildID(familyMembersManager.getNextFamilyMemberInOrder(0));
+    }
 
+
+
+    /**
+     * Completes the given task and advances the responsible child to the next one.
+     * @param i The index of the task
+     */
+    public void completeTask(int i) {
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
+        int childID = taskList.get(i).getChildID();
+        // Sets the childID to the next one in the list
+        taskList.get(i).setChildID(familyMembersManager.getNextFamilyMemberInOrder(childID));
     }
 
 

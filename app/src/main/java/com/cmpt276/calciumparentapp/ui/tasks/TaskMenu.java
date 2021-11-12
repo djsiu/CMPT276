@@ -27,7 +27,7 @@ public class TaskMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_menu);
 
-        taskManager = TaskManager.getInstance();
+        taskManager = TaskManager.getInstance(this);
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();

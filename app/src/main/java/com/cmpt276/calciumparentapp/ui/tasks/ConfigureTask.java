@@ -22,7 +22,7 @@ public class ConfigureTask extends AppCompatActivity {
 
     public static final String EDIT_TASK_INTENT = "EDIT_TASK_INTENT";
     private boolean addTask;
-    private int taskID;
+    private int taskIndex;
     private TaskManager taskManager;
     private EditText taskNameEditText;
 
@@ -37,7 +37,7 @@ public class ConfigureTask extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        taskManager = TaskManager.getInstance();
+        taskManager = TaskManager.getInstance(this);
 
         loadIntentExtras();
         configureButtons();
@@ -47,13 +47,11 @@ public class ConfigureTask extends AppCompatActivity {
 
     /**
      * loads the extras from the launching intent.
-     * Sets the taskID and addTask fields accordingly
+     * Sets the taskIndex and addTask fields accordingly
      */
     private void loadIntentExtras() {
-        // taskIDs are always positive so a value of -1 means that no extra was passed
-        // meaning configure tasks was created to add a task rather than edit one.
-        taskID = getIntent().getIntExtra(EDIT_TASK_INTENT, -1);
-        if(taskID == -1){
+        taskIndex = getIntent().getIntExtra(EDIT_TASK_INTENT, -1);
+        if(taskIndex == -1){
             addTask = true;
         }
         else {
@@ -97,7 +95,7 @@ public class ConfigureTask extends AppCompatActivity {
 
         }
         else{
-            taskManager.editTaskNameByID(taskID, taskName);
+            taskManager.editTaskName(taskName, taskIndex);
         }
         finish();
     }
@@ -135,12 +133,12 @@ public class ConfigureTask extends AppCompatActivity {
      * Makes an intent to launch the configure task activity specifying
      * that it should edit an already existing task.
      * @param context A context
-     * @param taskID The ID of the task to be edited
+     * @param index The index of the task
      * @return An intent to launch The ConfigureTask activity
      */
-    public static Intent makeEditTaskIntent(Context context, int taskID) {
+    public static Intent makeEditTaskIntent(Context context, int index) {
         Intent i = new Intent(context, ConfigureTask.class);
-        i.putExtra(EDIT_TASK_INTENT, taskID);
+        i.putExtra(EDIT_TASK_INTENT, index);
         return i;
     }
 }
