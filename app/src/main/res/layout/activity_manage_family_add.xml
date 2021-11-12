@@ -24,14 +24,13 @@
         android:id="@+id/name_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="@string/manage_name_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editTextFamilyMemberName"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manage_family_add_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_photo_image_view"
+        app:layout_constraintVertical_bias="0.110000014" />
 
     <EditText
         android:id="@+id/editTextFamilyMemberName"
@@ -53,14 +52,13 @@
         android:id="@+id/cancelAddNewMemberButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="@string/manage_add_cancel_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.238"
+        app:layout_constraintHorizontal_bias="0.245"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.19" />
 
     <Button
         android:id="@+id/addNewMemberButton"
@@ -73,5 +71,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cancelAddNewMemberButton"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/profile_photo_image_view"
+        android:contentDescription="@string/member_name"
+        android:layout_width="122dp"
+        android:layout_height="124dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/manage_family_add_title"
+        app:layout_constraintVertical_bias="0.07999998"
+        app:srcCompat="@drawable/default_profile_photo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

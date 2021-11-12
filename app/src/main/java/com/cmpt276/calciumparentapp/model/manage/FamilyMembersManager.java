@@ -143,10 +143,6 @@ public class FamilyMembersManager {
         return activeMembers;
     }
 
-    public int getCoinFlipPriority(int index){
-        return familyMembersList.get(index).getCoinFlipPickPriority();
-    }
-
     public boolean isMemberNameUsed(String name) {
         boolean nameUsed = false;
         for(FamilyMember member : familyMembersList) {
