@@ -24,6 +24,11 @@
             android:textColor="@android:color/primary_text_light"
             android:textSize="20sp" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/coin_recyclerList_names"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <ListView
             android:id="@+id/coin_list_names"
             android:layout_width="match_parent"
