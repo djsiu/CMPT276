@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,6 +23,7 @@ public class TaskMenu extends AppCompatActivity {
 
     TaskManager taskManager;
     TasksRecyclerViewAdapter adapter;
+    FamilyMembersManager familyMembersManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,8 @@ public class TaskMenu extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
+
+        familyMembersManager = FamilyMembersManager.getInstance(this);
 
         setupRecyclerView();
         setupAddTaskButton();
@@ -54,12 +59,27 @@ public class TaskMenu extends AppCompatActivity {
 
     private void setupAddTaskButton() {
         FloatingActionButton addTaskBtn = findViewById(R.id.addTaskButton);
-        addTaskBtn.setOnClickListener(v -> {
-            Intent i = ConfigureTask.makeAddTaskIntent(TaskMenu.this);
-            startActivity(i);
-        });
+        addTaskBtn.setOnClickListener(this::addTaskButtonOnClick);
     }
 
+    private void addTaskButtonOnClick(View view) {
+        FloatingActionButton addBtn = (FloatingActionButton) view;
+        // check there is at least 1 family member
+        if(familyMembersManager.getFamilyMemberCount() > 0) {
+            Intent i = ConfigureTask.makeAddTaskIntent(this);
+            startActivity(i);
+        }
+        else{
+            displayNoFamilyMembersErrorToast();
+        }
+    }
+
+    private void displayNoFamilyMembersErrorToast() {
+        Toast toast = Toast.makeText(this,
+                R.string.add_task_invalid_family_error_toast,
+                Toast.LENGTH_LONG);
+        toast.show();
+    }
 
 
     /**

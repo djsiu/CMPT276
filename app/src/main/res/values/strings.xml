@@ -89,5 +89,6 @@
     <string name="action_edit_task">Edit Task</string>
     <string name="add_task_text">Add Task</string>
     <string name="edit_task_text">Edit Task</string>
+    <string name="add_task_invalid_family_error_toast">Please register at least 1 family member before making a task</string>
 
 </resources>

@@ -18,21 +18,23 @@ import java.util.List;
  * When a task is removed it is deleted and all tasks after them have their index reduced by 1
  */
 public class TaskManager {
-
+    private static final String TASK_MANAGER_KEY = "TaskManagerKey";
     private final List<Task> taskList;
 
     // The application context is used so there is no memory leak
     @SuppressLint("StaticFieldLeak")
     private static TaskManager instance;
-
-    private static final String TASK_MANAGER_KEY = "TaskManagerKey";
-
     private transient Context context;
 
     private TaskManager() {
         taskList = new ArrayList<>();
     }
 
+    /**
+     * Provides the singleton instance of the TaskManager class
+     * @param context A context
+     * @return The singleton instance of the TaskManager class
+     */
     public static TaskManager getInstance(Context context) {
         if(instance == null){
             generateInstance(context.getApplicationContext());
@@ -106,7 +108,7 @@ public class TaskManager {
      */
     public String getChildName(int i) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
-        return familyMembersManager.getFamilyMemberNameFromID(taskList.get(i).getChildID());
+        return familyMembersManager.getFamilyMemberNameFromID(getChildID(i));
     }
 
     /**

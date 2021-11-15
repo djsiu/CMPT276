@@ -108,6 +108,10 @@ public class FamilyMembersManager {
         saveToSharedPrefs();
     }
 
+    public int getFamilyMemberCount() {
+        return getFamilyMembersNames().size();
+    }
+
     private void saveToSharedPrefs() {
         SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE).edit();
         Gson gson = new Gson();
