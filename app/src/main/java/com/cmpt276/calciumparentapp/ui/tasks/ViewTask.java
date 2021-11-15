@@ -35,16 +35,11 @@ public class ViewTask extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         taskManager = TaskManager.getInstance(this);
+        familyManager = FamilyMembersManager.getInstance(this);
         loadIntentExtra();
         setupText();
         setupButtons();
         setupChildIcon();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setupText();
     }
 
     private void loadIntentExtra() {
@@ -65,6 +60,9 @@ public class ViewTask extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets all the text fields accordingly. This includes the name of the task and the name of the child
+     */
     private void setupText() {
         TextView taskNameTextView = findViewById(R.id.view_task_task_name);
         taskNameTextView.setText(taskManager.getTaskName(taskIndex));
@@ -98,6 +96,11 @@ public class ViewTask extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Called when the currently selected task is edited.
+     * Creates a new ConfigureTask activity set to edit the current task
+     * Finishes the current activity the ConfigureTask activity returns
+     */
     private void editTask() {
         Intent i = ConfigureTask.makeEditTaskIntent(this, taskIndex);
         finish();
