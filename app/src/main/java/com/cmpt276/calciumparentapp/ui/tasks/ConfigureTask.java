@@ -53,12 +53,7 @@ public class ConfigureTask extends AppCompatActivity {
      */
     private void loadIntentExtras() {
         taskIndex = getIntent().getIntExtra(EDIT_TASK_INTENT, -1);
-        if(taskIndex == -1){
-            addTask = true;
-        }
-        else {
-            addTask = false;
-        }
+        addTask = taskIndex == -1;
 
     }
 
@@ -67,11 +62,11 @@ public class ConfigureTask extends AppCompatActivity {
         taskNameEditText = findViewById(R.id.edit_text_task_name);
 
         if(addTask) {
-            configureTasksText.setText("Add Task");
+            configureTasksText.setText(R.string.add_task_text);
         }
         else {
             taskNameEditText.setText(taskManager.getTaskName(taskIndex));
-            configureTasksText.setText("Edit Task");
+            configureTasksText.setText(R.string.edit_task_text);
         }
 
 

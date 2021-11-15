@@ -1,5 +1,6 @@
 package com.cmpt276.calciumparentapp.model.tasks;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -10,12 +11,19 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class that handles all interactions with tasks.
+ * The class is singleton and must be provided a context in order to obtain an instance
+ * Tasks and their properties are all accessed by their index.
+ * When a task is removed it is deleted and all tasks after them have their index reduced by 1
+ */
 public class TaskManager {
 
-    private List<Task> taskList;
+    private final List<Task> taskList;
 
+    // The application context is used so there is no memory leak
+    @SuppressLint("StaticFieldLeak")
     private static TaskManager instance;
-    private int taskIDCounter; // Used to generate new task IDs. Incremented everytime a new task is made
 
     private static final String TASK_MANAGER_KEY = "TaskManagerKey";
 
@@ -23,7 +31,6 @@ public class TaskManager {
 
     private TaskManager() {
         taskList = new ArrayList<>();
-        taskIDCounter = 0;
     }
 
     public static TaskManager getInstance(Context context) {
@@ -33,6 +40,11 @@ public class TaskManager {
         return instance;
     }
 
+    /**
+     * Sets the static instance field to an instance of the class
+     * Attempts to load the instance from shared preferences if one exists
+     * @param context A context
+     */
     private static void generateInstance(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(
                 context.getString(R.string.app_shared_preferences_key),
@@ -68,19 +80,6 @@ public class TaskManager {
     }
 
     /**
-     * Gets the task at a given index
-     * @param i The index of the task
-     * @return A task object for the given index
-     */
-    public Task getTask(int i) {
-        // Make sure the index isn't out of bounds
-        assert(i < taskList.size());
-
-        return taskList.get(i);
-
-    }
-
-    /**
      * Gets the total number of tasks in the manager
      * @return The number of tasks
      */
@@ -88,8 +87,13 @@ public class TaskManager {
         return taskList.size();
     }
 
+    /**
+     * Creates a new task with the given name and assigns the responsible child to the first child
+     * in the order obtained by the FamilyMemberManager
+     * @param taskName The name of the new task
+     */
     public void createNewTask(String taskName) {
-        Task task = new Task(taskName, generateNewTaskID());
+        Task task = new Task(taskName);
         setDefaultChildID(task);
         taskList.add(task);
         saveInstance();
@@ -115,17 +119,6 @@ public class TaskManager {
     }
 
     /**
-     * Generates a new ID for a task. Increments the taskIDCounter.
-     * @return A new task ID
-     */
-    private int generateNewTaskID() {
-        int id = taskIDCounter;
-        taskIDCounter++;
-        saveInstance();
-        return id;
-    }
-
-    /**
      * Changes the name of the given task
      * @param newName The new name of the task
      * @param i The index of the task
@@ -134,27 +127,6 @@ public class TaskManager {
         taskList.get(i).setTaskName(newName);
         saveInstance();
     }
-
-
-    private Task getTaskByID(int taskID) {
-        for(Task task : taskList) {
-            if(task.getTaskID() == taskID) {
-                return task;
-            }
-        }
-
-        throw new IllegalArgumentException("Invalid task ID in getTaskByID");
-    }
-
-    /**
-     * Gets the task ID of the task at a given index
-     * @param i The index of the task
-     * @return The task ID
-     */
-    public int getTaskID(int i) {
-        return taskList.get(i).getTaskID();
-    }
-
 
     /**
      * Sets the childID for the given task to the default (first child).
@@ -175,8 +147,6 @@ public class TaskManager {
         return taskList.get(i).getChildID();
     }
 
-
-
     /**
      * Completes the given task and advances the responsible child to the next one.
      * @param i The index of the task
@@ -188,9 +158,5 @@ public class TaskManager {
         taskList.get(i).setChildID(familyMembersManager.getNextFamilyMemberInOrder(childID));
         saveInstance();
     }
-
-
-
-
 
 }

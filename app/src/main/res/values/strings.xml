@@ -87,5 +87,7 @@
     <string name="member_name">Member Name</string>
     <string name="button_tasks">Tasks</string>
     <string name="action_edit_task">Edit Task</string>
+    <string name="add_task_text">Add Task</string>
+    <string name="edit_task_text">Edit Task</string>
 
 </resources>
