@@ -90,13 +90,25 @@ public class ManageFamilyAdd extends AppCompatActivity {
         Button openGalleryBtn = findViewById(R.id.choosePhotoBtn);
 
         openGalleryBtn.setOnClickListener(view -> {
-            //checking permissions
+            //checking for gallery permissions
+            if (ContextCompat.checkSelfPermission(ManageFamilyAdd.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                ActivityCompat.requestPermissions(ManageFamilyAdd.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERMISSIONS_CODE);
+            }
 
         });
-
     }
 
+    private void openGallery() {
 
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        ((Activity) this).startActivityForResult(intent, GALLERY_REQUEST_CODE);
+
+    }
 
     private void openCamera() {
 
@@ -163,7 +175,12 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 break;
 
             case GALLERY_PERMISSIONS_CODE:
-
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openGallery();
+                } else {
+                    Toast.makeText(this, "Need gallery permissions! Change this in settings.", Toast.LENGTH_SHORT)
+                            .show();
+                }
                 break;
         }
     }
@@ -181,6 +198,10 @@ public class ManageFamilyAdd extends AppCompatActivity {
 //            System.out.println("bitmapppppp: " + bitmap);
             //profilePhotoImageView.setImageBitmap(bitmap);
             profilePhotoImageView.setImageURI(image_uri);
+        }
+
+        if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            profilePhotoImageView.setImageURI(data.getData());
         }
 
 //        if(requestCode == RESULT_OK) {
