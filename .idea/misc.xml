@@ -32,7 +32,7 @@
         <entry key="..\:/Users/Lingo/AndroidStudioProjects/CalciumParentApp/app/src/main/res/layout/fragment_timer_select_time.xml" value="0.55" />
         <entry key="app/src/main/res/layout/activity_coin_flip_history.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_manage_family_add.xml" value="0.30512820512820515" />
-        <entry key="app/src/main/res/layout/activity_manage_family_edit.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_manage_family_edit.xml" value="1.0" />
         <entry key="app/src/main/res/layout/activity_manage_family_members.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/activity_timer_custom_time.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_timer_select_time.xml" value="0.4121376811594203" />
@@ -42,6 +42,7 @@
         <entry key="app/src/main/res/layout/fragment_timer_custom_time.xml" value="0.4121376811594203" />
         <entry key="app/src/main/res/layout/history_item_view.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/menu/menu_coin_flip.xml" value="0.30512820512820515" />
+        <entry key="app/src/main/res/xml/file_paths.xml" value="0.21354166666666666" />
       </map>
     </option>
   </component>

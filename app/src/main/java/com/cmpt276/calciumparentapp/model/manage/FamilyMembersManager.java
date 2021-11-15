@@ -4,6 +4,8 @@ package com.cmpt276.calciumparentapp.model.manage;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -77,7 +79,7 @@ public class FamilyMembersManager {
         }
     }
 
-    public void addMember(String name, int profilePhotoID) {
+    public void addMember(String name, Bitmap profilePhotoID) {
         FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size(), profilePhotoID);
         familyMembersList.add(newMember);
         keyGenerator++;
