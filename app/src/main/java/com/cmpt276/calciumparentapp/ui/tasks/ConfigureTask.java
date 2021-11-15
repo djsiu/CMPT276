@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
@@ -25,6 +26,7 @@ public class ConfigureTask extends AppCompatActivity {
     private int taskIndex;
     private TaskManager taskManager;
     private EditText taskNameEditText;
+
 
 
     @Override
@@ -61,9 +63,18 @@ public class ConfigureTask extends AppCompatActivity {
     }
 
     private void configureText() {
-
-
+        TextView configureTasksText = findViewById(R.id.configure_tasks_text);
         taskNameEditText = findViewById(R.id.edit_text_task_name);
+
+        if(addTask) {
+            configureTasksText.setText("Add Task");
+        }
+        else {
+            taskNameEditText.setText(taskManager.getTaskName(taskIndex));
+            configureTasksText.setText("Edit Task");
+        }
+
+
     }
 
     private void configureButtons() {

@@ -1,9 +1,11 @@
 package com.cmpt276.calciumparentapp.model.tasks;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.SharedPreferences;
 
+import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,8 @@ public class TaskManager {
 
     private static TaskManager instance;
     private int taskIDCounter; // Used to generate new task IDs. Incremented everytime a new task is made
+
+    private static final String TASK_MANAGER_KEY = "TaskManagerKey";
 
     private transient Context context;
 
@@ -30,10 +34,37 @@ public class TaskManager {
     }
 
     private static void generateInstance(Context context) {
-        // TODO: implement saving and loading
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                context.getString(R.string.app_shared_preferences_key),
+                Context.MODE_PRIVATE);
 
-        instance = new TaskManager();
+        String json = sharedPreferences.getString(TASK_MANAGER_KEY, "");
+
+        if(json.equals("")){
+            instance = new TaskManager();
+        }
+        else{
+            Gson gson = new Gson();
+            instance = gson.fromJson(json, TaskManager.class);
+        }
+
         instance.context = context;
+    }
+
+    /**
+     * Saves the current instance to the shared preferences.
+     * Should be called whenever there is a change to the TaskManager
+     */
+    private void saveInstance() {
+        SharedPreferences sharedPrefs = context.getSharedPreferences(
+                context.getString(R.string.app_shared_preferences_key),
+                Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(this);
+        editor.putString(TASK_MANAGER_KEY, json);
+        editor.apply();
     }
 
     /**
@@ -59,8 +90,9 @@ public class TaskManager {
 
     public void createNewTask(String taskName) {
         Task task = new Task(taskName, generateNewTaskID());
-        setChildID(task);
+        setDefaultChildID(task);
         taskList.add(task);
+        saveInstance();
     }
 
     /**
@@ -89,6 +121,7 @@ public class TaskManager {
     private int generateNewTaskID() {
         int id = taskIDCounter;
         taskIDCounter++;
+        saveInstance();
         return id;
     }
 
@@ -99,6 +132,7 @@ public class TaskManager {
      */
     public void editTaskName(String newName, int i) {
         taskList.get(i).setTaskName(newName);
+        saveInstance();
     }
 
 
@@ -123,12 +157,13 @@ public class TaskManager {
 
 
     /**
-     * Sets the childID for the given task.
+     * Sets the childID for the given task to the default (first child).
      * @param task The task which will have its childID set
      */
-    private void setChildID(Task task) {
+    private void setDefaultChildID(Task task) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         task.setChildID(familyMembersManager.getNextFamilyMemberInOrder(0));
+        saveInstance();
     }
 
     /**
@@ -151,6 +186,7 @@ public class TaskManager {
         int childID = taskList.get(i).getChildID();
         // Sets the childID to the next one in the list
         taskList.get(i).setChildID(familyMembersManager.getNextFamilyMemberInOrder(childID));
+        saveInstance();
     }
 
 
