@@ -27,8 +27,6 @@ public class ConfigureTask extends AppCompatActivity {
     private TaskManager taskManager;
     private EditText taskNameEditText;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +96,6 @@ public class ConfigureTask extends AppCompatActivity {
         String taskName = taskNameEditText.getText().toString();
         if(addTask){
             taskManager.createNewTask(taskName);
-
         }
         else{
             taskManager.editTaskName(taskName, taskIndex);
@@ -112,9 +109,9 @@ public class ConfigureTask extends AppCompatActivity {
     }
 
     private void deleteButtonOnClick() {
-
+        taskManager.deleteTask(taskIndex);
+        finish();
     }
-
 
     /**
      * Adds logic to action bar

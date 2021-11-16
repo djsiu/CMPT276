@@ -102,6 +102,15 @@ public class TaskManager {
     }
 
     /**
+     * Deletes a task from taskList using given index
+     * @param taskIndex index of task to be removed
+     */
+    public void deleteTask(int taskIndex) {
+        taskList.remove(taskIndex);
+        saveInstance();
+    }
+
+    /**
      * Gets the string representing the child's name for the task at a given index
      * @param i The index of the task
      * @return The name of the child responsible for the given task.
