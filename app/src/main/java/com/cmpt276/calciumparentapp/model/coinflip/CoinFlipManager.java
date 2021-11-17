@@ -216,6 +216,18 @@ public class CoinFlipManager {
         gameBuilder = new CoinFlipGame.CoinFlipGameBuilder(pickerID, otherPlayerId);
     }
 
+    public void swapFlipper(){
+        if(gameBuilder == null){
+            throw new IllegalStateException("Attempting to swap when no children selected");
+        }else if(!gameRunning){
+            throw new IllegalStateException("Attempting to access game members when there is no game");
+        }else{
+            int oldPicker = gameBuilder.getPickerID();
+            int newPicker = gameBuilder.getSecondPlayerID();
+            gameBuilder = new CoinFlipGame.CoinFlipGameBuilder(newPicker, oldPicker);
+        }
+    }
+
     /**
      * Generates and assigns the static instance member of the class.
      * Loads instance from shared preferences if one is saved

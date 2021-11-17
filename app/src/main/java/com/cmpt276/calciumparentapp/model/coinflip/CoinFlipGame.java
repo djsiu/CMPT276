@@ -118,6 +118,7 @@ public class CoinFlipGame {
         public CoinFace getCoinFlipResult() {
             return coinFlipResult;
         }
+
     }
 
 }
