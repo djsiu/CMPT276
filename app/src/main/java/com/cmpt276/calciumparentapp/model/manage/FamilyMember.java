@@ -2,10 +2,15 @@ package com.cmpt276.calciumparentapp.model.manage;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Base64;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Storing information relating to individual family members
@@ -16,14 +21,14 @@ public class FamilyMember {
     private final int key;
     private boolean deleted;
     private int coinFlipPickPriority; //lower indexes pick before higher indexes
-    private Bitmap profilePhotoBitmap;
-    private byte[] profilePhotoByteArray;
+    private String encodedBitmap;
+
 
     FamilyMember(String name, int key, int coinFlipPickPriority, Bitmap profilePhotoBitmap) {
         this.name = name;
         this.key = key;
         this.coinFlipPickPriority = coinFlipPickPriority;
-        this.profilePhotoByteArray = convertBitmap(profilePhotoBitmap);
+        encodedBitmap = encodeToBase64(profilePhotoBitmap);
         deleted = false;
     }
 
@@ -61,21 +66,20 @@ public class FamilyMember {
     }
 
     public Bitmap getIconBitmap() {
-
-        return profilePhotoBitmap;
+        return decodeToBase64(encodedBitmap);
     }
 
-    //used to allow saving to sharedpreferences
-    private byte[] convertBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+    // encode/decode bitmap so it can be opened between saves of the app
+    // adapted from: https://stackoverflow.com/questions/9768611/encode-and-decode-bitmap-object-in-base64-string-in-android
+    public  String encodeToBase64(Bitmap image) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
 
-        return baos.toByteArray();
+        return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
     }
 
-//    private Bitmap getBitmapFromByteArray(Byte[] byteArray) {
-//        byteArray = Base64.decode(encoded.getBytes(), Base64.DEFAULT);
-//        ImageView image = (ImageView) this.findViewById(R.id.ImageView);
-//        image.setImageBitmap(BitmapFactory.decodeByteArray(byteArray, 0 byteArray.length));
-//    }
+    public  Bitmap decodeToBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
 }

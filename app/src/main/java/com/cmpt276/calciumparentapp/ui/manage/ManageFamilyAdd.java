@@ -1,6 +1,7 @@
 package com.cmpt276.calciumparentapp.ui.manage;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +11,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,11 +26,16 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Activity to add family members.
@@ -38,8 +46,10 @@ public class ManageFamilyAdd extends AppCompatActivity {
 
     private ImageView profilePhotoImageView;
 //    private String currentImagePath = null;
+    private String mCurrentPhotoPath = "";
 
     Uri image_uri;
+    File profilePhotoFile = null;
 
     private static final int GALLERY_PERMISSIONS_CODE = 100;
     private static final int GALLERY_REQUEST_CODE = 101;
@@ -92,11 +102,14 @@ public class ManageFamilyAdd extends AppCompatActivity {
         openGalleryBtn.setOnClickListener(view -> {
             //checking for gallery permissions
             if (ContextCompat.checkSelfPermission(ManageFamilyAdd.this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(ManageFamilyAdd.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 openGallery();
             } else {
                 ActivityCompat.requestPermissions(ManageFamilyAdd.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERMISSIONS_CODE);
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE}, GALLERY_PERMISSIONS_CODE);
             }
 
         });
@@ -106,59 +119,66 @@ public class ManageFamilyAdd extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
+
+        //creating an empty image file to later store image in (pass by intent)
+        try {
+            profilePhotoFile = createImageFile();
+            Log.i("CREATED PHOTO FILE: ", profilePhotoFile.getAbsolutePath());
+
+            if (profilePhotoFile != null) {
+                image_uri = FileProvider.getUriForFile(this,
+                        "com.cmpt276.calciumparentapp.fileprovider",
+                        profilePhotoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+                ((Activity) this).startActivityForResult(intent, GALLERY_REQUEST_CODE);
+            }
+        } catch (Exception ex) {
+            Log.i("ERROR CREATING IMAGE FILE", "catch, unable to create image file");
+        }
         ((Activity) this).startActivityForResult(intent, GALLERY_REQUEST_CODE);
 
     }
 
     private void openCamera() {
 
+        System.out.println("opening camera");
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "New Picture");
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-//        File imageFile = null;
+        //creating an empty image file to later store image in (pass by intent)
+        try {
+            profilePhotoFile = createImageFile();
+            Log.i("CREATED PHOTO FILE: ", profilePhotoFile.getAbsolutePath());
 
-//        try {
-//            imageFile = getImageFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        if (imageFile != null)
-//        {
-            image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-//            image_uri = FileProvider.getUriForFile(ManageFamilyAdd.this, "${applicationId}.fileprovider", imageFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
-            ((Activity) this).startActivityForResult(intent, CAMERA_REQUEST_CODE);
-//        }
-
+            if (profilePhotoFile != null) {
+                image_uri = FileProvider.getUriForFile(this,
+                        "com.cmpt276.calciumparentapp.fileprovider",
+                        profilePhotoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+                ((Activity) this).startActivityForResult(intent, CAMERA_REQUEST_CODE);
+            }
+        } catch (Exception ex) {
+            Log.i("ERROR CREATING IMAGE FILE", "catch, unable to create image file");
+        }
     }
 
-//    // code adapted from :https://www.semicolonworld.com/question/45928/how-to-save-a-bitmap-on-internal-storage
-//    private File getImageFile() throws IOException {
-//        // Create an image file name
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        String imageFileName = "JPEG_" + timeStamp + "_";
-//        //File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        File storageDir = new File(Environment.getExternalStorageDirectory()
-//                + "/Android/data/"
-//                + getApplicationContext().getPackageName()
-//                + "/Files");
-////        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-////
-////        currentImagePath = image.getAbsolutePath();
-//        if (! storageDir.exists()){
-//            if (! storageDir.mkdirs()){
-//                return null;
-//            }
-//        }
-//        // Create a media file name
-//        File image;
-//        String mImageName="MI_"+ timeStamp +".jpg";
-//        image = new File(storageDir.getPath() + File.separator + mImageName);
-//        return image;
-//    }
+    // adapted from: https://vlemon.com/blog/android-capture-image-from-camera-and-get-image-save-path
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "ProfileImage_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -190,24 +210,20 @@ public class ManageFamilyAdd extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-//            Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
-//            bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100,true);
-//
-//
-//            System.out.println("Current IMAGE PATH: " + currentImagePath);
-//            System.out.println("bitmapppppp: " + bitmap);
-            //profilePhotoImageView.setImageBitmap(bitmap);
-            profilePhotoImageView.setImageURI(image_uri);
+            Bitmap bitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
+
+            profilePhotoImageView.setImageBitmap(bitmap);
         }
 
         if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+
             profilePhotoImageView.setImageURI(data.getData());
         }
+    }
 
-//        if(requestCode == RESULT_OK) {
-//            profilePhotoImageView.setImageURI(image_uri);
-//            System.out.println("setting the photo!");
-//        }
+    private void setupCancelBtn() {
+        Button cancelBtn = findViewById(R.id.cancelAddNewMemberButton);
+        cancelBtn.setOnClickListener(view -> finish());
     }
 
     private void setupAddBtn() {
@@ -216,51 +232,48 @@ public class ManageFamilyAdd extends AppCompatActivity {
         addBtn.setOnClickListener(view -> {
 
             String newMemberNameStr = newMemberName.getText().toString();
-            boolean nameAlreadyExists = familyManager.isMemberNameUsed(newMemberNameStr);
-
-            if(!nameAlreadyExists) {
-                //int profilePhotoID = R.drawable.default_profile_photo;
-
-                Bitmap profilePhotoID = BitmapFactory.decodeResource(this.getResources(),
-                        R.drawable.default_profile_photo);
-
-                familyManager.addMember(newMemberNameStr, profilePhotoID);
-
-                String welcomeText = String.format(
-                        getString(R.string.family_member_welcome_toast_text_format),
-                        newMemberName.getText().toString());
-
-                Toast.makeText(getApplicationContext(),
-                        welcomeText,
-                        Toast.LENGTH_SHORT)
-                        .show();
-                finish();
-            } else {
-
-                String alreadyPresentText = String.format(
-                        getString(R.string.family_member_present_toast_text_format),
-                        newMemberName.getText().toString());
-
-                Toast.makeText(getApplicationContext(),
-                        alreadyPresentText,
-                        Toast.LENGTH_SHORT)
-                        .show();
-            }
+            addNewMember(newMemberNameStr);
 
         });
     }
 
-    //convert a bitmap image to uri
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
+    private void addNewMember(String newMemberNameStr) {
 
-    private void setupCancelBtn() {
-        Button cancelBtn = findViewById(R.id.cancelAddNewMemberButton);
-        cancelBtn.setOnClickListener(view -> finish());
+        boolean nameAlreadyExists = familyManager.isMemberNameUsed(newMemberNameStr);
+
+        if(!nameAlreadyExists) {
+
+            // save chosen/captured image, if no image save default image
+            Bitmap profilePhotoBitmap;
+            if(profilePhotoFile != null) {
+                profilePhotoBitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
+            } else {
+                profilePhotoBitmap = BitmapFactory.decodeResource(this.getResources(),
+                        R.drawable.default_profile_photo);
+            }
+
+            familyManager.addMember(newMemberNameStr, profilePhotoBitmap);
+
+            String welcomeText = String.format(
+                    getString(R.string.family_member_welcome_toast_text_format),
+                    newMemberNameStr);
+
+            Toast.makeText(getApplicationContext(),
+                    welcomeText,
+                    Toast.LENGTH_SHORT)
+                    .show();
+            finish();
+        } else {
+
+            String alreadyPresentText = String.format(
+                    getString(R.string.family_member_present_toast_text_format),
+                    newMemberNameStr);
+
+            Toast.makeText(getApplicationContext(),
+                    alreadyPresentText,
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     /**
