@@ -86,5 +86,7 @@ Corgi butt:\n https://ih1.redbubble.net/image.596763878.0973/st,small,507x507-pa
     <string name="member_name">Member Name</string>
     <string name="take_new_photo_btn_text">take new photo</string>
     <string name="choose_photo_btn_text">choose photo</string>
+    <string name="gallery_permission_toast">Need gallery permissions! Change this in settings.</string>
+    <string name="camera_permission_toast">Need camera permissions! Change this in settings.</string>
 
 </resources>

@@ -3,8 +3,6 @@ package com.cmpt276.calciumparentapp.ui.manage;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -31,9 +29,10 @@ import androidx.core.content.FileProvider;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,13 +41,13 @@ import java.util.Date;
  */
 public class ManageFamilyAdd extends AppCompatActivity {
 
+    public static final String MANAGE_FAMILY_ADD_ERROR_TAG = "MANAGE FAMILY ADD ERROR: ";
     private FamilyMembersManager familyManager;
 
     private ImageView profilePhotoImageView;
-//    private String currentImagePath = null;
-    private String mCurrentPhotoPath = "";
 
     Uri image_uri;
+    Bitmap profilePhotoBitmap = null;
     File profilePhotoFile = null;
 
     private static final int GALLERY_PERMISSIONS_CODE = 100;
@@ -64,7 +63,6 @@ public class ManageFamilyAdd extends AppCompatActivity {
         familyManager = FamilyMembersManager.getInstance(this);
         profilePhotoImageView = (ImageView) findViewById(R.id.profile_photo_image_view);
 
-
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
         assert ab != null;
@@ -75,7 +73,6 @@ public class ManageFamilyAdd extends AppCompatActivity {
         setupCancelBtn();
         setupAddBtn();
     }
-
 
     private void setupCameraBtn() {
         Button openCameraBtn = findViewById(R.id.takeNewPhotoBtn);
@@ -111,39 +108,17 @@ public class ManageFamilyAdd extends AppCompatActivity {
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, GALLERY_PERMISSIONS_CODE);
             }
-
         });
     }
 
     private void openGallery() {
-
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-
-        //creating an empty image file to later store image in (pass by intent)
-        try {
-            profilePhotoFile = createImageFile();
-            Log.i("CREATED PHOTO FILE: ", profilePhotoFile.getAbsolutePath());
-
-            if (profilePhotoFile != null) {
-                image_uri = FileProvider.getUriForFile(this,
-                        "com.cmpt276.calciumparentapp.fileprovider",
-                        profilePhotoFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
-                ((Activity) this).startActivityForResult(intent, GALLERY_REQUEST_CODE);
-            }
-        } catch (Exception ex) {
-            Log.i("ERROR CREATING IMAGE FILE", "catch, unable to create image file");
-        }
         ((Activity) this).startActivityForResult(intent, GALLERY_REQUEST_CODE);
-
     }
 
+    // adapted from: https://vlemon.com/blog/android-capture-image-from-camera-and-get-image-save-path
     private void openCamera() {
-
-        System.out.println("opening camera");
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "New Picture");
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -160,26 +135,21 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 ((Activity) this).startActivityForResult(intent, CAMERA_REQUEST_CODE);
             }
         } catch (Exception ex) {
-            Log.i("ERROR CREATING IMAGE FILE", "catch, unable to create image file");
+            Log.i("MANAGE FAMILY ADD ERROR:", "couldn't create image file.");
         }
     }
 
-    // adapted from: https://vlemon.com/blog/android-capture-image-from-camera-and-get-image-save-path
+    // adapted from: https://developer.android.com/training/camera/photobasics
     private File createImageFile() throws IOException {
         // Create an image file name
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "ProfileImage_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
+
+        return File.createTempFile(imageFileName, ".jpg", storageDir);
     }
 
+    // asking for permissions if they haven't been granted
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -189,7 +159,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCamera();
                 } else {
-                    Toast.makeText(this, "Need camera permissions! Change this in settings.", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, R.string.camera_permission_toast, Toast.LENGTH_SHORT)
                             .show();
                 }
                 break;
@@ -198,7 +168,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openGallery();
                 } else {
-                    Toast.makeText(this, "Need gallery permissions! Change this in settings.", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, R.string.gallery_permission_toast, Toast.LENGTH_SHORT)
                             .show();
                 }
                 break;
@@ -210,14 +180,21 @@ public class ManageFamilyAdd extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
 
-            profilePhotoImageView.setImageBitmap(bitmap);
+            profilePhotoBitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
+            profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
         }
 
         if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            try {
+                final Uri imageUri = data.getData();
+                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                profilePhotoBitmap = BitmapFactory.decodeStream(imageStream);
+                profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
 
-            profilePhotoImageView.setImageURI(data.getData());
+            } catch (FileNotFoundException e) {
+                Log.i(MANAGE_FAMILY_ADD_ERROR_TAG, "couldn't find the file.");
+            }
         }
     }
 
@@ -244,10 +221,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
         if(!nameAlreadyExists) {
 
             // save chosen/captured image, if no image save default image
-            Bitmap profilePhotoBitmap;
-            if(profilePhotoFile != null) {
-                profilePhotoBitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
-            } else {
+            if(profilePhotoBitmap == null) {
                 profilePhotoBitmap = BitmapFactory.decodeResource(this.getResources(),
                         R.drawable.default_profile_photo);
             }
@@ -292,4 +266,3 @@ public class ManageFamilyAdd extends AppCompatActivity {
     }
 
 }
-//
