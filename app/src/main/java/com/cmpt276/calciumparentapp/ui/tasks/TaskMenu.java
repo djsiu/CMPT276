@@ -10,13 +10,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
-import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class TaskMenu extends AppCompatActivity {
@@ -24,6 +23,7 @@ public class TaskMenu extends AppCompatActivity {
     TaskManager taskManager;
     TasksRecyclerViewAdapter adapter;
     FamilyMembersManager familyMembersManager;
+    boolean hasFamilyMembers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +38,30 @@ public class TaskMenu extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         familyMembersManager = FamilyMembersManager.getInstance(this);
+        hasFamilyMembers = familyMembersManager.getFamilyMemberCount() > 0;
 
-        setupRecyclerView();
-        setupAddTaskButton();
+        if(hasFamilyMembers) {
+            setupRecyclerView();
+            setupAddTaskButton();
+        }
+        else{
+            setupNoFamilyMembers();
+        }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         // TODO: Implement better updating of recyclerview
-        adapter.notifyDataSetChanged();
+        if(hasFamilyMembers) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setupNoFamilyMembers() {
+        TextView errorMsg = findViewById(R.id.task_menu_no_family_error);
+        errorMsg.setVisibility(View.VISIBLE);
     }
 
     private void setupRecyclerView() {
