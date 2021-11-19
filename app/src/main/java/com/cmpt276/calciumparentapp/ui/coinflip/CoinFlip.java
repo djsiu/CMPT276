@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class CoinFlip extends AppCompatActivity {
     private Button buttonHeads;
     private Button buttonTails;
     private Button buttonFlipAgain;
+    private ImageButton buttonSwap;
     private CoinFace coinFlipResult;
     private TextView messageTextView;
     private ImageView coinImageView;
@@ -81,12 +83,15 @@ public class CoinFlip extends AppCompatActivity {
         buttonHeads = findViewById(R.id.coin_button_heads);
         buttonTails = findViewById(R.id.coin_button_tails);
         buttonFlipAgain = findViewById(R.id.coin_button_flipAgain);
+        buttonSwap = findViewById(R.id.coin_button_swapPicker);
+
 
 
         // the this:: code just calls that method and passes the view.
         buttonHeads.setOnClickListener(this::onCoinFlipButtonClick);
         buttonTails.setOnClickListener(this::onCoinFlipButtonClick);
         buttonFlipAgain.setOnClickListener(v -> onFlipAgainButtonClick());
+        buttonSwap.setOnClickListener(v -> setButtonSwap());
 
     }
 
@@ -132,6 +137,11 @@ public class CoinFlip extends AppCompatActivity {
         buttonHeads.setVisibility(View.VISIBLE);
         buttonTails.setVisibility(View.VISIBLE);
         buttonFlipAgain.setVisibility(View.GONE);
+    }
+
+    private void setButtonSwap(){
+        coinFlipManager.swapFlipper();
+        setPickerText();
     }
 
 
