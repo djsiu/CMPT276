@@ -36,7 +36,7 @@ public class CoinFlip extends AppCompatActivity {
     private Button buttonFlipAgain;
     private ImageButton buttonSwap;
     private CoinFace coinFlipResult;
-    private TextView messageTextView;
+    private TextView nameTextView;
     private ImageView coinImageView;
     private MenuItem historyButton;
 
@@ -63,7 +63,7 @@ public class CoinFlip extends AppCompatActivity {
     }
 
     private void setupGame() {
-        messageTextView = findViewById(R.id.coin_textView_message);
+        nameTextView = findViewById(R.id.coin_textView_name);
         coinImageView = findViewById(R.id.imageView_coin);
 
         // if a game is running that means one was created in
@@ -153,10 +153,12 @@ public class CoinFlip extends AppCompatActivity {
 
         if(gameWithNamedPlayers){
             String pickerName = familyMembersManager.getFamilyMemberNameFromID(coinFlipManager.getPickerID());
-            messageTextView.setText(getString(R.string.coin_textView_picker, pickerName));
+            nameTextView.setText(pickerName);
         }
         else{
-            messageTextView.setText(getString(R.string.coin_textView_pickerGeneric));
+            buttonSwap.setVisibility(View.GONE);
+            nameTextView.setVisibility(View.GONE);
+            nameTextView.setText(getString(R.string.coin_textView_pickerGeneric));
         }
 
     }
@@ -164,10 +166,10 @@ public class CoinFlip extends AppCompatActivity {
     private void updateWinner(){
 
         if(coinFlipResult == CoinFace.HEADS) {
-            messageTextView.setText(R.string.coin_message_headsWin);
+            nameTextView.setText(R.string.coin_message_headsWin);
         }
         else{
-            messageTextView.setText(R.string.coin_message_tailsWin);
+            nameTextView.setText(R.string.coin_message_tailsWin);
         }
     }
 

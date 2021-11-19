@@ -10,44 +10,18 @@
     android:paddingBottom="20dp"
     tools:context=".ui.coinflip.CoinFlip">
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView_coin"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/coin_textView_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textSize="34dp" />
-
-        <ImageButton
-            android:id="@+id/coin_button_swapPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_action_name" />
-
-    </LinearLayout>
-
     <TextView
         android:id="@+id/coin_textView_message"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="5"
         android:gravity="center_horizontal"
+        android:text="@string/coin_textView_pickerGeneric"
         android:textColor="@android:color/primary_text_light"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView_coin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView_coin"
@@ -104,4 +78,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_coin" />
+
+    <TextView
+        android:id="@+id/coin_textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="bottom|center_horizontal"
+        android:paddingRight="50dp"
+        android:text="name"
+        android:textSize="34dp"
+        app:layout_constraintBottom_toTopOf="@+id/coin_textView_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/coin_button_swapPicker"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="-50dp"
+        android:layout_weight="0"
+        app:layout_constraintBottom_toTopOf="@+id/coin_textView_message"
+        app:layout_constraintStart_toEndOf="@+id/coin_textView_name"
+        app:srcCompat="@drawable/ic_action_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

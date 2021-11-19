@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMember;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
+import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +34,14 @@ public class CoinFlipSelection extends AppCompatActivity {
 
     private ArrayList<String> nameArrayList;
     private ArrayList<Integer> keyArrayList;
+    private FamilyMembersManager familyManager;
     private final List<Integer> selectedIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
-        FamilyMembersManager familyManager = FamilyMembersManager.getInstance(this);
+        familyManager = FamilyMembersManager.getInstance(this);
 
         nameArrayList = familyManager.getFamilyMembersNames();
         keyArrayList = familyManager.getFamilyMemberKeys();
@@ -85,7 +89,7 @@ public class CoinFlipSelection extends AppCompatActivity {
 
     private void populateListView() {
         //Build adapter
-        ArrayAdapter<String> adapter = new MyListAdapter();
+        ArrayAdapter<FamilyMember> adapter = new MyListAdapter();
 
         ListView list = findViewById(R.id.coin_list_names);
         list.setAdapter(adapter);
@@ -112,25 +116,32 @@ public class CoinFlipSelection extends AppCompatActivity {
         return nameArrayList.size() >= 2;
     }
 
-    private class MyListAdapter extends ArrayAdapter<String> {
+
+    // display photos and text per family member
+    private class MyListAdapter extends ArrayAdapter<FamilyMember> {
         public MyListAdapter() {
-            super(CoinFlipSelection.this, R.layout.recycler_name_list_items, nameArrayList);
+            super(CoinFlipSelection.this, R.layout.family_member_item_view, familyManager.getFamilyMemberObjects());
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            //Make sure we have a view to work with (may have been given null
+            // Make sure we have a view to work with (may have been given null)
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.recycler_name_list_items, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.family_member_item_view, parent, false);
             }
 
-            //find the name
-            String name = nameArrayList.get(position);
+            // Find family member to work with
+            FamilyMember currentMember = familyManager.getFamilyMemberObjects().get(position);
 
-            //fill the view
-            TextView textView = itemView.findViewById(R.id.textView_list_name);
-            textView.setText(name);
+            // Retrieve image
+            ImageView imageView = (ImageView)itemView.findViewById(R.id.member_profile_photo);
+            imageView.setImageResource(currentMember.getIconID());
+
+            // Display member name
+            TextView makeText = (TextView) itemView.findViewById(R.id.member_name_text);
+            makeText.setText(currentMember.getMemberName());
+
             return itemView;
         }
     }
