@@ -117,6 +117,11 @@ public class TaskManager {
      */
     public String getChildName(int i) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
+        if(!familyMembersManager.getFamilyMemberFromID(getChildID(i)).isDeleted()) {
+            return familyMembersManager.getFamilyMemberNameFromID(getChildID(i));
+        }
+        completeTask(i); // get the next family member in the list
+
         return familyMembersManager.getFamilyMemberNameFromID(getChildID(i));
     }
 
