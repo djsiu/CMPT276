@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -96,8 +95,19 @@ public class FamilyMembersManager {
 
     public void changeMemberName(String newName, String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
-            if(name.equals(familyMembersList.get(i).getMemberName())) {
+            if(name.equals(familyMembersList.get(i).getMemberName())
+                && !familyMembersList.get(i).isDeleted()) {
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
+            }
+        }
+        saveToSharedPrefs();
+    }
+
+    public void changeMemberPhoto(String name, Bitmap newPhoto) {
+        for(int i = 0; i < familyMembersList.size(); i++) {
+            if(name.equals(familyMembersList.get(i).getMemberName())
+                && !familyMembersList.get(i).isDeleted()) {
+                familyMembersList.set(i, familyMembersList.get(i).changeImage(newPhoto));
             }
         }
         saveToSharedPrefs();
@@ -131,6 +141,17 @@ public class FamilyMembersManager {
             familyMembersStrings.add(familyMembersList.get(i).getKey());
         }
         return familyMembersStrings;
+    }
+
+    public Bitmap getProfilePhotoByName(String name) {
+        Bitmap profilePhoto = null;
+        for(int i = 0; i < familyMembersList.size(); i++) {
+            if(name.equals(familyMembersList.get(i).getMemberName())
+                && !familyMembersList.get(i).isDeleted()) {
+                profilePhoto =  familyMembersList.get(i).getProfileBitmap();
+            }
+        }
+        return profilePhoto;
     }
 
     // returns all non-deleted family member objects

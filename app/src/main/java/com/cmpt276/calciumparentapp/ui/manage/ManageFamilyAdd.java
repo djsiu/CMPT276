@@ -41,14 +41,13 @@ import java.util.Date;
  */
 public class ManageFamilyAdd extends AppCompatActivity {
 
-    public static final String MANAGE_FAMILY_ADD_ERROR_TAG = "MANAGE FAMILY ADD ERROR: ";
     private FamilyMembersManager familyManager;
-
     private ImageView profilePhotoImageView;
 
-    Uri image_uri;
-    Bitmap profilePhotoBitmap = null;
-    File profilePhotoFile = null;
+    private static final String MANAGE_FAMILY_ADD_ERROR_TAG = "MANAGE FAMILY ADD ERROR: ";
+
+    private Bitmap profilePhotoBitmap = null;
+    private File profilePhotoFile = null;
 
     private static final int GALLERY_PERMISSIONS_CODE = 100;
     private static final int GALLERY_REQUEST_CODE = 101;
@@ -61,7 +60,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
         setContentView(R.layout.activity_manage_family_add);
 
         familyManager = FamilyMembersManager.getInstance(this);
-        profilePhotoImageView = (ImageView) findViewById(R.id.profile_photo_image_view);
+        profilePhotoImageView = (ImageView) findViewById(R.id.profile_photo_image_view_add);
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
@@ -75,7 +74,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
     }
 
     private void setupCameraBtn() {
-        Button openCameraBtn = findViewById(R.id.takeNewPhotoBtn);
+        Button openCameraBtn = findViewById(R.id.take_new_photo_btn_add);
 
         openCameraBtn.setOnClickListener(view -> {
             //checking for camera permission
@@ -94,7 +93,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
     }
 
     private void setupGalleryBtn() {
-        Button openGalleryBtn = findViewById(R.id.choosePhotoBtn);
+        Button openGalleryBtn = findViewById(R.id.choose_photo_btn_add);
 
         openGalleryBtn.setOnClickListener(view -> {
             //checking for gallery permissions
@@ -128,7 +127,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
             Log.i("CREATED PHOTO FILE: ", profilePhotoFile.getAbsolutePath());
 
             if (profilePhotoFile != null) {
-                image_uri = FileProvider.getUriForFile(this,
+                Uri image_uri = FileProvider.getUriForFile(this,
                         "com.cmpt276.calciumparentapp.fileprovider",
                         profilePhotoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);

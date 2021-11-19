@@ -102,9 +102,9 @@ public class ManageFamilyMembers extends AppCompatActivity {
             // Find family member to work with
             FamilyMember currentMember = familyManager.getFamilyMemberObjects().get(position);
 
-            // Retrieve image
+            // Retrieve/display image
             ImageView imageView = (ImageView)itemView.findViewById(R.id.member_profile_photo);
-            imageView.setImageBitmap(currentMember.getIconBitmap());
+            imageView.setImageBitmap(currentMember.getProfileBitmap());
 
             // Display member name
             TextView makeText = (TextView) itemView.findViewById(R.id.member_name_text);

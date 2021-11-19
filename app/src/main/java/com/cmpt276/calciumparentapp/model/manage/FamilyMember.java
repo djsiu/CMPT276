@@ -45,6 +45,11 @@ public class FamilyMember {
         return this;
     }
 
+    public FamilyMember changeImage(Bitmap photo) {
+        this.encodedBitmap = encodeToBase64(photo);
+        return this;
+    }
+
     public int getCoinFlipPickPriority() {
         return coinFlipPickPriority;
     }
@@ -65,7 +70,7 @@ public class FamilyMember {
         return deleted;
     }
 
-    public Bitmap getIconBitmap() {
+    public Bitmap getProfileBitmap() {
         return decodeToBase64(encodedBitmap);
     }
 
