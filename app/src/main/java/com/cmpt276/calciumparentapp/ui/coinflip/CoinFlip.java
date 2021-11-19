@@ -69,6 +69,7 @@ public class CoinFlip extends AppCompatActivity {
         // if a game is running that means one was created in
         // the CoinFlip selection therefore there are named children
         gameWithNamedPlayers = coinFlipManager.isGameRunning();
+        //
 
         setupGameButtons();
         setPickerText();
