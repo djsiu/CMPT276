@@ -62,6 +62,8 @@ public class TaskMenu extends AppCompatActivity {
     private void setupNoFamilyMembers() {
         TextView errorMsg = findViewById(R.id.task_menu_no_family_error);
         errorMsg.setVisibility(View.VISIBLE);
+        FloatingActionButton addTaskBtn = findViewById(R.id.addTaskButton);
+        addTaskBtn.setEnabled(false);
     }
 
     private void setupRecyclerView() {
