@@ -91,6 +91,9 @@ public class CoinFlipSelection extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets up a game that has no members, initializing their player ID values to -1
+     */
     private void beginMemberlessGame(){
         CoinFlipManager coinFlipManager = CoinFlipManager.getInstance(this);
         coinFlipManager.beginGame(-1,-1);

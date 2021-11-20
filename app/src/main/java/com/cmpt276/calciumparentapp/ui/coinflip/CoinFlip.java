@@ -162,7 +162,7 @@ public class CoinFlip extends AppCompatActivity {
             //set the image here
 
         }
-        else{
+        else{//if memberless game
             buttonSwap.setVisibility(View.GONE);
             nameTextView.setVisibility(View.GONE);
             nameTextView.setText(getString(R.string.coin_textView_pickerGeneric));
