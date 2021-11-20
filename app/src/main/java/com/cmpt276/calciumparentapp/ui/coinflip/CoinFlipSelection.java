@@ -22,7 +22,6 @@ import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMember;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,11 +145,11 @@ public class CoinFlipSelection extends AppCompatActivity {
             FamilyMember currentMember = familyManager.getFamilyMemberObjects().get(position);
 
             // Retrieve image
-            ImageView imageView = (ImageView)itemView.findViewById(R.id.member_profile_photo);
+            ImageView imageView = itemView.findViewById(R.id.member_profile_photo);
             imageView.setImageResource(currentMember.getIconID());
 
             // Display member name
-            TextView makeText = (TextView) itemView.findViewById(R.id.member_name_text);
+            TextView makeText = itemView.findViewById(R.id.member_name_text);
             makeText.setText(currentMember.getMemberName());
 
             return itemView;

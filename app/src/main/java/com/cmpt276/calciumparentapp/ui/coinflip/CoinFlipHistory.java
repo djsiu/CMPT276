@@ -3,7 +3,6 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,12 +72,10 @@ public class CoinFlipHistory extends AppCompatActivity {
             CoinFlipGame currentGame = games.get(position);
 
             // Fill the view
-            ImageView imageView = (ImageView) itemView.findViewById(R.id.win_lose_history_icon);
-            Log.i("null test", "getView: winloss" + imageView);
+            ImageView imageView = itemView.findViewById(R.id.win_lose_history_icon);
             imageView.setImageResource(getGameIconID(currentGame));
             //player image
-            ImageView pickerImage = (ImageView) itemView.findViewById(R.id.picker_history_icon);
-            Log.i("null test", "getView: " + pickerImage);
+            ImageView pickerImage = itemView.findViewById(R.id.picker_history_icon);
             if(currentGame.getPickerID() == -1){
                 pickerImage.setVisibility(View.GONE);
             }else{
@@ -88,7 +85,7 @@ public class CoinFlipHistory extends AppCompatActivity {
 
 
             // Game data text
-            TextView makeText = (TextView) itemView.findViewById(R.id.history_text);
+            TextView makeText = itemView.findViewById(R.id.history_text);
             makeText.setText(currentGame.getGameText(getApplicationContext()));
 
             return itemView;

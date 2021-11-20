@@ -78,7 +78,7 @@ public class FamilyMembersManager {
     }
 
     public void addMember(String name, int profilePhotoID) {
-        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size(), profilePhotoID);
+        FamilyMember newMember = new FamilyMember(name, keyGenerator, profilePhotoID);
         familyMembersList.add(newMember);
         keyGenerator++;
         saveToSharedPrefs();
@@ -104,7 +104,6 @@ public class FamilyMembersManager {
     public void deleteMember(String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
             if(name.equals(familyMembersList.get(i).getMemberName())) {
-                choosePicker(i);
                 familyMembersList.get(i).deleteChild();
             }
         }
@@ -143,10 +142,6 @@ public class FamilyMembersManager {
         return activeMembers;
     }
 
-    public int getCoinFlipPriority(int index){
-        return familyMembersList.get(index).getCoinFlipPickPriority();
-    }
-
     public boolean isMemberNameUsed(String name) {
         boolean nameUsed = false;
         for(FamilyMember member : familyMembersList) {
@@ -157,17 +152,7 @@ public class FamilyMembersManager {
         return nameUsed;
     }
 
-    public String choosePicker(int index){
-        int playerPriority = familyMembersList.get(index).getCoinFlipPickPriority();
-        int listSize = familyMembersList.size();
-        for (int currentIndex = 0; currentIndex < listSize; currentIndex++ ){
-            if(familyMembersList.get(currentIndex).getCoinFlipPickPriority() >playerPriority){
-                familyMembersList.get(currentIndex).setCoinFlipPickPriority(familyMembersList.get(currentIndex).getCoinFlipPickPriority() -1);
-            }
-        }
-        familyMembersList.get(index).setCoinFlipPickPriority(listSize-1);
-        return familyMembersList.get(index).getMemberName();
-    }
+
 
     public String getFamilyMemberNameFromID(int ID) {
         for(FamilyMember familyMember : familyMembersList) {

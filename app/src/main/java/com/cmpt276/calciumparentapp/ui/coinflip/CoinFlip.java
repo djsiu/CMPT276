@@ -39,7 +39,6 @@ public class CoinFlip extends AppCompatActivity {
     private TextView nameTextView;
     private ImageView coinImageView;
     private MenuItem historyButton;
-    private ImageView pickerImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +65,9 @@ public class CoinFlip extends AppCompatActivity {
     private void setupGame() {
         nameTextView = findViewById(R.id.coin_textView_name);
         coinImageView = findViewById(R.id.imageView_coin);
-
+        //sets game with named players if there is a game running with named players and false otherwise
         if(coinFlipManager.isGameRunning()){
-            if(coinFlipManager.getPickerID() == -1){
-                gameWithNamedPlayers = false;
-            }else{
-                gameWithNamedPlayers = true;
-            }
+            gameWithNamedPlayers = coinFlipManager.getPickerID() != -1;
         }
 
 
@@ -158,7 +153,7 @@ public class CoinFlip extends AppCompatActivity {
      */
     private void setPickerInfo() {
 
-        pickerImageView = findViewById(R.id.coin_imageView_picker);
+        ImageView pickerImageView = findViewById(R.id.coin_imageView_picker);
         if(gameWithNamedPlayers){
             String pickerName = familyMembersManager.getFamilyMemberNameFromID(coinFlipManager.getPickerID());
             nameTextView.setText(pickerName);

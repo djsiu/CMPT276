@@ -84,5 +84,6 @@
         Timer service running method:\n https://stackoverflow.com/questions/600207/how-to-check-if-a-service-is-running-on-android</string>
     <string name="button_help">HELP</string>
     <string name="member_name">Member Name</string>
+    <string name="picker_image">Picker Image</string>
 
 </resources>
