@@ -94,5 +94,8 @@
     <string name="invalid_task_name_toast">Invalid task name</string>
     <string name="view_task_up_next_text">Up Next</string>
     <string name="view_task_confirm_task_text">Confirm Task</string>
+    <string name="configure_task_delete_btn">Delete</string>
+    <string name="configure_task_save_btn">Save</string>
+    <string name="configure_task_task_name">Task Name</string>
 
 </resources>
