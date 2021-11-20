@@ -179,4 +179,15 @@ public class FamilyMembersManager {
         throw new IllegalArgumentException("No family member with provided ID");
     }
 
+
+    public int getFamilyMemberImageIDFromID(int ID) {
+        for(FamilyMember familyMember : familyMembersList) {
+            if(familyMember.getKey() == ID){
+                return familyMember.getProfilePhotoID();
+            }
+        }
+
+        throw new IllegalArgumentException("No family member with provided ID");
+    }
+
 }

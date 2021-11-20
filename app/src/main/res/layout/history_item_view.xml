@@ -9,14 +9,31 @@
         android:id="@+id/win_lose_history_icon"
         android:layout_width="99dp"
         android:layout_height="91dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginEnd="0dp"
+        app:srcCompat="@drawable/win_flip_history"
+        tools:ignore="ImageContrastCheck" />
+
+    <ImageView
+        android:id="@+id/picker_history_icon"
+        android:layout_width="99dp"
+        android:layout_height="91dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="149dp"
+        android:layout_toStartOf="@+id/win_lose_history_icon"
         app:srcCompat="@drawable/win_flip_history"
         tools:ignore="ImageContrastCheck" />
 
     <TextView
         android:id="@+id/history_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_marginStart="0dp"
+        android:layout_toStartOf="@+id/picker_history_icon"
         android:text="@string/game_data_text" />
 </RelativeLayout>

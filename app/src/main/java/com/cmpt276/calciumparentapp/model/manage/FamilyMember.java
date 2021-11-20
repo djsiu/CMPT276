@@ -40,6 +40,10 @@ public class FamilyMember {
         this.coinFlipPickPriority = coinFlipPickPriority;
     }
 
+    public int getProfilePhotoID() {
+        return profilePhotoID;
+    }
+
     public int getKey(){
         return key;
     }

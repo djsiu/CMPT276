@@ -39,6 +39,7 @@ public class CoinFlip extends AppCompatActivity {
     private TextView nameTextView;
     private ImageView coinImageView;
     private MenuItem historyButton;
+    private ImageView pickerImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +67,20 @@ public class CoinFlip extends AppCompatActivity {
         nameTextView = findViewById(R.id.coin_textView_name);
         coinImageView = findViewById(R.id.imageView_coin);
 
-        // if a game is running that means one was created in
-        // the CoinFlip selection therefore there are named children
-        gameWithNamedPlayers = coinFlipManager.isGameRunning();
+        if(coinFlipManager.isGameRunning()){
+            if(coinFlipManager.getPickerID() == -1){
+                gameWithNamedPlayers = false;
+            }else{
+                gameWithNamedPlayers = true;
+            }
+        }
+
+
+
         //
 
         setupGameButtons();
-        setPickerText();
+        setPickerInfo();
 
     }
 
@@ -109,57 +117,61 @@ public class CoinFlip extends AppCompatActivity {
         buttonHeads.setVisibility(View.GONE);
         buttonTails.setVisibility(View.GONE);
         buttonFlipAgain.setVisibility(View.VISIBLE);
+        buttonSwap.setVisibility(View.GONE);
 
         // flip the coin and start the animation
         coinFlipResult = coinFlipManager.flipCoin();
         animateCoin();
 
-        // Only handle recording the pick if the game needs to be saved
-        if(gameWithNamedPlayers){
-            CoinFace flipPick;
+        CoinFace flipPick;
 
-            if(clickedBtn.equals(buttonHeads)){
-                flipPick = CoinFace.HEADS;
-            }
-            else{
-                flipPick = CoinFace.TAILS;
-            }
-            coinFlipManager.assignCoinPick(flipPick);
+        if(clickedBtn.equals(buttonHeads)){
+            flipPick = CoinFace.HEADS;
         }
+        else{
+            flipPick = CoinFace.TAILS;
+        }
+        coinFlipManager.assignCoinPick(flipPick);
+
     }
 
     private void onFlipAgainButtonClick() {
-        // If the game is saved by CoinFlipManager then call the function to start another game
-        if(gameWithNamedPlayers) {
-            coinFlipManager.beginAnotherGame();
-        }
 
-        setPickerText();
+        coinFlipManager.beginAnotherGame();
+        buttonSwap.setVisibility(View.VISIBLE);
+        setPickerInfo();
         buttonHeads.setVisibility(View.VISIBLE);
         buttonTails.setVisibility(View.VISIBLE);
         buttonFlipAgain.setVisibility(View.GONE);
+
     }
 
     private void setButtonSwap(){
         coinFlipManager.swapFlipper();
-        setPickerText();
+        setPickerInfo();
     }
 
 
     /**
-     * Sets the messageTextView's according to the picker or to a generic message if
+     * Sets the messageTextView's and the picker image according to the picker or to a generic message if
      * there are no named players
      */
-    private void setPickerText() {
+    private void setPickerInfo() {
 
+        pickerImageView = findViewById(R.id.coin_imageView_picker);
         if(gameWithNamedPlayers){
             String pickerName = familyMembersManager.getFamilyMemberNameFromID(coinFlipManager.getPickerID());
             nameTextView.setText(pickerName);
+            //TODO: Change this to set coin_imageView_picker to the photo based on this image id
+            int pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(coinFlipManager.getPickerID());
+            //set the image here
+
         }
         else{
             buttonSwap.setVisibility(View.GONE);
             nameTextView.setVisibility(View.GONE);
             nameTextView.setText(getString(R.string.coin_textView_pickerGeneric));
+            pickerImageView.setVisibility(View.GONE);
         }
 
     }

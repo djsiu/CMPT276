@@ -47,6 +47,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         keyArrayList = familyManager.getFamilyMemberKeys();
 
         if(!hasEnoughFamilyMembers()){
+            beginMemberlessGame();
             Intent i = CoinFlip.makeIntent(this);
             finish();
             startActivity(i);
@@ -66,9 +67,8 @@ public class CoinFlipSelection extends AppCompatActivity {
 
     private void continueButtonOnClick() {
         if(selectedIndexes.size() == 0){
-            CoinFlipManager coinFlipManager = CoinFlipManager.getInstance(this);
             //player id of -1 means there is no player there
-            coinFlipManager.beginGame(-1,-1);
+            beginMemberlessGame();
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
             startActivity(i);
         }else if(selectedIndexes.size() == 2){
@@ -81,7 +81,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         }
         else{
             //TODO: rename this string resource to include no child answers
-            Toast toast = Toast.makeText(this, R.string.coinflip_selection_two_children_toast_text, Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, R.string.coinflip_selection_incorrect_children_toast_text, Toast.LENGTH_SHORT);
             toast.show();
         }
 
@@ -90,6 +90,11 @@ public class CoinFlipSelection extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
+    }
+
+    private void beginMemberlessGame(){
+        CoinFlipManager coinFlipManager = CoinFlipManager.getInstance(this);
+        coinFlipManager.beginGame(-1,-1);
     }
 
 

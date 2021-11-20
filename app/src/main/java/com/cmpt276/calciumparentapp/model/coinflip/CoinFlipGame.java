@@ -57,10 +57,9 @@ public class CoinFlipGame {
     public String getGameText(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         String pickerName;
-        if(pickerID == -1){//if no picker
+        if(pickerID != -1){//if no picker
             pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
         }else{
-            //TODO: change this from a hard coded string to a string resource
             pickerName = "";
         }
         String flipResultStr;
