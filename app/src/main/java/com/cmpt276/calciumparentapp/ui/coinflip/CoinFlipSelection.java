@@ -79,7 +79,6 @@ public class CoinFlipSelection extends AppCompatActivity {
             startActivity(i);
         }
         else{
-            //TODO: rename this string resource to include no child answers
             Toast toast = Toast.makeText(this, R.string.coinflip_selection_incorrect_children_toast_text, Toast.LENGTH_SHORT);
             toast.show();
         }
