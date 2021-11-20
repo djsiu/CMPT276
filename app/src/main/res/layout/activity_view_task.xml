@@ -11,7 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="TextView"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:text="TextView"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/view_task_child_icon"
         app:layout_constraintStart_toEndOf="@+id/view_task_child_icon"
@@ -43,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Up Next"
+        android:text="@string/view_task_up_next_text"
         app:layout_constraintBottom_toTopOf="@+id/view_task_child_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -73,6 +71,6 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_weight="1"
-            android:text="Confirm Task" />
+            android:text="@string/view_task_confirm_task_text" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -92,5 +92,7 @@
     <string name="add_task_invalid_family_error_toast">Please register at least 1 family member before making a task</string>
     <string name="task_menu_no_family_error">Family members are required for tasks\nPlease Register at least 1 family member!</string>
     <string name="invalid_task_name_toast">Invalid task name</string>
+    <string name="view_task_up_next_text">Up Next</string>
+    <string name="view_task_confirm_task_text">Confirm Task</string>
 
 </resources>
