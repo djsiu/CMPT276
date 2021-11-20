@@ -144,6 +144,30 @@ public class TaskManager {
         saveInstance();
     }
 
+
+    /**
+     * Checks whether a given task name is a valid name.
+     * A name is valid if it has more than 1 character and does not already exist
+     * @param name The name of a task
+     * @return True or false indicating whether the name is a valid name
+     */
+    public boolean isNameTaskValid(String name) {
+        boolean nameValid = true;
+
+        if(name.length() <= 0) {
+            nameValid = false;
+        }
+
+        for (Task task : taskList) {
+            if(task.getTaskName().equals(name)) {
+                nameValid = false;
+                break;
+            }
+        }
+
+        return nameValid;
+    }
+
     /**
      * Sets the childID for the given task to the default (first child).
      * @param task The task which will have its childID set

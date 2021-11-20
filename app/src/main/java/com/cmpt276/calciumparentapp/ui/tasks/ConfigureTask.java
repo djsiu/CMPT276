@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
@@ -88,12 +89,12 @@ public class ConfigureTask extends AppCompatActivity {
     }
 
     private void saveButtonOnClick() {
-        if(!isTaskNameValid()) {
-            // TODO: display error toast
+        String taskName = taskNameEditText.getText().toString();
+        if(!taskManager.isNameTaskValid(taskName)) {
+            displayInvalidTaskNameToast();
             return;
         }
 
-        String taskName = taskNameEditText.getText().toString();
         if(addTask){
             taskManager.createNewTask(taskName);
         }
@@ -103,9 +104,10 @@ public class ConfigureTask extends AppCompatActivity {
         finish();
     }
 
-    private boolean isTaskNameValid() {
-        // TODO: Implement checking of task name
-        return true;
+    private void displayInvalidTaskNameToast() {
+        Toast toast = Toast.makeText(this,
+                R.string.invalid_task_name_toast, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     private void deleteButtonOnClick() {
