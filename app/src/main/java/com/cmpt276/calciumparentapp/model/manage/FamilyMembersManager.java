@@ -203,8 +203,6 @@ public class FamilyMembersManager {
         return nameUsed;
     }
 
-
-
     public String getFamilyMemberNameFromID(int ID) {
         for(FamilyMember familyMember : familyMembersList) {
             if(familyMember.getKey() == ID){
