@@ -66,7 +66,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
         showNoMembersMessage();
 
         ArrayAdapter<FamilyMember> adapter = new MyListAdapter();
-        ListView familyMembersListView = (ListView) findViewById(R.id.family_members_list);
+        ListView familyMembersListView = findViewById(R.id.family_members_list);
         familyMembersListView.setAdapter(adapter);
 
         //enabling clicking on list view to edit family members
@@ -74,7 +74,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
     }
 
     private void registerClickCallback() {
-        ListView list = (ListView) findViewById(R.id.family_members_list);
+        ListView list = findViewById(R.id.family_members_list);
         list.setOnItemClickListener((parent, viewClicked, position, id) -> {
 
             Intent intent = new Intent(viewClicked.getContext(), ManageFamilyEdit.class);
@@ -102,12 +102,13 @@ public class ManageFamilyMembers extends AppCompatActivity {
             // Find family member to work with
             FamilyMember currentMember = familyManager.getFamilyMemberObjects().get(position);
 
+
             // Retrieve/display image
-            ImageView imageView = (ImageView)itemView.findViewById(R.id.member_profile_photo);
+            ImageView imageView = itemView.findViewById(R.id.member_profile_photo);
             imageView.setImageBitmap(currentMember.getProfileBitmap());
 
             // Display member name
-            TextView makeText = (TextView) itemView.findViewById(R.id.member_name_text);
+            TextView makeText = itemView.findViewById(R.id.member_name_text);
             makeText.setText(currentMember.getMemberName());
 
             return itemView;

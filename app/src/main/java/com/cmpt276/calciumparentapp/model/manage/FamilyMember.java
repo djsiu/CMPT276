@@ -17,8 +17,7 @@ public class FamilyMember {
     private int coinFlipPickPriority; //lower indexes pick before higher indexes
     private String encodedBitmap;
 
-
-    FamilyMember(String name, int key, int coinFlipPickPriority, Bitmap profilePhotoBitmap) {
+    FamilyMember(String name, int key, Bitmap profilePhotoBitmap) {
         this.name = name;
         this.key = key;
         this.coinFlipPickPriority = coinFlipPickPriority;

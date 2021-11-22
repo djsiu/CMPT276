@@ -56,7 +56,12 @@ public class CoinFlipGame {
      */
     public String getGameText(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
-        String pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
+        String pickerName;
+        if(pickerID != -1){//if no picker
+            pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
+        }else{
+            pickerName = "";
+        }
         String flipResultStr;
         if(coinFlipResult == CoinFace.HEADS){
             flipResultStr = HEADS;
@@ -66,6 +71,14 @@ public class CoinFlipGame {
         }
 
         return pickerName + '\n' + flipResultStr + '\n' + date;
+    }
+    public int getPickerPhotoId(Context context) {
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
+        int pickerImageId = -1;//returns such if there was no picker
+        if(pickerID != -1) {//if no picker
+            pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(getPickerID());
+        }
+        return pickerImageId;
     }
 
 
@@ -118,6 +131,7 @@ public class CoinFlipGame {
         public CoinFace getCoinFlipResult() {
             return coinFlipResult;
         }
+
     }
 
 }
