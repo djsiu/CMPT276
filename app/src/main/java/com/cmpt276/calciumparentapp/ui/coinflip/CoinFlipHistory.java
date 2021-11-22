@@ -81,6 +81,12 @@ public class CoinFlipHistory extends AppCompatActivity {
             }else{
                 //TODO: set image to the pickers image
                 //put image here
+                int pickerImageId = currentGame.getPickerPhotoId(getApplicationContext());
+                /*pickerImageView.setImageResource(); <-- put the picker image here.
+                *May also choose to have the function getPickerPhotoId in CoinFlipGame return the image instead depending on how you
+                * want to implement it.
+                * */
+
             }
 
 

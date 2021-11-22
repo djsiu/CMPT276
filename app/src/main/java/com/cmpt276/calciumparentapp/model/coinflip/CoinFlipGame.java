@@ -72,6 +72,14 @@ public class CoinFlipGame {
 
         return pickerName + '\n' + flipResultStr + '\n' + date;
     }
+    public int getPickerPhotoId(Context context) {
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
+        int pickerImageId = -1;//returns such if there was no picker
+        if(pickerID != -1) {//if no picker
+            pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(getPickerID());
+        }
+        return pickerImageId;
+    }
 
 
     /**
