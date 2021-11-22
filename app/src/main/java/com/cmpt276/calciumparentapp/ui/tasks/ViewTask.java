@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,8 +16,10 @@ import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 
+/**
+ * Activity for displaying task details
+ */
 public class ViewTask extends AppCompatActivity {
-
     public static final String VIEW_TASK_TASK_ID_EXTRA = "VIEW_TASK_TASK_ID_EXTRA";
     private FamilyMembersManager familyManager;
     TaskManager taskManager;
@@ -44,7 +45,7 @@ public class ViewTask extends AppCompatActivity {
 
     private void loadIntentExtra() {
         taskIndex = getIntent().getIntExtra(VIEW_TASK_TASK_ID_EXTRA, -1);
-        if(taskIndex == -1){
+        if (taskIndex == -1) {
             throw new IllegalStateException("ViewTask activity created without passing taskID extra");
         }
     }
@@ -57,7 +58,6 @@ public class ViewTask extends AppCompatActivity {
             taskManager.completeTask(taskIndex);
             finish();
         });
-
     }
 
     /**
@@ -83,13 +83,11 @@ public class ViewTask extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Top left back arrow
-        if(item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
-        }
-        else if(item.getItemId() == R.id.action_edit_task) {
+        } else if (item.getItemId() == R.id.action_edit_task) {
             editTask();
         }
-
 
         // If we got here, the user's action was not recognized.
         // Invoke the superclass to handle it.
