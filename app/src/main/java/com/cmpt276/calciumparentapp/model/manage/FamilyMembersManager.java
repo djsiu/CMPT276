@@ -64,6 +64,30 @@ public class FamilyMembersManager {
 
     }
 
+    /**
+     * Gets the next family member in task order.
+     * @param id The ID of the family member
+     * @return The ID of the next family member
+     */
+    public int getNextFamilyMemberInOrder(int id) {
+        if(id >= keyGenerator) {
+            throw new IllegalArgumentException("Invalid ID");
+        }
+
+        // loop until reaching a family member that is not deleted
+        // if the end is reached, loop back to the start
+        do {
+            id++;
+            if(id == keyGenerator){
+                id = 0;
+            }
+        }
+        while(getFamilyMemberFromID(id).isDeleted());
+
+        return id;
+
+    }
+
     private static class FamilyMembersManagerInstanceCreator implements InstanceCreator<FamilyMembersManager> {
         private final Context context;
 
@@ -82,6 +106,10 @@ public class FamilyMembersManager {
         familyMembersList.add(newMember);
         keyGenerator++;
         saveToSharedPrefs();
+    }
+
+    public int getFamilyMemberCount() {
+        return getFamilyMembersNames().size();
     }
 
     private void saveToSharedPrefs() {
@@ -176,6 +204,15 @@ public class FamilyMembersManager {
             }
         }
 
+        throw new IllegalArgumentException("No family member with provided ID");
+    }
+
+    public FamilyMember getFamilyMemberFromID(int ID) {
+        for(FamilyMember familyMember : familyMembersList) {
+            if(familyMember.getKey() == ID){
+                return familyMember;
+            }
+        }
         throw new IllegalArgumentException("No family member with provided ID");
     }
 
