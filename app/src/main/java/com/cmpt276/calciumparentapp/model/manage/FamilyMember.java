@@ -8,13 +8,11 @@ public class FamilyMember {
     private String name;
     private final int key;
     private boolean deleted;
-    private int coinFlipPickPriority; //lower indexes pick before higher indexes
     private int profilePhotoID;
 
-    FamilyMember(String name, int key, int coinFlipPickPriority, int profilePhotoID) {
+    FamilyMember(String name, int key, int profilePhotoID) {
         this.name = name;
         this.key = key;
-        this.coinFlipPickPriority = coinFlipPickPriority;
         this.profilePhotoID = profilePhotoID;
         deleted = false;
     }
@@ -32,12 +30,8 @@ public class FamilyMember {
         return this;
     }
 
-    public int getCoinFlipPickPriority() {
-        return coinFlipPickPriority;
-    }
-
-    public void setCoinFlipPickPriority(int coinFlipPickPriority) {
-        this.coinFlipPickPriority = coinFlipPickPriority;
+    public int getProfilePhotoID() {
+        return profilePhotoID;
     }
 
     public int getKey(){
