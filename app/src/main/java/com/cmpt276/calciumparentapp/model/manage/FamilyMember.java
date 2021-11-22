@@ -20,7 +20,6 @@ public class FamilyMember {
     FamilyMember(String name, int key, Bitmap profilePhotoBitmap) {
         this.name = name;
         this.key = key;
-        this.coinFlipPickPriority = coinFlipPickPriority;
         encodedBitmap = encodeToBase64(profilePhotoBitmap);
         deleted = false;
     }
@@ -71,7 +70,7 @@ public class FamilyMember {
     // adapted from: https://stackoverflow.com/questions/9768611/encode-and-decode-bitmap-object-in-base64-string-in-android
     public  String encodeToBase64(Bitmap image) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        image.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
 
         return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
     }

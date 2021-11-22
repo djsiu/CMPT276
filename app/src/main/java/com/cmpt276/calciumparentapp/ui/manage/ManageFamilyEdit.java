@@ -239,8 +239,10 @@ public class ManageFamilyEdit extends AppCompatActivity {
 
             if(currentName.equals(newMemberNameStr) || !nameAlreadyExists) {
 
-                familyManager.changeMemberPhoto(currentName,
-                        profilePhotoBitmap);
+                if(profilePhotoBitmap != null) {
+                    familyManager.changeMemberPhoto(currentName,
+                            profilePhotoBitmap);
+                }
                 familyManager.changeMemberName(
                         editMemberName.getText().toString(),
                         currentName);
