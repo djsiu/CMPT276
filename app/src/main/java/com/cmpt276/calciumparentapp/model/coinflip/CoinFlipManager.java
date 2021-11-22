@@ -1,5 +1,6 @@
 package com.cmpt276.calciumparentapp.model.coinflip;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -26,6 +27,7 @@ public class CoinFlipManager {
     private transient CoinFlipGame.CoinFlipGameBuilder gameBuilder;
 
     // Singleton support
+    @SuppressLint("StaticFieldLeak")
     private static CoinFlipManager instance;
     // This causes a memory leak. If anyone knows a good way to fix this then let me know
     private transient Context context;
@@ -35,7 +37,7 @@ public class CoinFlipManager {
     
     public static CoinFlipManager getInstance(Context context) {
         if(instance == null) {
-            generateInstance(context);
+            generateInstance(context.getApplicationContext());
         }
         return instance;
     }
@@ -219,12 +221,18 @@ public class CoinFlipManager {
         gameBuilder = new CoinFlipGame.CoinFlipGameBuilder(pickerID, otherPlayerId);
     }
 
-    public void swapFlipper(){
-        if(gameBuilder == null){
+    /**
+     * Swaps the the picker with the other player
+     * Must have a currently running game with players selected
+     */
+    public void swapFlipper() {
+        if(gameBuilder == null) {
             throw new IllegalStateException("Attempting to swap when no children selected");
-        }else if(!gameRunning){
+        }
+        else if(!gameRunning) {
             throw new IllegalStateException("Attempting to access game members when there is no game");
-        }else{
+        }
+        else {
             int oldPicker = gameBuilder.getPickerID();
             int newPicker = gameBuilder.getSecondPlayerID();
             gameBuilder = new CoinFlipGame.CoinFlipGameBuilder(newPicker, oldPicker);

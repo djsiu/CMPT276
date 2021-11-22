@@ -72,6 +72,13 @@ public class CoinFlipGame {
 
         return pickerName + '\n' + flipResultStr + '\n' + date;
     }
+
+    /**
+     * Gets the photo ID for the current picker of a game.
+     * Returns -1 if there is no picker
+     * @param context A context. Needed to get an instance of the family members manager
+     * @return The image ID of the picker. Returns -1 if there is no picker
+     */
     public int getPickerPhotoId(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         int pickerImageId = -1;//returns such if there was no picker

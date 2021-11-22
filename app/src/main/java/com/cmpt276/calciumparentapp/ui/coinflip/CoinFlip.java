@@ -70,13 +70,8 @@ public class CoinFlip extends AppCompatActivity {
             gameWithNamedPlayers = coinFlipManager.getPickerID() != -1;
         }
 
-
-
-        //
-
         setupGameButtons();
         setPickerInfo();
-
     }
 
     /**
@@ -95,7 +90,7 @@ public class CoinFlip extends AppCompatActivity {
         buttonHeads.setOnClickListener(this::onCoinFlipButtonClick);
         buttonTails.setOnClickListener(this::onCoinFlipButtonClick);
         buttonFlipAgain.setOnClickListener(v -> onFlipAgainButtonClick());
-        buttonSwap.setOnClickListener(v -> setButtonSwap());
+        buttonSwap.setOnClickListener(v -> onSwapButtonClick());
 
     }
 
@@ -120,10 +115,10 @@ public class CoinFlip extends AppCompatActivity {
 
         CoinFace flipPick;
 
-        if(clickedBtn.equals(buttonHeads)){
+        if(clickedBtn.equals(buttonHeads)) {
             flipPick = CoinFace.HEADS;
         }
-        else{
+        else {
             flipPick = CoinFace.TAILS;
         }
         coinFlipManager.assignCoinPick(flipPick);
@@ -141,7 +136,7 @@ public class CoinFlip extends AppCompatActivity {
 
     }
 
-    private void setButtonSwap(){
+    private void onSwapButtonClick() {
         coinFlipManager.swapFlipper();
         setPickerInfo();
     }
@@ -164,7 +159,8 @@ public class CoinFlip extends AppCompatActivity {
 
 
         }
-        else{//if memberless game
+        //if memberless game
+        else{
             buttonSwap.setVisibility(View.GONE);
             nameTextView.setVisibility(View.GONE);
             nameTextView.setText(getString(R.string.coin_textView_pickerGeneric));
