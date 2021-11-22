@@ -45,12 +45,11 @@ public class CoinFlipSelection extends AppCompatActivity {
         nameArrayList = familyManager.getFamilyMembersNames();
         keyArrayList = familyManager.getFamilyMemberKeys();
 
-        if(!hasEnoughFamilyMembers()){
-            beginMemberlessGame();
-            Intent i = CoinFlip.makeIntent(this);
+        if(!hasEnoughFamilyMembers()) {
             finish();
-            startActivity(i);
+            beginMemberlessGame();
         }
+
         populateListView();
 
         Button button = findViewById(R.id.coin_selection_button_continue);
@@ -65,12 +64,11 @@ public class CoinFlipSelection extends AppCompatActivity {
 
 
     private void continueButtonOnClick() {
-        if(selectedIndexes.size() == 0){
-            //player id of -1 means there is no player there
+        // no players selected
+        if(selectedIndexes.size() == 0) {
             beginMemberlessGame();
-            Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
-            startActivity(i);
-        }else if(selectedIndexes.size() == 2){
+        }
+        else if(selectedIndexes.size() == 2) {
             CoinFlipManager coinFlipManager = CoinFlipManager.getInstance(this);
             coinFlipManager.beginGame(keyArrayList.get(selectedIndexes.get(0)),
                     keyArrayList.get(selectedIndexes.get(1)));
@@ -78,7 +76,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
             startActivity(i);
         }
-        else{
+        else {
             Toast toast = Toast.makeText(this, R.string.coinflip_selection_incorrect_children_toast_text, Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -92,10 +90,13 @@ public class CoinFlipSelection extends AppCompatActivity {
 
     /**
      * Sets up a game that has no members, initializing their player ID values to -1
+     * then starts a new coinflip activity
      */
     private void beginMemberlessGame(){
         CoinFlipManager coinFlipManager = CoinFlipManager.getInstance(this);
         coinFlipManager.beginGame(-1,-1);
+        Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
+        startActivity(i);
     }
 
 

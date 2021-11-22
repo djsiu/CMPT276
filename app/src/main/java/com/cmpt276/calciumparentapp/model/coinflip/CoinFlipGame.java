@@ -73,6 +73,7 @@ public class CoinFlipGame {
 
         return pickerName + '\n' + flipResultStr + '\n' + date;
     }
+
     public Bitmap getPickerPhotoId(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         Bitmap pickerImageId = null;//returns such if there was no picker
