@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,7 +20,7 @@ import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
-Activity for displaying family members, choosing members to edit and adding a new member
+ * Activity for displaying family members, choosing members to edit and adding a new member
  */
 public class ManageFamilyMembers extends AppCompatActivity {
 
@@ -37,7 +36,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
         familyManager = FamilyMembersManager.getInstance(this);
 
         FloatingActionButton btnAddMember = findViewById(R.id.manage_family_add_button);
-
         setupManageFamilyAddButton(btnAddMember);
 
         //Adds back button in top left corner
@@ -67,7 +65,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
         showNoMembersMessage();
 
         ArrayAdapter<FamilyMember> adapter = new MyListAdapter();
-        ListView familyMembersListView = (ListView) findViewById(R.id.family_members_list);
+        ListView familyMembersListView = findViewById(R.id.family_members_list);
         familyMembersListView.setAdapter(adapter);
 
         //enabling clicking on list view to edit family members
@@ -75,7 +73,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
     }
 
     private void registerClickCallback() {
-        ListView list = (ListView) findViewById(R.id.family_members_list);
+        ListView list = findViewById(R.id.family_members_list);
         list.setOnItemClickListener((parent, viewClicked, position, id) -> {
 
             Intent intent = new Intent(viewClicked.getContext(), ManageFamilyEdit.class);
@@ -103,12 +101,12 @@ public class ManageFamilyMembers extends AppCompatActivity {
             // Find family member to work with
             FamilyMember currentMember = familyManager.getFamilyMemberObjects().get(position);
 
-            // Retrieve image
-            ImageView imageView = (ImageView)itemView.findViewById(R.id.member_profile_photo);
-            imageView.setImageResource(currentMember.getIconID());
+            // Retrieve/display image
+            ImageView imageView = itemView.findViewById(R.id.member_profile_photo);
+            imageView.setImageBitmap(currentMember.getProfileBitmap());
 
             // Display member name
-            TextView makeText = (TextView) itemView.findViewById(R.id.member_name_text);
+            TextView makeText = itemView.findViewById(R.id.member_name_text);
             makeText.setText(currentMember.getMemberName());
 
             return itemView;

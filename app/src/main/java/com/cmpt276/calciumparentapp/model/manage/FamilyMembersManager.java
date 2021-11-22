@@ -1,8 +1,10 @@
 package com.cmpt276.calciumparentapp.model.manage;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,11 +13,10 @@ import com.google.gson.InstanceCreator;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/*
+/**
 Managing the members of the family.
 adding, deleting and retrieving info about all the family members
  */
-
 public class FamilyMembersManager {
 
     private final ArrayList<FamilyMember> familyMembersList;
@@ -27,13 +28,13 @@ public class FamilyMembersManager {
     private final transient Context context;
 
     //singleton support
-    // This will cause a memory leak. If anyone has a way to fix this that doesn't require
-    // passing a context to every public method of this class that uses shared prefs please tell me
+    // By using getApplicationContext in the singleton the memory leak is fixed
+    @SuppressLint("StaticFieldLeak")
     private static FamilyMembersManager instance;
 
     public static FamilyMembersManager getInstance(Context context) {
         if(instance == null) {
-            generateInstance(context);
+            generateInstance(context.getApplicationContext());
         }
         return instance;
     }
@@ -59,13 +60,36 @@ public class FamilyMembersManager {
             instance = gson.fromJson(json, FamilyMembersManager.class);
         }
         else{
-            instance = new FamilyMembersManager(context.getApplicationContext());
+            instance = new FamilyMembersManager(context);
         }
 
     }
 
-    private static class FamilyMembersManagerInstanceCreator implements InstanceCreator<FamilyMembersManager> {
+    /**
+     * Gets the next family member in task order.
+     * @param id The ID of the family member
+     * @return The ID of the next family member
+     */
+    public int getNextFamilyMemberInOrder(int id) {
+        if(id >= keyGenerator) {
+            throw new IllegalArgumentException("Invalid ID");
+        }
 
+        // loop until reaching a family member that is not deleted
+        // if the end is reached, loop back to the start
+        do {
+            id++;
+            if(id == keyGenerator){
+                id = 0;
+            }
+        }
+        while(getFamilyMemberFromID(id).isDeleted());
+
+        return id;
+
+    }
+
+    private static class FamilyMembersManagerInstanceCreator implements InstanceCreator<FamilyMembersManager> {
         private final Context context;
 
         public FamilyMembersManagerInstanceCreator(Context context){
@@ -78,13 +102,16 @@ public class FamilyMembersManager {
         }
     }
 
-    public void addMember(String name, int profilePhotoID) {
-        FamilyMember newMember = new FamilyMember(name, keyGenerator, familyMembersList.size(), profilePhotoID);
+    public void addMember(String name, Bitmap profilePhotoID) {
+        FamilyMember newMember = new FamilyMember(name, keyGenerator, profilePhotoID);
         familyMembersList.add(newMember);
         keyGenerator++;
         saveToSharedPrefs();
     }
 
+    public int getFamilyMemberCount() {
+        return getFamilyMembersNames().size();
+    }
 
     private void saveToSharedPrefs() {
         SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE).edit();
@@ -96,8 +123,20 @@ public class FamilyMembersManager {
 
     public void changeMemberName(String newName, String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
-            if(name.equals(familyMembersList.get(i).getMemberName())) {
+            if(name.equals(familyMembersList.get(i).getMemberName())
+                && !familyMembersList.get(i).isDeleted()) {
+
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
+            }
+        }
+        saveToSharedPrefs();
+    }
+
+    public void changeMemberPhoto(String name, Bitmap newPhoto) {
+        for(int i = 0; i < familyMembersList.size(); i++) {
+            if(name.equals(familyMembersList.get(i).getMemberName())
+                && !familyMembersList.get(i).isDeleted()) {
+                familyMembersList.set(i, familyMembersList.get(i).changeImage(newPhoto));
             }
         }
         saveToSharedPrefs();
@@ -106,7 +145,6 @@ public class FamilyMembersManager {
     public void deleteMember(String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
             if(name.equals(familyMembersList.get(i).getMemberName())) {
-                choosePicker(i);
                 familyMembersList.get(i).deleteChild();
             }
         }
@@ -116,24 +154,32 @@ public class FamilyMembersManager {
     // returns all non-deleted family members' names
     public ArrayList<String> getFamilyMembersNames() {
         ArrayList<String> familyMembersStrings = new ArrayList<>();
-        if (familyMembersList != null) {
-            for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).isDeleted()) {
-                    familyMembersStrings.add(familyMembersList.get(i).getMemberName());
-                }
+        for (int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted()) {
+                familyMembersStrings.add(familyMembersList.get(i).getMemberName());
             }
         }
         return familyMembersStrings;
     }
+
     public ArrayList<Integer> getFamilyMemberKeys() {
         ArrayList<Integer> familyMembersStrings = new ArrayList<>();
-        if (familyMembersList != null) {
-            for (int i = 0; i < familyMembersList.size(); i++) {
-                if(!familyMembersList.get(i).isDeleted())
-                familyMembersStrings.add(familyMembersList.get(i).getKey());
-            }
+        for (int i = 0; i < familyMembersList.size(); i++) {
+            if(!familyMembersList.get(i).isDeleted())
+            familyMembersStrings.add(familyMembersList.get(i).getKey());
         }
         return familyMembersStrings;
+    }
+
+    public Bitmap getProfilePhotoByName(String name) {
+        Bitmap profilePhoto = null;
+        for(int i = 0; i < familyMembersList.size(); i++) {
+            if(name.equals(familyMembersList.get(i).getMemberName())
+                && !familyMembersList.get(i).isDeleted()) {
+                profilePhoto =  familyMembersList.get(i).getProfileBitmap();
+            }
+        }
+        return profilePhoto;
     }
 
     // returns all non-deleted family member objects
@@ -148,10 +194,6 @@ public class FamilyMembersManager {
         return activeMembers;
     }
 
-    public int getCoinFlipPriority(int index){
-        return familyMembersList.get(index).getCoinFlipPickPriority();
-    }
-
     public boolean isMemberNameUsed(String name) {
         boolean nameUsed = false;
         for(FamilyMember member : familyMembersList) {
@@ -162,25 +204,30 @@ public class FamilyMembersManager {
         return nameUsed;
     }
 
-    public String choosePicker(int index){
-        int playerPriority = familyMembersList.get(index).getCoinFlipPickPriority();
-        int listSize = familyMembersList.size();
-        for (int currentIndex = 0; currentIndex < listSize; currentIndex++ ){
-            if(familyMembersList.get(currentIndex).getCoinFlipPickPriority() >playerPriority){
-                familyMembersList.get(currentIndex).setCoinFlipPickPriority(familyMembersList.get(currentIndex).getCoinFlipPickPriority() -1);
-            }
-        }
-        familyMembersList.get(index).setCoinFlipPickPriority(listSize-1);
-        return familyMembersList.get(index).getMemberName();
-    }
-
     public String getFamilyMemberNameFromID(int ID) {
         for(FamilyMember familyMember : familyMembersList) {
             if(familyMember.getKey() == ID){
                 return familyMember.getMemberName();
             }
         }
+        throw new IllegalArgumentException("No family member with provided ID");
+    }
 
+    public FamilyMember getFamilyMemberFromID(int ID) {
+        for(FamilyMember familyMember : familyMembersList) {
+            if(familyMember.getKey() == ID){
+                return familyMember;
+            }
+        }
+        throw new IllegalArgumentException("No family member with provided ID");
+    }
+
+    public Bitmap getFamilyMemberImageIDFromID(int ID) {
+        for(FamilyMember familyMember : familyMembersList) {
+            if(familyMember.getKey() == ID){
+                return familyMember.getProfileBitmap();
+            }
+        }
         throw new IllegalArgumentException("No family member with provided ID");
     }
 

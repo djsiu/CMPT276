@@ -25,15 +25,14 @@
         android:id="@+id/name_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="@string/manage_name_title"
         android:textColor="@android:color/secondary_text_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editTextMemberNameForEdit"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manage_family_edit_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/choose_new_photo_btn_edit"
+        app:layout_constraintVertical_bias="0.120000005" />
 
     <EditText
         android:id="@+id/editTextMemberNameForEdit"
@@ -88,6 +87,36 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/deleteMemberBtn"
         app:layout_constraintTop_toTopOf="@+id/cancelEditMember" />
+
+    <ImageView
+        android:id="@+id/profile_photo_image_view_edit"
+        android:layout_width="172dp"
+        android:layout_height="164dp"
+        android:contentDescription="@string/member_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/manage_family_edit_title"
+        app:layout_constraintVertical_bias="0.07999998"
+        app:srcCompat="@drawable/default_profile_photo" />
+
+    <Button
+        android:id="@+id/take_new_photo_btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/take_new_photo_btn_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_photo_image_view_edit" />
+
+    <Button
+        android:id="@+id/choose_new_photo_btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_new_photo_btn_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/take_new_photo_btn_edit" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

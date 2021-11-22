@@ -1,6 +1,7 @@
 package com.cmpt276.calciumparentapp.model.coinflip;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
@@ -56,7 +57,12 @@ public class CoinFlipGame {
      */
     public String getGameText(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
-        String pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
+        String pickerName;
+        if(pickerID != -1){ //if no picker
+            pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
+        }else{
+            pickerName = "";
+        }
         String flipResultStr;
         if(coinFlipResult == CoinFace.HEADS){
             flipResultStr = HEADS;
@@ -68,6 +74,14 @@ public class CoinFlipGame {
         return pickerName + '\n' + flipResultStr + '\n' + date;
     }
 
+    public Bitmap getPickerPhotoId(Context context) {
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
+        Bitmap pickerImageId = null;//returns such if there was no picker
+        if(pickerID != -1) {//if no picker
+            pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(getPickerID());
+        }
+        return pickerImageId;
+    }
 
     /**
      * The builder used to create a CoinFlipGame
@@ -118,6 +132,7 @@ public class CoinFlipGame {
         public CoinFace getCoinFlipResult() {
             return coinFlipResult;
         }
+
     }
 
 }

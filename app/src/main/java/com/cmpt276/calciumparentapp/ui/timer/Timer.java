@@ -74,7 +74,6 @@ public class Timer extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     private void setup(){
         if(timerLogic.isTimerServiceRunning(this)){
             // The function called when this broadcast is received calls setup buttons
@@ -85,7 +84,6 @@ public class Timer extends AppCompatActivity {
             resetCountdownText();
             setupButtons(false, false);
         }
-
     }
 
     private void setupButtons(boolean timerServiceRunning, boolean timerRunning){
@@ -135,7 +133,6 @@ public class Timer extends AppCompatActivity {
         btn.setText(R.string.btnPause);
         startTimerService();
     }
-
 
     // TIMER SERVICE
 
@@ -204,5 +201,4 @@ public class Timer extends AppCompatActivity {
         i.setAction(TimerService.TIMER_SERVICE_REQUEST_FILTER);
         sendBroadcast(i);
     }
-
 }
