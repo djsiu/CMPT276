@@ -34,6 +34,15 @@
         </provider>
 
         <activity
+            android:name=".ui.tasks.ViewTask"
+            android:exported="false" />
+        <activity
+            android:name=".ui.tasks.ConfigureTask"
+            android:exported="false" />
+        <activity
+            android:name=".ui.tasks.TaskMenu"
+            android:exported="false" />
+        <activity
             android:name=".ui.HelpScreen"
             android:exported="false" />
         <activity

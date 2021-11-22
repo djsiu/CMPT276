@@ -2,6 +2,7 @@ package com.cmpt276.calciumparentapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlipSelection;
 import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
+import com.cmpt276.calciumparentapp.ui.tasks.TaskMenu;
 import com.cmpt276.calciumparentapp.ui.timer.TimerSelectTime;
 
 /**
@@ -26,11 +28,13 @@ public class MainMenu extends AppCompatActivity {
         Button btnTimer = findViewById(R.id.main_menu_right_button);
         Button btnFamManage = findViewById(R.id.main_menu_top_button);
         Button btnHelp = findViewById(R.id.main_menu_help_button);
+        Button btnTasks = findViewById(R.id.main_menu_tasks_button);
 
         setupCoinFlipButton(btnCoinFlip);
         setupTimerButton(btnTimer);
         setupFamilyManageButton(btnFamManage);
         setupHelpButton(btnHelp);
+        setupTasksButton(btnTasks);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); // Disables Dark Mode
     }
@@ -62,6 +66,12 @@ public class MainMenu extends AppCompatActivity {
         button.setOnClickListener(v -> {
             // Opens the ManageFamilyMembers activity
             Intent i = HelpScreen.makeIntent(MainMenu.this);
+            startActivity(i);
+        });
+    }
+    public void setupTasksButton(Button button) {
+        button.setOnClickListener(v -> {
+            Intent i = TaskMenu.makeIntent(MainMenu.this);
             startActivity(i);
         });
     }

@@ -58,7 +58,6 @@ public class TimerCustomTime extends AppCompatActivity {
     private void displayInvalidTextError() {
         Toast errorToast = Toast.makeText(this, R.string.invalid_custom_time_toast, Toast.LENGTH_SHORT);
         errorToast.show();
-
     }
 
     // Checks if the value entered into the editText is valid
@@ -82,8 +81,4 @@ public class TimerCustomTime extends AppCompatActivity {
         finish();
         startActivity(intent);
     }
-
-
-
-
 }
