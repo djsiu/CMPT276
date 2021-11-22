@@ -55,6 +55,7 @@ public class CoinFlipHistory extends AppCompatActivity {
         familyMembersList.setAdapter(adapter);
     }
 
+    // TODO: Text added to history list here
     private class MyListAdapter extends ArrayAdapter<CoinFlipGame>{
 
         public MyListAdapter() {
