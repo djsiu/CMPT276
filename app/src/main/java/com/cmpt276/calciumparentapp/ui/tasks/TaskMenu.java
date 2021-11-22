@@ -2,9 +2,11 @@ package com.cmpt276.calciumparentapp.ui.tasks;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +20,10 @@ import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+/**
+ *  Activity for displaying the task list
+ */
 public class TaskMenu extends AppCompatActivity {
-
     TaskManager taskManager;
     TasksRecyclerViewAdapter adapter;
     FamilyMembersManager familyMembersManager;
@@ -40,21 +44,27 @@ public class TaskMenu extends AppCompatActivity {
         familyMembersManager = FamilyMembersManager.getInstance(this);
         hasFamilyMembers = familyMembersManager.getFamilyMemberCount() > 0;
 
-        if(hasFamilyMembers) {
+        if (hasFamilyMembers) {
             setupRecyclerView();
             setupAddTaskButton();
-        }
-        else{
+        } else {
             setupNoFamilyMembers();
         }
-
     }
 
+    /*
+     * ListViews use notifyDataSetChanged() anyway so this will have equal performance despite
+     * the optimization suggestion
+     *
+     * DiffUtil is possibly a good way of optimizing RecyclerView without needing major retooling:
+     * https://www.thedroidsonroids.com/blog/difference-between-listview-recyclerview
+     */
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();
-        // TODO: Implement better updating of recyclerview
-        if(hasFamilyMembers) {
+
+        if (hasFamilyMembers) {
             adapter.notifyDataSetChanged();
         }
     }
@@ -70,6 +80,7 @@ public class TaskMenu extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.tasks_recycler_view);
         adapter = new TasksRecyclerViewAdapter(this, taskManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -81,11 +92,10 @@ public class TaskMenu extends AppCompatActivity {
     private void addTaskButtonOnClick(View view) {
         FloatingActionButton addBtn = (FloatingActionButton) view;
         // check there is at least 1 family member
-        if(familyMembersManager.getFamilyMemberCount() > 0) {
+        if (familyMembersManager.getFamilyMemberCount() > 0) {
             Intent i = ConfigureTask.makeAddTaskIntent(this);
             startActivity(i);
-        }
-        else{
+        } else {
             displayNoFamilyMembersErrorToast();
         }
     }
@@ -96,7 +106,6 @@ public class TaskMenu extends AppCompatActivity {
                 Toast.LENGTH_LONG);
         toast.show();
     }
-
 
     /**
      * Adds logic to action bar
@@ -113,7 +122,7 @@ public class TaskMenu extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         return new Intent(context, TaskMenu.class);
     }
 }
