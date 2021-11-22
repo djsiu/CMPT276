@@ -14,13 +14,11 @@ public class FamilyMember {
     private String name;
     private final int key;
     private boolean deleted;
-    private int coinFlipPickPriority; //lower indexes pick before higher indexes
     private String encodedBitmap;
 
     FamilyMember(String name, int key, Bitmap profilePhotoBitmap) {
         this.name = name;
         this.key = key;
-        this.coinFlipPickPriority = coinFlipPickPriority;
         encodedBitmap = encodeToBase64(profilePhotoBitmap);
         deleted = false;
     }
@@ -43,14 +41,6 @@ public class FamilyMember {
         return this;
     }
 
-    public int getCoinFlipPickPriority() {
-        return coinFlipPickPriority;
-    }
-
-    public void setCoinFlipPickPriority(int coinFlipPickPriority) {
-        this.coinFlipPickPriority = coinFlipPickPriority;
-    }
-
     public int getKey(){
         return key;
     }
@@ -69,14 +59,14 @@ public class FamilyMember {
 
     // encode/decode bitmap so it can be opened between saves of the app
     // adapted from: https://stackoverflow.com/questions/9768611/encode-and-decode-bitmap-object-in-base64-string-in-android
-    public  String encodeToBase64(Bitmap image) {
+    public String encodeToBase64(Bitmap image) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
 
         return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
     }
 
-    public  Bitmap decodeToBase64(String input) {
+    public Bitmap decodeToBase64(String input) {
         byte[] decodedByte = Base64.decode(input, 0);
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
