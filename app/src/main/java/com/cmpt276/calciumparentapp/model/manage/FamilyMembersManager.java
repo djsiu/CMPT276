@@ -211,7 +211,6 @@ public class FamilyMembersManager {
                 return familyMember.getMemberName();
             }
         }
-
         throw new IllegalArgumentException("No family member with provided ID");
     }
 
@@ -219,6 +218,15 @@ public class FamilyMembersManager {
         for(FamilyMember familyMember : familyMembersList) {
             if(familyMember.getKey() == ID){
                 return familyMember;
+            }
+        }
+        throw new IllegalArgumentException("No family member with provided ID");
+    }
+
+    public Bitmap getFamilyMemberImageIDFromID(int ID) {
+        for(FamilyMember familyMember : familyMembersList) {
+            if(familyMember.getKey() == ID){
+                return familyMember.getProfileBitmap();
             }
         }
         throw new IllegalArgumentException("No family member with provided ID");

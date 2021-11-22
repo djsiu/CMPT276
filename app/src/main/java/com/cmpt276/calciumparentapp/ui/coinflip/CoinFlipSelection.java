@@ -149,7 +149,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             // Retrieve image
             //TODO: Copied from the family members manager screen, Incoporate member photos here.
             ImageView imageView = itemView.findViewById(R.id.member_profile_photo);
-            imageView.setImageResource(currentMember.getIconID());
+            imageView.setImageBitmap(currentMember.getProfileBitmap());
 
             // Display member name
             TextView makeText = itemView.findViewById(R.id.member_name_text);

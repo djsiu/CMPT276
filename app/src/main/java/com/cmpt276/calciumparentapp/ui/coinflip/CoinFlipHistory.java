@@ -2,6 +2,7 @@ package com.cmpt276.calciumparentapp.ui.coinflip;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,18 +76,14 @@ public class CoinFlipHistory extends AppCompatActivity {
             ImageView imageView = itemView.findViewById(R.id.win_lose_history_icon);
             imageView.setImageResource(getGameIconID(currentGame));
             //player image
-            ImageView pickerImage = itemView.findViewById(R.id.picker_history_icon);
+            ImageView pickerImageView = itemView.findViewById(R.id.picker_history_icon);
             if(currentGame.getPickerID() == -1){
-                pickerImage.setVisibility(View.GONE);
+                pickerImageView.setVisibility(View.GONE);
             }else{
                 //TODO: set image to the pickers image
                 //put image here
-                int pickerImageId = currentGame.getPickerPhotoId(getApplicationContext());
-                /*pickerImageView.setImageResource(); <-- put the picker image here.
-                *May also choose to have the function getPickerPhotoId in CoinFlipGame return the image instead depending on how you
-                * want to implement it.
-                * */
-
+                Bitmap pickerImageId = currentGame.getPickerPhotoId(getApplicationContext());
+                pickerImageView.setImageBitmap(pickerImageId);
             }
 
 
