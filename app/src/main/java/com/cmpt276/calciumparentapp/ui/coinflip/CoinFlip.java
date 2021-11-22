@@ -158,17 +158,17 @@ public class CoinFlip extends AppCompatActivity {
             FamilyMember picker = familyMembersManager.getFamilyMemberFromID(coinFlipManager.getPickerID());
             pickerImageView.setImageBitmap(picker.getProfileBitmap());
         }
+
         //if memberless game
-        else{
+        else {
             buttonSwap.setVisibility(View.GONE);
             nameTextView.setVisibility(View.GONE);
             nameTextView.setText(getString(R.string.coin_textView_pickerGeneric));
             pickerImageView.setVisibility(View.GONE);
         }
-
     }
 
-    private void updateWinner(){
+    private void updateWinner() {
 
         if(coinFlipResult == CoinFace.HEADS) {
             nameTextView.setText(R.string.coin_message_headsWin);

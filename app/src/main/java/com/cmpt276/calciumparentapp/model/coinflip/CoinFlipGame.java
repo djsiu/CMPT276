@@ -83,7 +83,6 @@ public class CoinFlipGame {
         return pickerImageId;
     }
 
-
     /**
      * The builder used to create a CoinFlipGame
      */
