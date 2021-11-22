@@ -2,6 +2,9 @@ package com.cmpt276.calciumparentapp.model.coinflip;
 
 import android.content.Context;
 
+import android.text.Spannable;
+import android.text.SpannableString;
+
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 import java.time.LocalDateTime;
@@ -10,8 +13,6 @@ import java.time.format.DateTimeFormatter;
 /*
 Creating individual coin flip games.
  */
-
-
 public class CoinFlipGame {
 
     // This doesn't have a context so you can't get a string resource easily
@@ -24,7 +25,6 @@ public class CoinFlipGame {
     private final int secondPlayerID;
     private final CoinFace coinFlipPick;
     private final CoinFace coinFlipResult;
-
 
 
     private CoinFlipGame(CoinFlipGameBuilder builder) {
@@ -43,7 +43,7 @@ public class CoinFlipGame {
     public int getSecondPlayerID() {
         return secondPlayerID;
     }
-    
+
     public boolean isGameWonByPicker() {
         return coinFlipPick == coinFlipResult;
     }
@@ -51,6 +51,7 @@ public class CoinFlipGame {
     /**
      * Gets the text for the game. In the format:
      * picker name \nflip result \ndate
+     *
      * @param context A context needed to get a FamilyMembersManager for the name
      * @return A string representing the game
      */
@@ -59,16 +60,17 @@ public class CoinFlipGame {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         String pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
         String flipResultStr;
-        if(coinFlipResult == CoinFace.HEADS){
+        if (coinFlipResult == CoinFace.HEADS) {
             flipResultStr = HEADS;
-        }
-        else{
+        } else {
             flipResultStr = TAILS;
         }
 
-        return pickerName + '\n' + flipResultStr + '\n' + date;
-    }
+        SpannableString boldName = new SpannableString(pickerName);
+        boldName.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, pickerName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+        return boldName + "\n\n\n" + flipResultStr + '\n' + date;
+    }
 
     /**
      * The builder used to create a CoinFlipGame
@@ -81,7 +83,8 @@ public class CoinFlipGame {
 
         /**
          * Create a new builder instance
-         * @param pickerID The ID of player who will be picking
+         *
+         * @param pickerID       The ID of player who will be picking
          * @param secondPlayerID The ID of the other player
          */
         public CoinFlipGameBuilder(int pickerID, int secondPlayerID) {
