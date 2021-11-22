@@ -21,7 +21,6 @@ import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
  * This includes both adding new tasks and editing existing ones.
  */
 public class ConfigureTask extends AppCompatActivity {
-
     public static final String EDIT_TASK_INTENT = "EDIT_TASK_INTENT";
     private boolean addTask;
     private int taskIndex;
@@ -43,7 +42,6 @@ public class ConfigureTask extends AppCompatActivity {
         loadIntentExtras();
         configureButtons();
         configureText();
-
     }
 
     /**
@@ -53,22 +51,18 @@ public class ConfigureTask extends AppCompatActivity {
     private void loadIntentExtras() {
         taskIndex = getIntent().getIntExtra(EDIT_TASK_INTENT, -1);
         addTask = taskIndex == -1;
-
     }
 
     private void configureText() {
         TextView configureTasksText = findViewById(R.id.configure_tasks_text);
         taskNameEditText = findViewById(R.id.edit_text_task_name);
 
-        if(addTask) {
+        if (addTask) {
             configureTasksText.setText(R.string.add_task_text);
-        }
-        else {
+        } else {
             taskNameEditText.setText(taskManager.getTaskName(taskIndex));
             configureTasksText.setText(R.string.edit_task_text);
         }
-
-
     }
 
     private void configureButtons() {
@@ -77,7 +71,7 @@ public class ConfigureTask extends AppCompatActivity {
         Button deleteBtn = findViewById(R.id.configure_tasks_delete_btn);
 
         // The delete button only exists if we are editing a task
-        if(addTask){
+        if (addTask) {
             deleteBtn.setVisibility(View.GONE);
         }
 
@@ -90,15 +84,14 @@ public class ConfigureTask extends AppCompatActivity {
 
     private void saveButtonOnClick() {
         String taskName = taskNameEditText.getText().toString();
-        if(!taskManager.isNameTaskValid(taskName)) {
+        if (!taskManager.isNameTaskValid(taskName)) {
             displayInvalidTaskNameToast();
             return;
         }
 
-        if(addTask){
+        if (addTask) {
             taskManager.createNewTask(taskName);
-        }
-        else{
+        } else {
             taskManager.editTaskName(taskName, taskIndex);
         }
         finish();
@@ -130,15 +123,16 @@ public class ConfigureTask extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent makeAddTaskIntent(Context context){
+    public static Intent makeAddTaskIntent(Context context) {
         return new Intent(context, ConfigureTask.class);
     }
 
     /**
      * Makes an intent to launch the configure task activity specifying
      * that it should edit an already existing task.
+     *
      * @param context A context
-     * @param index The index of the task
+     * @param index   The index of the task
      * @return An intent to launch The ConfigureTask activity
      */
     public static Intent makeEditTaskIntent(Context context, int index) {
