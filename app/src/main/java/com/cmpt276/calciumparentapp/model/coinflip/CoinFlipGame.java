@@ -4,6 +4,7 @@ import android.content.Context;
 
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
@@ -56,7 +57,7 @@ public class CoinFlipGame {
      * @return A string representing the game
      */
     // TODO: History game text generated here
-    public String getGameText(Context context) {
+    public SpannableString getGameText(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         String pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
         String flipResultStr;
@@ -66,10 +67,16 @@ public class CoinFlipGame {
             flipResultStr = TAILS;
         }
 
-        SpannableString boldName = new SpannableString(pickerName);
-        boldName.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, pickerName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        String historyString = pickerName + "\n\n\n" + flipResultStr + '\n' + date;
+        SpannableString formattedHistoryString = new SpannableString(historyString);
 
-        return boldName + "\n\n\n" + flipResultStr + '\n' + date;
+        // Makes name bold
+        formattedHistoryString.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+                0,
+                pickerName.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return formattedHistoryString;
     }
 
     /**
