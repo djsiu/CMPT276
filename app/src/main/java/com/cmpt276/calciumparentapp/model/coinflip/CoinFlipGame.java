@@ -56,7 +56,6 @@ public class CoinFlipGame {
      * @param context A context needed to get a FamilyMembersManager for the name
      * @return A string representing the game
      */
-    // TODO: History game text generated here
     public SpannableString getGameText(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         String pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);

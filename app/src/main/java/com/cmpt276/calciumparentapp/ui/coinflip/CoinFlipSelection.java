@@ -114,7 +114,7 @@ public class CoinFlipSelection extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<String> {
         public MyListAdapter() {
-            super(CoinFlipSelection.this, R.layout.recycler_name_list_items, nameArrayList);
+            super(CoinFlipSelection.this, R.layout.list_item_coinflip_choose_players, nameArrayList);
         }
 
         @Override
@@ -122,7 +122,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             //Make sure we have a view to work with (may have been given null
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.recycler_name_list_items, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.list_item_coinflip_choose_players, parent, false);
             }
 
             //find the name
