@@ -86,7 +86,8 @@ public class ManageFamilyAdd extends AppCompatActivity {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
                     openCamera();
-            } else {
+            }
+            else {
                 ActivityCompat.requestPermissions(ManageFamilyAdd.this,
                         new String[]{Manifest.permission.CAMERA,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_PERMISSIONS_CODE );
@@ -104,7 +105,8 @@ public class ManageFamilyAdd extends AppCompatActivity {
                     ContextCompat.checkSelfPermission(ManageFamilyAdd.this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 openGallery();
-            } else {
+            }
+            else {
                 ActivityCompat.requestPermissions(ManageFamilyAdd.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, GALLERY_PERMISSIONS_CODE);
@@ -136,7 +138,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 ((Activity) this).startActivityForResult(intent, CAMERA_REQUEST_CODE);
             }
         } catch (Exception ex) {
-            Log.i(MANAGE_FAMILY_ADD_ERROR_TAG, "couldn't create image file.");
+            Log.e(MANAGE_FAMILY_ADD_ERROR_TAG, "couldn't create image file.");
         }
     }
 
@@ -240,7 +242,8 @@ public class ManageFamilyAdd extends AppCompatActivity {
                     Toast.LENGTH_SHORT)
                     .show();
             finish();
-        } else {
+        }
+        else {
 
             String alreadyPresentText = String.format(
                     getString(R.string.family_member_present_toast_text_format),

@@ -77,9 +77,10 @@ public class CoinFlipHistory extends AppCompatActivity {
             imageView.setImageResource(getGameIconID(currentGame));
             //player image
             ImageView pickerImageView = itemView.findViewById(R.id.picker_history_icon);
-            if(currentGame.getPickerID() == -1){
+            if(currentGame.getPickerID() == -1) {
                 pickerImageView.setVisibility(View.GONE);
-            }else{
+            }
+            else {
                 //put image here
                 Bitmap pickerImageId = currentGame.getPickerPhotoId(getApplicationContext());
                 pickerImageView.setImageBitmap(pickerImageId);

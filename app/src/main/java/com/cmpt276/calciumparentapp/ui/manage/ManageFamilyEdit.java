@@ -65,7 +65,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
 
         familyManager = FamilyMembersManager.getInstance(this);
 
-        //Adds back button in top left corner
+        // Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
@@ -103,7 +103,8 @@ public class ManageFamilyEdit extends AppCompatActivity {
                             Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
                 openCamera();
-            } else {
+            }
+            else {
                 ActivityCompat.requestPermissions(ManageFamilyEdit.this,
                         new String[]{Manifest.permission.CAMERA,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_PERMISSIONS_CODE );
@@ -121,7 +122,8 @@ public class ManageFamilyEdit extends AppCompatActivity {
                     ContextCompat.checkSelfPermission(ManageFamilyEdit.this,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 openGallery();
-            } else {
+            }
+            else {
                 ActivityCompat.requestPermissions(ManageFamilyEdit.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, GALLERY_PERMISSIONS_CODE);
@@ -248,7 +250,8 @@ public class ManageFamilyEdit extends AppCompatActivity {
                         currentName);
 
                 finish();
-            } else {
+            }
+            else {
                 String alreadyPresentText = String.format(
                         getString(R.string.family_member_present_toast_text_format),
                         editMemberName.getText().toString());

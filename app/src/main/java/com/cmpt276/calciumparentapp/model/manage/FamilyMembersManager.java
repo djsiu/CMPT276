@@ -125,6 +125,7 @@ public class FamilyMembersManager {
         for(int i = 0; i < familyMembersList.size(); i++) {
             if(name.equals(familyMembersList.get(i).getMemberName())
                 && !familyMembersList.get(i).isDeleted()) {
+
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
             }
         }
