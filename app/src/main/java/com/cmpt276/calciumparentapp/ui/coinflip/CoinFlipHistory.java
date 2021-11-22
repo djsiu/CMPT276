@@ -80,7 +80,6 @@ public class CoinFlipHistory extends AppCompatActivity {
             if(currentGame.getPickerID() == -1){
                 pickerImageView.setVisibility(View.GONE);
             }else{
-                //TODO: set image to the pickers image
                 //put image here
                 Bitmap pickerImageId = currentGame.getPickerPhotoId(getApplicationContext());
                 pickerImageView.setImageBitmap(pickerImageId);

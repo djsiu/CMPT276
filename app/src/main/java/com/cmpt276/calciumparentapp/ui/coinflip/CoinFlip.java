@@ -159,7 +159,6 @@ public class CoinFlip extends AppCompatActivity {
             String pickerName = familyMembersManager.getFamilyMemberNameFromID(coinFlipManager.getPickerID());
             nameTextView.setText(pickerName);
 
-            //TODO: Change this to set coin_imageView_picker to the photo based on this image id
             //set the image here
             FamilyMember picker = familyMembersManager.getFamilyMemberFromID(coinFlipManager.getPickerID());
             pickerImageView.setImageBitmap(picker.getProfileBitmap());

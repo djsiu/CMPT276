@@ -38,6 +38,7 @@ import java.util.Date;
 
 /**
  * Activity to add family members.
+ * Can add a name and profile photo from camera or gallery
  */
 public class ManageFamilyAdd extends AppCompatActivity {
 
@@ -60,7 +61,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
         setContentView(R.layout.activity_manage_family_add);
 
         familyManager = FamilyMembersManager.getInstance(this);
-        profilePhotoImageView = (ImageView) findViewById(R.id.profile_photo_image_view_add);
+        profilePhotoImageView = findViewById(R.id.profile_photo_image_view_add);
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
@@ -134,11 +135,12 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 ((Activity) this).startActivityForResult(intent, CAMERA_REQUEST_CODE);
             }
         } catch (Exception ex) {
-            Log.i("MANAGE FAMILY ADD ERROR:", "couldn't create image file.");
+            Log.i(MANAGE_FAMILY_ADD_ERROR_TAG, "couldn't create image file.");
         }
     }
 
     // adapted from: https://developer.android.com/training/camera/photobasics
+    // create file for use with camera
     private File createImageFile() throws IOException {
         // Create an image file name
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -174,6 +176,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
         }
     }
 
+    //display image after being taken or chosen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

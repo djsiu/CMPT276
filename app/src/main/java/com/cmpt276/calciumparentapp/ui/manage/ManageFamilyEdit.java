@@ -70,12 +70,12 @@ public class ManageFamilyEdit extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        // makes the current name appear in the editText
+        // make the current name appear in the editText
         currentName = getFamilyMemberName();
         EditText editTextName = findViewById(R.id.editTextMemberNameForEdit);
         editTextName.setText(currentName);
 
-        // makes the current photo appear in the imageView
+        // make the current photo appear in the imageView
         profilePhotoImageView = findViewById(R.id.profile_photo_image_view_edit);
         profilePhotoImageView.setImageBitmap(familyManager.getProfilePhotoByName(currentName));
 
@@ -140,7 +140,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        //creating an empty image file to later store image in (pass by intent)
+        //creating an empty image file to later store captured image in (pass by intent)
         try {
             profilePhotoFile = createImageFile();
             Log.i("CREATED PHOTO FILE: ", profilePhotoFile.getAbsolutePath());
@@ -153,11 +153,12 @@ public class ManageFamilyEdit extends AppCompatActivity {
                 ((Activity) this).startActivityForResult(intent, CAMERA_REQUEST_CODE);
             }
         } catch (Exception ex) {
-            Log.i("MANAGE FAMILY ADD ERROR:", "couldn't create image file.");
+            Log.i(MANAGE_FAMILY_EDIT_ERROR_TAG, "couldn't create image file.");
         }
     }
 
     // adapted from: https://developer.android.com/training/camera/photobasics
+    // create image file for use with camera
     private File createImageFile() throws IOException {
         // Create an image file name
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -193,6 +194,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
         }
     }
 
+    //display image after being taken or chosen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

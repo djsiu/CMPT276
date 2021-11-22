@@ -36,7 +36,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
         familyManager = FamilyMembersManager.getInstance(this);
 
         FloatingActionButton btnAddMember = findViewById(R.id.manage_family_add_button);
-
         setupManageFamilyAddButton(btnAddMember);
 
         //Adds back button in top left corner
@@ -101,7 +100,6 @@ public class ManageFamilyMembers extends AppCompatActivity {
 
             // Find family member to work with
             FamilyMember currentMember = familyManager.getFamilyMemberObjects().get(position);
-
 
             // Retrieve/display image
             ImageView imageView = itemView.findViewById(R.id.member_profile_photo);
