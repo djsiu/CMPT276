@@ -16,14 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 
-public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecyclerViewAdapter.ViewHolder>{
-    private static final String TAG = "TasksRecyclerViewAdapter";
+/**
+ * Converts task data into views that RecyclerView can display
+ */
+public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecyclerViewAdapter.ViewHolder> {
     private final TaskManager taskManager;
-    private Context mContext;
+    private final Context mContext;
 
     public TasksRecyclerViewAdapter(Context context, TaskManager taskManager) {
         mContext = context;
-        this.taskManager  = taskManager;
+        this.taskManager = taskManager;
     }
 
     @NonNull
@@ -31,24 +33,19 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecycler
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.task_item_layout, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.childNameView.setText(taskManager.getChildName(position));
         holder.taskNameView.setText(taskManager.getTaskName(position));
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // position is not fixed. Must use getAdapterPosition
-                int index = holder.getAdapterPosition();
-                Intent i = ViewTask.makeIntent(mContext, index);
-                v.getContext().startActivity(i);
-            }
+        holder.parentLayout.setOnClickListener(v -> {
+            // position is not fixed. Must use getAdapterPosition
+            int index = holder.getAdapterPosition();
+            Intent i = ViewTask.makeIntent(mContext, index);
+            v.getContext().startActivity(i);
         });
     }
 
@@ -57,8 +54,7 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecycler
         return taskManager.getSize();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView taskNameView;
         TextView childNameView;
         ConstraintLayout parentLayout;
@@ -68,8 +64,6 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecycler
             taskNameView = itemView.findViewById(R.id.task_item_name);
             childNameView = itemView.findViewById(R.id.task_item_child_name);
             parentLayout = itemView.findViewById(R.id.task_item_parent_layout);
-
         }
     }
-
 }
