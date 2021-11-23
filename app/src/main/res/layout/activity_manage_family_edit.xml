@@ -32,7 +32,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/choose_new_photo_btn_edit"
-        app:layout_constraintVertical_bias="0.120000005" />
+        app:layout_constraintVertical_bias="0.16000003" />
 
     <EditText
         android:id="@+id/editTextMemberNameForEdit"
@@ -55,15 +55,14 @@
         android:id="@+id/cancelEditMember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/manage_add_cancel_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/deleteMemberBtn"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextMemberNameForEdit" />
 
     <Button
         android:id="@+id/deleteMemberBtn"
