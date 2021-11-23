@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Size;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -187,6 +188,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
 
             profilePhotoBitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
+            profilePhotoBitmap = (Bitmap.createScaledBitmap(profilePhotoBitmap, 150, 150, false));
             profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
         }
 
@@ -195,6 +197,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 profilePhotoBitmap = BitmapFactory.decodeStream(imageStream);
+                profilePhotoBitmap = (Bitmap.createScaledBitmap(profilePhotoBitmap, 150, 150, false));
                 profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
 
             } catch (FileNotFoundException e) {
