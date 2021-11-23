@@ -1,23 +1,18 @@
 package com.cmpt276.calciumparentapp.ui.coinflip;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipGame;
-
-import java.util.List;
+import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
 
 /**
  * Converts task data into views that RecyclerView can display
@@ -45,7 +40,7 @@ public class CoinFlipHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Coi
 
         holder.gameTextView.setText(game.getGameText(mContext));
         //picker image
-        if(game.getPickerID() == -1) {
+        if(game.getPickerID() == -1 || game.isPickerDeleted(mContext)) {
             holder.pickerImage.setVisibility(View.GONE);
         }
         else {
@@ -70,14 +65,12 @@ public class CoinFlipHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Coi
         TextView gameTextView;
         ImageView pickerImage;
         ImageView resultIcon;
-        RelativeLayout historyLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             gameTextView = itemView.findViewById(R.id.history_text);
             pickerImage = itemView.findViewById(R.id.picker_history_icon);
             resultIcon = itemView.findViewById(R.id.win_lose_history_icon);
-            historyLayout = itemView.findViewById(R.id.history_layout_constraint);
         }
     }
 }
