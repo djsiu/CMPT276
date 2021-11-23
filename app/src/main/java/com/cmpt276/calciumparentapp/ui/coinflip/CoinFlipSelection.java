@@ -126,7 +126,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             }
         });
     }
-
+/*
     private void populateRecyclerView() {
         //Build adapter
         ArrayAdapter<String> adapter = new MyListAdapter();
@@ -134,7 +134,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         RecyclerView list = findViewById(R.id.coin_recyclerList_names);
 
 
-    }
+    }*/
 
     private boolean hasEnoughFamilyMembers() {
         return nameArrayList.size() >= 2;

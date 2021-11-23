@@ -14,10 +14,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipGame;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
+
+import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlipHistoryRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -32,6 +37,7 @@ import java.util.List;
 public class CoinFlipHistory extends AppCompatActivity {
 
     private CoinFlipManager coinFlipManager;
+    private CoinFlipHistoryRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class CoinFlipHistory extends AppCompatActivity {
         coinFlipManager = CoinFlipManager.getInstance(this);
 
         populateListView();
+        setupRecyclerView();
     }
 
     private void populateListView() {
@@ -55,6 +62,18 @@ public class CoinFlipHistory extends AppCompatActivity {
         ListView familyMembersList = findViewById(R.id.coinFlipHistoryListView);
         familyMembersList.setAdapter(adapter);
     }
+
+
+
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.coinFlipHistoryRecyclerView);
+        adapter = new CoinFlipHistoryRecyclerViewAdapter(this, coinFlipManager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+
 
     private class MyListAdapter extends ArrayAdapter<CoinFlipGame>{
 
