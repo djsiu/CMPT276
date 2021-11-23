@@ -206,7 +206,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
             profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
         }
 
-        if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null && image_uri != null) {
+        if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             try {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
