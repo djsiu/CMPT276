@@ -87,9 +87,17 @@ public class CoinFlipGame {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         Bitmap pickerImageId = null;//returns such if there was no picker
         if(pickerID != -1) {//if no picker
-            pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(getPickerID());
+            if (!familyMembersManager.getFamilyMemberObjects().get(getPickerID()).isDeleted()){//if the family member is not deleted
+                pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(getPickerID());
+            }
+
         }
         return pickerImageId;
+    }
+
+    public Boolean isPickerDeleted(Context context){
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
+        return familyMembersManager.getDeletionStatusById(getPickerID());
     }
 
     /**
