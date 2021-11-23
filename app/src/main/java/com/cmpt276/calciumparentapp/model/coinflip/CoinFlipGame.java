@@ -53,15 +53,16 @@ public class CoinFlipGame {
     /**
      * Gets the text for the game. In the format:
      * picker name \nflip result \ndate
+     *
      * @param context A context needed to get a FamilyMembersManager for the name
      * @return A string representing the game
      */
     public SpannableString getGameText(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         String pickerName;
-        if(pickerID != -1){ //if no picker
+        if (pickerID != -1) { //if no picker
             pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
-        }else{
+        } else {
             pickerName = "";
         }
         String flipResultStr;
@@ -86,16 +87,13 @@ public class CoinFlipGame {
     public Bitmap getPickerPhotoId(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         Bitmap pickerImageId = null;//returns such if there was no picker
-        if(pickerID != -1) {//if no picker
-            if (!familyMembersManager.getFamilyMemberObjects().get(getPickerID()).isDeleted()){//if the family member is not deleted
-                pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(getPickerID());
-            }
-
+        if (pickerID != -1) {//if no picker
+            pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(getPickerID());
         }
         return pickerImageId;
     }
 
-    public Boolean isPickerDeleted(Context context){
+    public Boolean isPickerDeleted(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         return familyMembersManager.getDeletionStatusById(getPickerID());
     }
