@@ -189,8 +189,8 @@ public class ManageFamilyAdd extends AppCompatActivity {
             profilePhotoBitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
 
             profilePhotoBitmap = Bitmap.createScaledBitmap(profilePhotoBitmap,
-                    profilePhotoBitmap.getWidth() / 4,
-                    profilePhotoBitmap.getHeight() / 4,
+                    profilePhotoBitmap.getWidth() / getCompressionRatio(profilePhotoBitmap),
+                    profilePhotoBitmap.getHeight() / getCompressionRatio(profilePhotoBitmap),
                     true);
             profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
         }
@@ -200,9 +200,10 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 profilePhotoBitmap = BitmapFactory.decodeStream(imageStream);
+
                 profilePhotoBitmap = Bitmap.createScaledBitmap(profilePhotoBitmap,
-                        profilePhotoBitmap.getWidth() / 4,
-                        profilePhotoBitmap.getHeight() / 4,
+                        profilePhotoBitmap.getWidth() / getCompressionRatio(profilePhotoBitmap),
+                        profilePhotoBitmap.getHeight() / getCompressionRatio(profilePhotoBitmap),
                         true);
                 profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
 
@@ -210,6 +211,13 @@ public class ManageFamilyAdd extends AppCompatActivity {
                 Log.i(MANAGE_FAMILY_ADD_ERROR_TAG, "couldn't find the file.");
             }
         }
+    }
+
+    private int getCompressionRatio(Bitmap bitmap) {
+        final int imageResolution = bitmap.getWidth() * bitmap.getHeight();
+        final int desiredResolution = 500 * 500;
+
+        return imageResolution / desiredResolution;
     }
 
     private void setupCancelBtn() {
