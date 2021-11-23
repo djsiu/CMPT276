@@ -1,6 +1,6 @@
 Scrum Roles
 
-Scrum Master: Braden Takashima
-Product Owner: Peter Soava
-Repo Manager: Denise Siu
-Team Member: Matthew So
+Scrum Master: Peter Soava
+Product Owner: Denise Siu
+Repo Manager: Matthew So
+Team Member: Braden Takashima
