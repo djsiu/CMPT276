@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
@@ -52,6 +53,7 @@ public class CoinFlipSelection extends AppCompatActivity {
 
         populateListView();
 
+        //initialize continue button
         Button button = findViewById(R.id.coin_selection_button_continue);
         button.setOnClickListener(view -> continueButtonOnClick());
 
@@ -124,6 +126,15 @@ public class CoinFlipSelection extends AppCompatActivity {
             }
         });
     }
+/*
+    private void populateRecyclerView() {
+        //Build adapter
+        ArrayAdapter<String> adapter = new MyListAdapter();
+
+        RecyclerView list = findViewById(R.id.coin_recyclerList_names);
+
+
+    }*/
 
     private boolean hasEnoughFamilyMembers() {
         return nameArrayList.size() >= 2;
@@ -133,7 +144,7 @@ public class CoinFlipSelection extends AppCompatActivity {
     // display photos and text per family member
     private class MyListAdapter extends ArrayAdapter<FamilyMember> {
         public MyListAdapter() {
-            super(CoinFlipSelection.this, R.layout.list_item_family_member, familyManager.getFamilyMemberObjects());
+            super(CoinFlipSelection.this, R.layout.family_member_item_view, familyManager.getFamilyMemberObjects());
         }
 
         @Override
@@ -141,7 +152,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             // Make sure we have a view to work with (may have been given null)
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.list_item_family_member, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.family_member_item_view, parent, false);
             }
 
             // Find family member to work with

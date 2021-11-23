@@ -14,10 +14,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipGame;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
+
+import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlipHistoryRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -32,6 +37,7 @@ import java.util.List;
 public class CoinFlipHistory extends AppCompatActivity {
 
     private CoinFlipManager coinFlipManager;
+    private CoinFlipHistoryRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class CoinFlipHistory extends AppCompatActivity {
         coinFlipManager = CoinFlipManager.getInstance(this);
 
         populateListView();
+        setupRecyclerView();
     }
 
     private void populateListView() {
@@ -56,10 +63,22 @@ public class CoinFlipHistory extends AppCompatActivity {
         familyMembersList.setAdapter(adapter);
     }
 
+
+
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.coinFlipHistoryRecyclerView);
+        adapter = new CoinFlipHistoryRecyclerViewAdapter(this, coinFlipManager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+
+
     private class MyListAdapter extends ArrayAdapter<CoinFlipGame>{
 
         public MyListAdapter() {
-            super(CoinFlipHistory.this, R.layout.list_item_history, coinFlipManager.getGamesList());
+            super(CoinFlipHistory.this, R.layout.history_item_view, coinFlipManager.getGamesList());
         }
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -67,7 +86,7 @@ public class CoinFlipHistory extends AppCompatActivity {
             List<CoinFlipGame> games = coinFlipManager.getGamesList();
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.list_item_history, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.history_item_view, parent, false);
             }
             // Find the car to work with.
             CoinFlipGame currentGame = games.get(position);

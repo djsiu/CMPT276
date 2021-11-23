@@ -11,9 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:textColor="@android:color/primary_text_light"
         android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,14 +31,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:textColor="@android:color/secondary_text_light"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/view_task_child_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/view_task_child_icon"
-        app:layout_constraintTop_toTopOf="@+id/view_task_child_icon"
-        app:layout_constraintWidth_max="160dp"/>
+        app:layout_constraintTop_toTopOf="@+id/view_task_child_icon" />
 
     <TextView
         android:id="@+id/textView6"
@@ -48,11 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/view_task_up_next_text"
-        android:textColor="@android:color/secondary_text_light"
         app:layout_constraintBottom_toTopOf="@+id/view_task_child_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_task_task_name" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:layout_width="wrap_content"
