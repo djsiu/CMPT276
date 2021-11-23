@@ -112,6 +112,7 @@ public class CoinFlipSelection extends AppCompatActivity {
         return nameArrayList.size() >= 2;
     }
 
+    // TODO: This is where layout is set to list items
     private class MyListAdapter extends ArrayAdapter<String> {
         public MyListAdapter() {
             super(CoinFlipSelection.this, R.layout.list_item_coinflip_choose_players, nameArrayList);

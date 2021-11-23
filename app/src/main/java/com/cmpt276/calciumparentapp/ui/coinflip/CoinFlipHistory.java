@@ -55,6 +55,7 @@ public class CoinFlipHistory extends AppCompatActivity {
         familyMembersList.setAdapter(adapter);
     }
 
+    // TODO Bolded Text is broken atm, no name is shown
     private class MyListAdapter extends ArrayAdapter<CoinFlipGame>{
 
         public MyListAdapter() {

@@ -89,6 +89,7 @@ public class ManageFamilyMembers extends AppCompatActivity {
     // display photos and text per family member
     // TODO: Text added to family members list here
     // TODO: Text generated for family members list here
+    // TODO: Get this to work with list_item_manage_family layout
     private class MyListAdapter extends ArrayAdapter<FamilyMember> {
         public MyListAdapter() {
             super(ManageFamilyMembers.this, R.layout.family_member_item_view, familyManager.getFamilyMemberObjects());
