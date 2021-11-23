@@ -4,6 +4,7 @@ package com.cmpt276.calciumparentapp.model.manage;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -101,7 +102,7 @@ public class FamilyMembersManager {
         }
     }
 
-    public void addMember(String name, int profilePhotoID) {
+    public void addMember(String name, Bitmap profilePhotoID) {
         FamilyMember newMember = new FamilyMember(name, keyGenerator, profilePhotoID);
         familyMembersList.add(newMember);
         keyGenerator++;
@@ -122,8 +123,20 @@ public class FamilyMembersManager {
 
     public void changeMemberName(String newName, String name) {
         for(int i = 0; i < familyMembersList.size(); i++) {
-            if(name.equals(familyMembersList.get(i).getMemberName())) {
+            if(name.equals(familyMembersList.get(i).getMemberName())
+                && !familyMembersList.get(i).isDeleted()) {
+
                 familyMembersList.set(i, familyMembersList.get(i).changeName(newName));
+            }
+        }
+        saveToSharedPrefs();
+    }
+
+    public void changeMemberPhoto(String name, Bitmap newPhoto) {
+        for(int i = 0; i < familyMembersList.size(); i++) {
+            if(name.equals(familyMembersList.get(i).getMemberName())
+                && !familyMembersList.get(i).isDeleted()) {
+                familyMembersList.set(i, familyMembersList.get(i).changeImage(newPhoto));
             }
         }
         saveToSharedPrefs();
@@ -158,6 +171,17 @@ public class FamilyMembersManager {
         return familyMembersStrings;
     }
 
+    public Bitmap getProfilePhotoByName(String name) {
+        Bitmap profilePhoto = null;
+        for(int i = 0; i < familyMembersList.size(); i++) {
+            if(name.equals(familyMembersList.get(i).getMemberName())
+                && !familyMembersList.get(i).isDeleted()) {
+                profilePhoto =  familyMembersList.get(i).getProfileBitmap();
+            }
+        }
+        return profilePhoto;
+    }
+
     // returns all non-deleted family member objects
     public ArrayList<FamilyMember> getFamilyMemberObjects() {
         ArrayList<FamilyMember> activeMembers = new ArrayList<>();
@@ -180,26 +204,12 @@ public class FamilyMembersManager {
         return nameUsed;
     }
 
-
-
     public String getFamilyMemberNameFromID(int ID) {
         for(FamilyMember familyMember : familyMembersList) {
             if(familyMember.getKey() == ID){
                 return familyMember.getMemberName();
             }
         }
-
-        throw new IllegalArgumentException("No family member with provided ID");
-    }
-
-
-    public int getFamilyMemberImageIDFromID(int ID) {
-        for(FamilyMember familyMember : familyMembersList) {
-            if(familyMember.getKey() == ID){
-                return familyMember.getProfilePhotoID();
-            }
-        }
-
         throw new IllegalArgumentException("No family member with provided ID");
     }
 
@@ -207,6 +217,15 @@ public class FamilyMembersManager {
         for(FamilyMember familyMember : familyMembersList) {
             if(familyMember.getKey() == ID){
                 return familyMember;
+            }
+        }
+        throw new IllegalArgumentException("No family member with provided ID");
+    }
+
+    public Bitmap getFamilyMemberImageIDFromID(int ID) {
+        for(FamilyMember familyMember : familyMembersList) {
+            if(familyMember.getKey() == ID){
+                return familyMember.getProfileBitmap();
             }
         }
         throw new IllegalArgumentException("No family member with provided ID");

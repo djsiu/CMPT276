@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFace;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMember;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 /*
@@ -152,24 +153,22 @@ public class CoinFlip extends AppCompatActivity {
         if(gameWithNamedPlayers){
             String pickerName = familyMembersManager.getFamilyMemberNameFromID(coinFlipManager.getPickerID());
             nameTextView.setText(pickerName);
-            //TODO: Change this to set coin_imageView_picker to the photo based on this image id
+
             //set the image here
-            int pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(coinFlipManager.getPickerID());
-            //pickerImageView.setImageResource(); <-- put the picker image here
-
-
+            FamilyMember picker = familyMembersManager.getFamilyMemberFromID(coinFlipManager.getPickerID());
+            pickerImageView.setImageBitmap(picker.getProfileBitmap());
         }
+
         //if memberless game
-        else{
+        else {
             buttonSwap.setVisibility(View.GONE);
             nameTextView.setVisibility(View.GONE);
             nameTextView.setText(getString(R.string.coin_textView_pickerGeneric));
             pickerImageView.setVisibility(View.GONE);
         }
-
     }
 
-    private void updateWinner(){
+    private void updateWinner() {
 
         if(coinFlipResult == CoinFace.HEADS) {
             nameTextView.setText(R.string.coin_message_headsWin);

@@ -1,6 +1,7 @@
 package com.cmpt276.calciumparentapp.model.coinflip;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
@@ -57,7 +58,7 @@ public class CoinFlipGame {
     public String getGameText(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
         String pickerName;
-        if(pickerID != -1){//if no picker
+        if(pickerID != -1){ //if no picker
             pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
         }else{
             pickerName = "";
@@ -73,21 +74,14 @@ public class CoinFlipGame {
         return pickerName + '\n' + flipResultStr + '\n' + date;
     }
 
-    /**
-     * Gets the photo ID for the current picker of a game.
-     * Returns -1 if there is no picker
-     * @param context A context. Needed to get an instance of the family members manager
-     * @return The image ID of the picker. Returns -1 if there is no picker
-     */
-    public int getPickerPhotoId(Context context) {
+    public Bitmap getPickerPhotoId(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
-        int pickerImageId = -1;//returns such if there was no picker
+        Bitmap pickerImageId = null;//returns such if there was no picker
         if(pickerID != -1) {//if no picker
             pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(getPickerID());
         }
         return pickerImageId;
     }
-
 
     /**
      * The builder used to create a CoinFlipGame

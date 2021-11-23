@@ -74,7 +74,7 @@ public class ViewTask extends AppCompatActivity {
     private void setupChildIcon() {
         ImageView childIconImageView = findViewById(R.id.view_task_child_icon);
         int childID = taskManager.getChildID(taskIndex);
-        childIconImageView.setImageResource(familyManager.getFamilyMemberFromID(childID).getIconID());
+        childIconImageView.setImageBitmap(familyManager.getFamilyMemberFromID(childID).getProfileBitmap());
     }
 
     /**
