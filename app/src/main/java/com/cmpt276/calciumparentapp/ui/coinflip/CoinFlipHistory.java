@@ -78,7 +78,7 @@ public class CoinFlipHistory extends AppCompatActivity {
     private class MyListAdapter extends ArrayAdapter<CoinFlipGame>{
 
         public MyListAdapter() {
-            super(CoinFlipHistory.this, R.layout.list_item_history, coinFlipManager.getGamesList());
+            super(CoinFlipHistory.this, R.layout.history_item_view, coinFlipManager.getGamesList());
         }
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -86,7 +86,7 @@ public class CoinFlipHistory extends AppCompatActivity {
             List<CoinFlipGame> games = coinFlipManager.getGamesList();
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.list_item_history, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.history_item_view, parent, false);
             }
             // Find the car to work with.
             CoinFlipGame currentGame = games.get(position);

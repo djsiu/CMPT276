@@ -52,7 +52,7 @@
     <string name="time">Time:</string>
     <string name="button_coin_fragment_continue">Continue</string>
     <string name="coin_continue">Continue</string>
-    <string name="coin_textview_selection_choose">Choose Two Children Playing or None</string>
+    <string name="coin_textview_selection_choose">Choose two children playing or none</string>
     <string name="coin_textView_pickerGeneric">Pick Heads or Tails</string>]
 
     <string name="game_data_text">game data text</string>
@@ -67,7 +67,7 @@
     <string name="coinflip_selection_incorrect_children_toast_text">Please select two or no children!</string>
     <string name="no_members_text">No family members added yet!</string>
     <string name="coin_button_flipAgain">Flip Again?</string>
-    <string name="editTextFamilyMemberNameHint">Enter name</string>
+    <string name="editTextFamilyMemberNameHint">Enter name of family member</string>
     <string name="heads">heads</string>
     <string name="tails">tails</string>
     <string name="flip_result_text">\"Flip Result: \"</string>

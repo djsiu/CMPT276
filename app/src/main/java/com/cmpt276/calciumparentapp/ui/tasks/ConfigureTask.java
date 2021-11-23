@@ -30,7 +30,7 @@ public class ConfigureTask extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_configure);
+        setContentView(R.layout.activity_configure_task);
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
