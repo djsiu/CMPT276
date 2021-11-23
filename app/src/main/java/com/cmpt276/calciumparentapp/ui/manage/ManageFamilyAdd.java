@@ -4,17 +4,16 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.util.Size;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,11 +27,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.exifinterface.media.ExifInterface;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -53,6 +52,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
 
     private Bitmap profilePhotoBitmap = null;
     private File profilePhotoFile = null;
+    private Uri image_uri = null;
 
     private static final int GALLERY_PERMISSIONS_CODE = 100;
     private static final int GALLERY_REQUEST_CODE = 101;
@@ -134,10 +134,12 @@ public class ManageFamilyAdd extends AppCompatActivity {
             Log.i("CREATED PHOTO FILE: ", profilePhotoFile.getAbsolutePath());
 
             if (profilePhotoFile != null) {
-                Uri image_uri = FileProvider.getUriForFile(this,
+                image_uri = FileProvider.getUriForFile(this,
                         "com.cmpt276.calciumparentapp.fileprovider",
                         profilePhotoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+                intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
                 ((Activity) this).startActivityForResult(intent, CAMERA_REQUEST_CODE);
             }
         } catch (Exception ex) {
@@ -187,7 +189,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+        if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null && image_uri != null) {
             profilePhotoBitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
 
             // Rotates bitmap to match image sensor rotation data
@@ -204,7 +206,7 @@ public class ManageFamilyAdd extends AppCompatActivity {
             profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
         }
 
-        if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+        if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null && image_uri != null) {
             try {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
