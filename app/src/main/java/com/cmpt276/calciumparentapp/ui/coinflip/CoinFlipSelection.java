@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
+import com.cmpt276.calciumparentapp.model.manage.FamilyMember;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
 import java.util.ArrayList;
@@ -31,22 +33,23 @@ public class CoinFlipSelection extends AppCompatActivity {
 
     private ArrayList<String> nameArrayList;
     private ArrayList<Integer> keyArrayList;
+    private FamilyMembersManager familyManager;
     private final List<Integer> selectedIndexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_selection);
-        FamilyMembersManager familyManager = FamilyMembersManager.getInstance(this);
+        familyManager = FamilyMembersManager.getInstance(this);
 
         nameArrayList = familyManager.getFamilyMembersNames();
         keyArrayList = familyManager.getFamilyMemberKeys();
 
-        if(!hasEnoughFamilyMembers()){
-            Intent i = CoinFlip.makeIntent(this);
+        if(!hasEnoughFamilyMembers()) {
             finish();
-            startActivity(i);
+            beginMemberlessGame();
         }
+
         populateListView();
 
         Button button = findViewById(R.id.coin_selection_button_continue);
@@ -61,18 +64,21 @@ public class CoinFlipSelection extends AppCompatActivity {
 
 
     private void continueButtonOnClick() {
-        if(selectedIndexes.size() != 2){
-            Toast toast = Toast.makeText(this, R.string.coinflip_selection_two_children_toast_text, Toast.LENGTH_SHORT);
-            toast.show();
+        // no players selected
+        if(selectedIndexes.size() == 0) {
+            beginMemberlessGame();
         }
-        else{
-
+        else if(selectedIndexes.size() == 2) {
             CoinFlipManager coinFlipManager = CoinFlipManager.getInstance(this);
             coinFlipManager.beginGame(keyArrayList.get(selectedIndexes.get(0)),
                     keyArrayList.get(selectedIndexes.get(1)));
 
             Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
             startActivity(i);
+        }
+        else {
+            Toast toast = Toast.makeText(this, R.string.coinflip_selection_incorrect_children_toast_text, Toast.LENGTH_SHORT);
+            toast.show();
         }
 
         //Adds back button in top left corner
@@ -82,10 +88,21 @@ public class CoinFlipSelection extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets up a game that has no members, initializing their player ID values to -1
+     * then starts a new coinflip activity
+     */
+    private void beginMemberlessGame(){
+        CoinFlipManager coinFlipManager = CoinFlipManager.getInstance(this);
+        coinFlipManager.beginGame(-1,-1);
+        Intent i = CoinFlip.makeIntent(CoinFlipSelection.this);
+        startActivity(i);
+    }
+
 
     private void populateListView() {
         //Build adapter
-        ArrayAdapter<String> adapter = new MyListAdapter();
+        ArrayAdapter<FamilyMember> adapter = new MyListAdapter();
 
         ListView list = findViewById(R.id.coin_list_names);
         list.setAdapter(adapter);
@@ -112,26 +129,32 @@ public class CoinFlipSelection extends AppCompatActivity {
         return nameArrayList.size() >= 2;
     }
 
-    // TODO: This is where layout is set to list items
-    private class MyListAdapter extends ArrayAdapter<String> {
+
+    // display photos and text per family member
+    private class MyListAdapter extends ArrayAdapter<FamilyMember> {
         public MyListAdapter() {
-            super(CoinFlipSelection.this, R.layout.list_item_coinflip_choose_players, nameArrayList);
+            super(CoinFlipSelection.this, R.layout.family_member_item_view, familyManager.getFamilyMemberObjects());
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            //Make sure we have a view to work with (may have been given null
+            // Make sure we have a view to work with (may have been given null)
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.list_item_coinflip_choose_players, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.family_member_item_view, parent, false);
             }
 
-            //find the name
-            String name = nameArrayList.get(position);
+            // Find family member to work with
+            FamilyMember currentMember = familyManager.getFamilyMemberObjects().get(position);
 
-            //fill the view
-            TextView textView = itemView.findViewById(R.id.textView_list_name);
-            textView.setText(name);
+            // Retrieve image
+            ImageView imageView = itemView.findViewById(R.id.member_profile_photo);
+            imageView.setImageBitmap(currentMember.getProfileBitmap());
+
+            // Display member name
+            TextView makeText = itemView.findViewById(R.id.member_name_text);
+            makeText.setText(currentMember.getMemberName());
+
             return itemView;
         }
     }

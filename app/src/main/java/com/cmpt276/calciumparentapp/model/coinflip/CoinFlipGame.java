@@ -1,6 +1,7 @@
 package com.cmpt276.calciumparentapp.model.coinflip;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -52,14 +53,18 @@ public class CoinFlipGame {
     /**
      * Gets the text for the game. In the format:
      * picker name \nflip result \ndate
-     *
      * @param context A context needed to get a FamilyMembersManager for the name
      * @return A string representing the game
      */
     // TODO Bolded Text is broken atm, no name is shown
     public SpannableString getGameText(Context context) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
-        String pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
+        String pickerName;
+        if(pickerID != -1){ //if no picker
+            pickerName = familyMembersManager.getFamilyMemberNameFromID(pickerID);
+        }else{
+            pickerName = "";
+        }
         String flipResultStr;
         if (coinFlipResult == CoinFace.HEADS) {
             flipResultStr = HEADS;
@@ -77,6 +82,15 @@ public class CoinFlipGame {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return formattedHistoryString;
+    }
+
+    public Bitmap getPickerPhotoId(Context context) {
+        FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
+        Bitmap pickerImageId = null;//returns such if there was no picker
+        if(pickerID != -1) {//if no picker
+            pickerImageId = familyMembersManager.getFamilyMemberImageIDFromID(getPickerID());
+        }
+        return pickerImageId;
     }
 
     /**

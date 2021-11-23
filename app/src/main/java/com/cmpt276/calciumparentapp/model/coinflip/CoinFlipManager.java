@@ -1,5 +1,6 @@
 package com.cmpt276.calciumparentapp.model.coinflip;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -26,6 +27,7 @@ public class CoinFlipManager {
     private transient CoinFlipGame.CoinFlipGameBuilder gameBuilder;
 
     // Singleton support
+    @SuppressLint("StaticFieldLeak")
     private static CoinFlipManager instance;
     // This causes a memory leak. If anyone knows a good way to fix this then let me know
     private transient Context context;
@@ -35,7 +37,7 @@ public class CoinFlipManager {
     
     public static CoinFlipManager getInstance(Context context) {
         if(instance == null) {
-            generateInstance(context);
+            generateInstance(context.getApplicationContext());
         }
         return instance;
     }
@@ -181,39 +183,60 @@ public class CoinFlipManager {
      */
     private void assignPickersToBuilder(int playerID1, int playerID2) {
         // IDs initialized to -1 since compiler complains that variables may be uninitialized otherwise
-        int pickerID = -1; 
+        int pickerID = -1;
         int otherPlayerId = -1;
-        boolean pickerFound = false;
+        //if there are member indexes passed to be found
+        if(playerID1 != -1){
+            boolean pickerFound = false;
 
-        // Loop through in reverse (starts with most recent game and moves to oldest)
-        // assign second pick to the player who most recently went first
-        for(int i = games.size() - 1; i >= 0 && !pickerFound; i--) {
-            if(games.get(i).getPickerID() == playerID1){
-                pickerID = playerID2;
-                otherPlayerId = playerID1;
-                pickerFound = true;
+            // Loop through in reverse (starts with most recent game and moves to oldest)
+            // assign second pick to the player who most recently went first
+            for(int i = games.size() - 1; i >= 0 && !pickerFound; i--) {
+                if(games.get(i).getPickerID() == playerID1){
+                    pickerID = playerID2;
+                    otherPlayerId = playerID1;
+                    pickerFound = true;
+                }
+                else if(games.get(i).getPickerID() == playerID2) {
+                    pickerID = playerID1;
+                    otherPlayerId = playerID2;
+                    pickerFound = true;
+                }
             }
-            else if(games.get(i).getPickerID() == playerID2) {
-                pickerID = playerID1;
-                otherPlayerId = playerID2;
-                pickerFound = true;
+
+            // If the picker isn't found, randomly assign one
+            if(!pickerFound) {
+                Random random = new Random();
+                if(random.nextBoolean()){
+                    pickerID = playerID1;
+                    otherPlayerId = playerID2;
+                }
+                else {
+                    pickerID = playerID2;
+                    otherPlayerId = playerID1;
+                }
             }
         }
-        
-        // If the picker isn't found, randomly assign one
-        if(!pickerFound) {
-            Random random = new Random();
-            if(random.nextBoolean()){
-                pickerID = playerID1;
-                otherPlayerId = playerID2;
-            }
-            else {
-                pickerID = playerID2;
-                otherPlayerId = playerID1;
-            }
-        }
-        
+
         gameBuilder = new CoinFlipGame.CoinFlipGameBuilder(pickerID, otherPlayerId);
+    }
+
+    /**
+     * Swaps the the picker with the other player
+     * Must have a currently running game with players selected
+     */
+    public void swapFlipper() {
+        if(gameBuilder == null) {
+            throw new IllegalStateException("Attempting to swap when no children selected");
+        }
+        else if(!gameRunning) {
+            throw new IllegalStateException("Attempting to access game members when there is no game");
+        }
+        else {
+            int oldPicker = gameBuilder.getPickerID();
+            int newPicker = gameBuilder.getSecondPlayerID();
+            gameBuilder = new CoinFlipGame.CoinFlipGameBuilder(newPicker, oldPicker);
+        }
     }
 
     /**
