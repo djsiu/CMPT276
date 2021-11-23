@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.exifinterface.media.ExifInterface;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
@@ -204,8 +206,15 @@ public class ManageFamilyEdit extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-
             profilePhotoBitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
+
+            // Rotates bitmap to match image sensor rotation data
+            try {
+                profilePhotoBitmap = fixPhotoRotation(profilePhotoFile.getAbsolutePath(), profilePhotoBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             profilePhotoBitmap = Bitmap.createScaledBitmap(profilePhotoBitmap,
                     profilePhotoBitmap.getWidth() / getCompressionRatio(profilePhotoBitmap),
                     profilePhotoBitmap.getHeight() / getCompressionRatio(profilePhotoBitmap),
@@ -219,6 +228,14 @@ public class ManageFamilyEdit extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 profilePhotoBitmap = BitmapFactory.decodeStream(imageStream);
+
+                // Rotates bitmap to match image sensor rotation data
+                try {
+                    profilePhotoBitmap = fixPhotoRotation(imageUri.getPath(), profilePhotoBitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 profilePhotoBitmap = Bitmap.createScaledBitmap(profilePhotoBitmap,
                         profilePhotoBitmap.getWidth() / getCompressionRatio(profilePhotoBitmap),
                         profilePhotoBitmap.getHeight() / getCompressionRatio(profilePhotoBitmap),
@@ -229,6 +246,35 @@ public class ManageFamilyEdit extends AppCompatActivity {
                 Log.i(MANAGE_FAMILY_EDIT_ERROR_TAG, "couldn't find the file.");
             }
         }
+    }
+
+    private Bitmap fixPhotoRotation(String path, Bitmap bitmap) throws IOException {
+        ExifInterface ei = new ExifInterface(path);
+        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED);
+
+        switch(orientation) {
+
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                return rotateImage(bitmap, 90);
+
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                return rotateImage(bitmap, 180);
+
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                return rotateImage(bitmap, 270);
+
+            case ExifInterface.ORIENTATION_NORMAL:
+            default:
+                return bitmap;
+        }
+    }
+
+    private static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
     }
 
     private int getCompressionRatio(Bitmap bitmap) {
