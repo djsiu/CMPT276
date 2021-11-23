@@ -52,7 +52,7 @@
     <string name="time">Time:</string>
     <string name="button_coin_fragment_continue">Continue</string>
     <string name="coin_continue">Continue</string>
-    <string name="coin_textview_selection_choose">Choose two children playing or none</string>
+    <string name="coin_textview_selection_choose">Choose Two Children Playing or None</string>
     <string name="coin_textView_pickerGeneric">Pick Heads or Tails</string>]
 
     <string name="game_data_text">game data text</string>
