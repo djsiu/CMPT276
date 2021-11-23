@@ -10,18 +10,17 @@
 
     <ImageView
         android:id="@+id/member_profile_photo"
+
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="10dp"
         android:contentDescription="@string/member_name"
-        android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
         app:srcCompat="@drawable/default_profile_photo"
         tools:ignore="ImageContrastCheck" />
 
@@ -34,9 +33,12 @@
         android:paddingHorizontal="10dp"
         android:text="@string/member_name"
         android:textColor="@android:color/secondary_text_light"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/member_profile_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/member_profile_photo"
-        app:layout_constraintTop_toTopOf="@+id/member_profile_photo" />
+        app:layout_constraintTop_toTopOf="@+id/member_profile_photo"
+        app:layout_constraintWidth_max="175dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
