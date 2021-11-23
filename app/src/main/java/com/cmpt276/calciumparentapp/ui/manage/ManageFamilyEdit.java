@@ -29,6 +29,7 @@ import androidx.core.content.FileProvider;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -204,6 +205,8 @@ public class ManageFamilyEdit extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
 
             profilePhotoBitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
+            profilePhotoBitmap = (Bitmap.createScaledBitmap(profilePhotoBitmap, 150, 150, false));
+
             profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
         }
 
@@ -212,6 +215,7 @@ public class ManageFamilyEdit extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 profilePhotoBitmap = BitmapFactory.decodeStream(imageStream);
+                profilePhotoBitmap = (Bitmap.createScaledBitmap(profilePhotoBitmap, 150, 150, false));
                 profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
 
             } catch (FileNotFoundException e) {
@@ -241,8 +245,10 @@ public class ManageFamilyEdit extends AppCompatActivity {
 
             if(currentName.equals(newMemberNameStr) || !nameAlreadyExists) {
 
-                familyManager.changeMemberPhoto(currentName,
-                        profilePhotoBitmap);
+                if(profilePhotoBitmap != null) {
+                    familyManager.changeMemberPhoto(currentName,
+                            profilePhotoBitmap);
+                }
                 familyManager.changeMemberName(
                         editMemberName.getText().toString(),
                         currentName);

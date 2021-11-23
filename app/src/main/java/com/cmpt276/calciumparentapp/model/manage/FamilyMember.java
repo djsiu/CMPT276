@@ -15,11 +15,13 @@ public class FamilyMember {
     private final int key;
     private boolean deleted;
     private String encodedBitmap;
+    private transient Bitmap bitmap;
 
     FamilyMember(String name, int key, Bitmap profilePhotoBitmap) {
         this.name = name;
         this.key = key;
         encodedBitmap = encodeToBase64(profilePhotoBitmap);
+        bitmap = profilePhotoBitmap;
         deleted = false;
     }
 
@@ -38,6 +40,7 @@ public class FamilyMember {
 
     public FamilyMember changeImage(Bitmap photo) {
         this.encodedBitmap = encodeToBase64(photo);
+        bitmap = photo;
         return this;
     }
 
@@ -54,7 +57,11 @@ public class FamilyMember {
     }
 
     public Bitmap getProfileBitmap() {
-        return decodeToBase64(encodedBitmap);
+        if(bitmap == null) {
+            bitmap = decodeToBase64(encodedBitmap);
+        }
+
+        return bitmap;
     }
 
     // encode/decode bitmap so it can be opened between saves of the app
