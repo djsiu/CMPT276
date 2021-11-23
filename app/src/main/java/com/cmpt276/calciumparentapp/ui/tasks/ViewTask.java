@@ -28,7 +28,7 @@ public class ViewTask extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_task);
+        setContentView(R.layout.activity_task_view);
 
         //Adds back button in top left corner
         ActionBar ab = getSupportActionBar();
