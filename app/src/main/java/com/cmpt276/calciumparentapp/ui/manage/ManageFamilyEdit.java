@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -205,7 +206,10 @@ public class ManageFamilyEdit extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
 
             profilePhotoBitmap = BitmapFactory.decodeFile(profilePhotoFile.getAbsolutePath());
-            profilePhotoBitmap = (Bitmap.createScaledBitmap(profilePhotoBitmap, 150, 150, false));
+            profilePhotoBitmap = Bitmap.createScaledBitmap(profilePhotoBitmap,
+                    profilePhotoBitmap.getWidth() / 4,
+                    profilePhotoBitmap.getHeight() / 4,
+                    true);
 
             profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
         }
@@ -215,7 +219,10 @@ public class ManageFamilyEdit extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 profilePhotoBitmap = BitmapFactory.decodeStream(imageStream);
-                profilePhotoBitmap = (Bitmap.createScaledBitmap(profilePhotoBitmap, 150, 150, false));
+                profilePhotoBitmap = Bitmap.createScaledBitmap(profilePhotoBitmap,
+                        profilePhotoBitmap.getWidth() / 4,
+                        profilePhotoBitmap.getHeight() / 4,
+                        true);
                 profilePhotoImageView.setImageBitmap(profilePhotoBitmap);
 
             } catch (FileNotFoundException e) {
