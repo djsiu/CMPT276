@@ -133,7 +133,7 @@ public class CoinFlipSelection extends AppCompatActivity {
     // display photos and text per family member
     private class MyListAdapter extends ArrayAdapter<FamilyMember> {
         public MyListAdapter() {
-            super(CoinFlipSelection.this, R.layout.family_member_item_view, familyManager.getFamilyMemberObjects());
+            super(CoinFlipSelection.this, R.layout.list_item_manage_family_member, familyManager.getFamilyMemberObjects());
         }
 
         @Override
@@ -141,7 +141,7 @@ public class CoinFlipSelection extends AppCompatActivity {
             // Make sure we have a view to work with (may have been given null)
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.family_member_item_view, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.list_item_manage_family_member, parent, false);
             }
 
             // Find family member to work with
