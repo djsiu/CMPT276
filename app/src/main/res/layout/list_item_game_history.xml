@@ -8,8 +8,9 @@
 
     <ImageView
         android:id="@+id/win_lose_history_icon"
-        android:layout_width="99dp"
-        android:layout_height="91dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -20,26 +21,27 @@
 
     <ImageView
         android:id="@+id/picker_history_icon"
-        android:layout_width="99dp"
-        android:layout_height="91dp"
-        android:layout_marginEnd="4dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="5dp"
         android:contentDescription="@string/picker_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/win_lose_history_icon"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/win_flip_history"
+        app:srcCompat="@drawable/default_profile_photo"
         tools:ignore="ImageContrastCheck" />
 
     <TextView
         android:id="@+id/history_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="@string/game_data_text"
+        android:textColor="@android:color/secondary_text_light"
         app:layout_constraintBottom_toBottomOf="@+id/picker_history_icon"
         app:layout_constraintEnd_toStartOf="@+id/picker_history_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/picker_history_icon"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/picker_history_icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>

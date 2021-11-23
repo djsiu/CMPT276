@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
     android:paddingTop="20dp"
-    android:paddingBottom="20dp"
     tools:context=".ui.coinflip.CoinFlipHistory">
 
     <TextView
@@ -22,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.060000002" />
+        app:layout_constraintVertical_bias="0.050000012" />
 
     <ListView
         android:id="@+id/coinFlipHistoryListView"
