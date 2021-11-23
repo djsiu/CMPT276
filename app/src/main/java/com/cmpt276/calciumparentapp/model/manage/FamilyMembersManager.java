@@ -89,6 +89,10 @@ public class FamilyMembersManager {
 
     }
 
+    public Boolean getDeletionStatusById(int ID) {
+        return familyMembersList.get(ID).isDeleted();
+    }
+
     private static class FamilyMembersManagerInstanceCreator implements InstanceCreator<FamilyMembersManager> {
         private final Context context;
 
