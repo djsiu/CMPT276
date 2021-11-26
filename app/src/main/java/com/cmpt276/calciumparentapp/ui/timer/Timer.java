@@ -24,8 +24,10 @@ public class Timer extends AppCompatActivity {
     private final TimerLogic timerLogic = TimerLogic.getInstance();
     private long timeRemaining;
     private TextView countdownText;
+    private TimerProgressBar progressBar;
     private BroadcastReceiver broadcastReceiver;
     private BroadcastReceiver timerRunningBroadcastReceiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class Timer extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         countdownText = findViewById(R.id.countdown_text);
+        progressBar = findViewById(R.id.timerProgressBar);
 
         setup();
     }
@@ -46,7 +49,7 @@ public class Timer extends AppCompatActivity {
             broadcastTimeRequest();
         }
         else{
-            resetCountdownText();
+            resetTimerUI();
             Button btn = findViewById(R.id.btnStartPause);
             btn.setText(R.string.btnStart);
         }
@@ -75,13 +78,16 @@ public class Timer extends AppCompatActivity {
     }
 
     private void setup(){
+
+        progressBar.startTimerProgress(timerLogic.getTimerLength());
+
         if(timerLogic.isTimerServiceRunning(this)){
             // The function called when this broadcast is received calls setup buttons
             broadcastTimerRunningRequest();
             broadcastTimeRequest();
         }
         else{
-            resetCountdownText();
+            resetTimerUI();
             setupButtons(false, false);
         }
     }
@@ -101,13 +107,14 @@ public class Timer extends AppCompatActivity {
         Button resetButton = findViewById(R.id.btnReset);
         resetButton.setOnClickListener(v -> {
             stopTimerService();
-            resetCountdownText();
+            resetTimerUI();
             controlButton.setText(R.string.btnStart);
         });
     }
 
-    private void resetCountdownText() {
+    private void resetTimerUI() {
         countdownText.setText(timerLogic.getTimerText(timerLogic.getTimerLength()));
+        progressBar.startTimerProgress(timerLogic.getTimerLength());
     }
 
     private void onStartPauseButtonClick(Button btn) {
@@ -127,6 +134,8 @@ public class Timer extends AppCompatActivity {
             btn.setText(R.string.btnPause);
         }
     }
+
+
 
     private void startTimer() {
         Button btn = findViewById(R.id.btnStartPause);
@@ -148,11 +157,17 @@ public class Timer extends AppCompatActivity {
     }
 
     private void setupBroadcastReceiver() {
+        // On timer update
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                timeRemaining = intent.getLongExtra(TimerService.TIME_REMAINING_BROADCAST, -1);
-                countdownText.setText(timerLogic.getTimerText(timeRemaining));
+                // Need to check the service is currently running to prevent the timer being updated
+                // after stopService has been called but before the service actually stops
+                if(timerLogic.isTimerServiceRunning(getApplicationContext())) {
+                    timeRemaining = intent.getLongExtra(TimerService.TIME_REMAINING_BROADCAST, -1);
+                    countdownText.setText(timerLogic.getTimerText(timeRemaining));
+                    progressBar.updateTimerProgress(timeRemaining);
+                }
             }
         };
 

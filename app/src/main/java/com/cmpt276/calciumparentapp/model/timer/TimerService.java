@@ -78,11 +78,16 @@ public class TimerService extends Service {
     public static final String REFRESH_TIME_INTENT = "REFRESH_TIMER_SERVICE_TIME";
     public static final String TIMER_RUNNING_REQUEST_INTENT = "REQUEST_TIMER_RUNNING_INTENT";
 
+    /**
+     * The minimum number of times the timer will update over its entire duration.
+     * The timer is guaranteed to always update at least every second.
+     * The larger this value the smoother the timer progress bar
+     * Increasing the value increases the total number of broadcasts and makes the timer more
+     * resource intensive
+     */
+    private static final int MIN_TIMER_UPDATES = 500;
 
-
-    // The amount of time in ms between each refresh of the timer
-    private final long timerInterval = 1000;
-
+    private long timerInterval;
     private TimerNotifications timerNotifications;
     private CountDownTimer timer;
     private NotificationManager notificationManager;
@@ -122,8 +127,28 @@ public class TimerService extends Service {
         notificationManager.notify(TimerNotifications.NOTIFICATION_ID, notification);
     }
 
+    /**
+     * Calculates the required timerInterval given the length of the timer.
+     * Sets the timerInterval variable accordingly.
+     * TimerInterval is guaranteed to at most 1000ms
+     * @param length The length of the timer in ms
+     */
+    private void calculateInterval(long length) {
+        timerInterval = length / MIN_TIMER_UPDATES;
+        // Ensure the timer updates at least every second
+        if(timerInterval > 1000) {
+            timerInterval = 1000;
+        }
+        // Ensure the timer is at minimum 1
+        if(timerInterval == 0) {
+            timerInterval = 1;
+        }
+
+    }
+
     private void setupTimer(long length){
         // update every second
+        calculateInterval(length);
         timer = new CountDownTimer(length, timerInterval) {
             @Override
             public void onTick(long millisUntilFinished) {
