@@ -23,21 +23,18 @@ public class TimerProgressBar extends View {
     private long maxTime = 1;
     private long currentTime = 1;
 
-    private int startAngle = -90;
-
     private static final int STROKE_WIDTH_DP = 4;
 
     public TimerProgressBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
-        init(context, attrs);
+        init();
     }
 
 
-    private void init(Context context, AttributeSet attrs) {
+    private void init() {
         rectF = new RectF();
 
-        // Convert
+        // Convert the stoke with dp into a pixel value
         strokeWidth = TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, STROKE_WIDTH_DP,
                 getResources().getDisplayMetrics());
 
@@ -69,7 +66,7 @@ public class TimerProgressBar extends View {
 
         canvas.drawOval(rectF, backgroundPaint);
         float angle = 360 * (float)currentTime / (float)maxTime;
-        canvas.drawArc(rectF, startAngle, angle, false, foregroundPaint);
+        canvas.drawArc(rectF, -90, angle, false, foregroundPaint);
     }
 
     public void startTimerProgress(long maxTime) {
