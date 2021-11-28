@@ -102,5 +102,8 @@
     <string name="camera_permission_toast">Need camera permissions! Change this in settings.</string>
     <string name="choose_new_photo_btn_text">choose new photo</string>
     <string name="take_new_photo_btn_text">take new photo</string>
+    <string name="main_menu_take_breath_btn">take a breath</string>
+    <string name="take_breath_begin_btn_text">begin</string>
+    <string name="num_breaths_text">Number of Breaths:</string>
 
 </resources>

@@ -78,6 +78,9 @@
             android:name=".ui.coinflip.CoinFlip"
             android:exported="false" />
         <activity
+            android:name=".ui.breath.TakeBreath"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainMenu"
             android:exported="true">
             <intent-filter>
