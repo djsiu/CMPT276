@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.breath.CreateBreaths;
 import com.cmpt276.calciumparentapp.model.breath.TakeBreathSession;
+import com.cmpt276.calciumparentapp.model.breath.breathStateMachine;
 
 /*
 This activity is for the user to decide the number of breaths and then begin their breaths
@@ -28,6 +30,7 @@ public class TakeBreath extends AppCompatActivity {
     Button mainBtn;
     Button addBreathBtn;
     Button minusBreathBtn;
+    breathStateMachine stateMachine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ public class TakeBreath extends AppCompatActivity {
         setupMainBtn(mainBtn);
         setupAddBreathBtn(addBreathBtn);
         setupMinusBreathBtn(minusBreathBtn);
+        stateMachine = new breathStateMachine(this);
+        stateMachine.setState(stateMachine.inhaleState);
     }
 
     public void setupMainBtn(Button button) {
@@ -76,6 +81,21 @@ public class TakeBreath extends AppCompatActivity {
             }
             updateBtnText();
             updateBreathsText();
+            stateMachine.buttonPressed();
+        });
+        button.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch(motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        stateMachine.buttonPressed();
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        stateMachine.buttonReleased();
+                        return true;
+                }
+                return false;
+            }
         });
     }
 

@@ -14,7 +14,7 @@ public class TakeBreathSession {
     public static final int BREATHING_OUT = 2;
     public static final int DONE = 3;
     private int state;
-
+    //Beginning state is breath_menu
     public TakeBreathSession() {
         state = BREATH_MENU;
     }
