@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,6 +40,16 @@ public class Timer extends AppCompatActivity {
         setup();
     }
 
+    /**
+     * Displays actionbar buttons
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu
+        getMenuInflater().inflate(R.menu.menu_timer, menu);
+        return true;
+    }
+
     @Override
     protected void onResume() {
         setupBroadcastReceiver();
@@ -50,7 +61,10 @@ public class Timer extends AppCompatActivity {
             Button btn = findViewById(R.id.btnStartPause);
             btn.setText(R.string.btnStart);
         }
-
+        // Refresh the speed multiplier for the timer
+        // Called when the change speed activity returns
+        double mul = timerLogic.getSpeedMultiplier();
+        broadcastChangeSpeedRequest(mul);
         super.onResume();
     }
 
@@ -67,6 +81,9 @@ public class Timer extends AppCompatActivity {
         // Top left back arrow
         if (item.getItemId() == android.R.id.home) {
             finish();
+        }
+        else if(item.getItemId() == R.id.action_change_speed) {
+            changeSpeed();
         }
 
         // If we got here, the user's action was not recognized.
@@ -134,6 +151,14 @@ public class Timer extends AppCompatActivity {
         startTimerService();
     }
 
+    private void changeSpeed() {
+        // The code to call the broadcast is done in the onResume function which is called
+        // after the change speed activity returns
+        Intent i = new Intent(this, TimerChangeSpeed.class);
+        startActivity(i);
+    }
+
+
     // TIMER SERVICE
 
     private void startTimerService(){
@@ -198,6 +223,13 @@ public class Timer extends AppCompatActivity {
     private void broadcastTimerRunningRequest() {
         Intent i = new Intent();
         i.putExtra(TimerService.TIMER_RUNNING_REQUEST_INTENT, true);
+        i.setAction(TimerService.TIMER_SERVICE_REQUEST_FILTER);
+        sendBroadcast(i);
+    }
+
+    private void broadcastChangeSpeedRequest(double mul) {
+        Intent i = new Intent();
+        i.putExtra(TimerService.CHANGE_TIMER_SPEED_INTENT, mul);
         i.setAction(TimerService.TIMER_SERVICE_REQUEST_FILTER);
         sendBroadcast(i);
     }

@@ -9,6 +9,7 @@ import android.content.Context;
 public class TimerLogic {
     private static TimerLogic instance;
     private long ms = 60000;
+    private double speedMultiplier = 1;
 
     // Singleton support
     public static TimerLogic getInstance(){
@@ -27,6 +28,14 @@ public class TimerLogic {
     // Sets the length of the timer in milliseconds
     public void setTimerLength(long ms){
         this.ms = ms;
+    }
+
+    public void setSpeedMultiplier(double mul) {
+        speedMultiplier = mul;
+    }
+
+    public double getSpeedMultiplier() {
+        return speedMultiplier;
     }
 
     public long getTimerLength(){
