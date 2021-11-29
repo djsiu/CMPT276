@@ -87,6 +87,8 @@ public class ViewTask extends AppCompatActivity {
             finish();
         } else if (item.getItemId() == R.id.action_edit_task) {
             editTask();
+        } else if (item.getItemId() == R.id.action_task_history) {      // History Button
+            openTaskHistory();
         }
 
         // If we got here, the user's action was not recognized.
@@ -119,5 +121,10 @@ public class ViewTask extends AppCompatActivity {
         Intent intent = new Intent(context, ViewTask.class);
         intent.putExtra(VIEW_TASK_TASK_ID_EXTRA, index);
         return intent;
+    }
+
+    private void openTaskHistory() {
+        Intent i = TaskHistory.makeIntent(getApplicationContext());
+        startActivity(i);
     }
 }
