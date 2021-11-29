@@ -18,20 +18,20 @@ public class TimerProgressBar extends View {
 
     private float strokeWidth;
     private RectF rectF;
-    private Paint backgroundPaint;
-    private Paint foregroundPaint;
+    private Paint backgroundPaint; // The paint that controls the elapsed part of the timer
+    private Paint foregroundPaint; // The paint that controls the part of the timer that is not finished
     private long maxTime = 1;
     private long currentTime = 1;
 
-    private static final int STROKE_WIDTH_DP = 4;
+    private static final int STROKE_WIDTH_DP = 4; // The width of the circle in DP
 
     public TimerProgressBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        setup();
     }
 
 
-    private void init() {
+    private void setup() {
         rectF = new RectF();
 
         // Convert the stoke with dp into a pixel value
@@ -72,12 +72,12 @@ public class TimerProgressBar extends View {
     public void startTimerProgress(long maxTime) {
         this.maxTime = maxTime;
         this.currentTime = maxTime;
-        invalidate();
+        invalidate(); // Makes the View refresh itself
     }
 
     public void updateTimerProgress(long currentTime) {
         this.currentTime = currentTime;
-        invalidate();
+        invalidate(); // Makes the View refresh itself
     }
 
 
