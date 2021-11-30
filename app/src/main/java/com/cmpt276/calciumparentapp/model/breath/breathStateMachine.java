@@ -27,7 +27,7 @@ public class breathStateMachine {
     // State Pattern's base states
     private abstract class State {
 
-        private TakeBreath context;
+        public TakeBreath context;
         public State(TakeBreath context) {
             this.context = context;
         }
@@ -71,10 +71,14 @@ public class breathStateMachine {
 
         @Override
         void handleButtonPressed() {
+            this.context.shrinkCircle();
         }
 
         @Override
         void handleButtonReleased() {
+            this.context.cancelCircleAnimation();
+            this.context.resetCircle();
+            setState(inhaleState);
         }
     }
 
@@ -94,9 +98,9 @@ public class breathStateMachine {
 
         @Override
         void handleEnter() {
-
             timerHandler.postDelayed(timerRunnable, 3000);
             timerHandler.postDelayed(timerRunnable, 10000);
+
         }
 
         @Override
@@ -106,16 +110,22 @@ public class breathStateMachine {
 
         @Override
         void handleButtonReleased() {
+            this.context.cancelCircleAnimation();
             setState(exhaleState);
         }
 
         @Override
         void handleButtonPressed() {
             // Reset the timer
+            this.context.growCircle();
+
+            //Additional timerHandler Code
             timerHandler.removeCallbacks(timerRunnable);
             timerHandler.postDelayed(timerRunnable, 2000);
         }
     }
+
+
 
 
     // Use "Null Object" pattern: This class, does nothing! It's like a safe null
@@ -124,4 +134,6 @@ public class breathStateMachine {
             super(context);
         }
     }
+
+
 }

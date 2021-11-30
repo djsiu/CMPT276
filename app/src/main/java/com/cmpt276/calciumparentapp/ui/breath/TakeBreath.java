@@ -1,5 +1,7 @@
 package com.cmpt276.calciumparentapp.ui.breath;
 
+import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +9,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +36,7 @@ public class TakeBreath extends AppCompatActivity {
     Button minusBreathBtn;
     breathStateMachine stateMachine;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +62,32 @@ public class TakeBreath extends AppCompatActivity {
         setupMinusBreathBtn(minusBreathBtn);
         stateMachine = new breathStateMachine(this);
         stateMachine.setState(stateMachine.inhaleState);
+
+        Button button = findViewById(R.id.button_tester);
+        button.setOnTouchListener((view, motionEvent) -> {
+            switch(motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    stateMachine.buttonPressed();
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "This is a message displayed in a Toast",
+                            Toast.LENGTH_SHORT);
+
+                    toast.show();
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    stateMachine.buttonReleased();
+                    toast = Toast.makeText(getApplicationContext(),
+                            "released",
+                            Toast.LENGTH_SHORT);
+
+                    toast.show();
+                    return true;
+            }
+            return false;
+        });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void setupMainBtn(Button button) {
 
         // change button depending on state
@@ -81,22 +110,8 @@ public class TakeBreath extends AppCompatActivity {
             }
             updateBtnText();
             updateBreathsText();
-            stateMachine.buttonPressed();
         });
-        button.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch(motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        stateMachine.buttonPressed();
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        stateMachine.buttonReleased();
-                        return true;
-                }
-                return false;
-            }
-        });
+
     }
 
     // TODO: un-hardcode the strings.
@@ -126,6 +141,55 @@ public class TakeBreath extends AppCompatActivity {
             createBreaths.minusBreath();
             numBreathsText.setText("" + createBreaths.getNumOfBreaths());
         });
+    }
+
+    public void growCircle(){
+        ImageView imageView = findViewById(R.id.imageView_breathIcon);
+        imageView.animate()
+                .setDuration(10000)
+                .scaleX(1)
+                .scaleY(1)
+                .setListener(new breathAnimationListener())
+                .start();
+    }
+    public void cancelCircleAnimation(){
+        ImageView imageView = findViewById(R.id.imageView_breathIcon);
+        imageView.animate().cancel();
+    }
+    public void resetCircle(){
+        ImageView imageView = findViewById(R.id.imageView_breathIcon);
+        imageView.setScaleX((float) 0.3);
+        imageView.setScaleY((float) 0.3);
+    }
+    public void shrinkCircle(){
+        ImageView imageView = findViewById(R.id.imageView_breathIcon);
+        imageView.animate()
+                .setDuration(10000)
+                .scaleX((float) 0.3)
+                .scaleY((float) 0.3)
+                .setListener(new breathAnimationListener())
+                .start();
+    }
+
+
+    /**
+     * The listener used by the coin flip animation
+     * Handles setting the image of the coin when the animation is over
+     * and preventing the buttons from being clicked while the animation is running
+     */
+    private class breathAnimationListener implements Animator.AnimatorListener {
+
+        @Override
+        public void onAnimationStart(Animator animation) { }
+
+        @Override
+        public void onAnimationEnd(Animator animation) { }
+
+        @Override
+        public void onAnimationCancel(Animator animation) { }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) { }
     }
 
     /**
