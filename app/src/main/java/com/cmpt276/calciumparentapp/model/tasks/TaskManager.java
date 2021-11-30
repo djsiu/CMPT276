@@ -134,8 +134,8 @@ public class TaskManager {
         return taskList.get(i).getTaskName();
     }
 
-    public List<Integer> getTaskHistory(int i){
-        return taskList.get(i).getTaskChildIDHistory();
+    public List<TaskIteration> getTaskHistory(int i){
+        return taskList.get(i).getTaskHistory();
     }
 
     /**

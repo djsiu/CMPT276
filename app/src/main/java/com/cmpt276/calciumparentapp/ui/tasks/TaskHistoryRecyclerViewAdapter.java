@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
+import com.cmpt276.calciumparentapp.model.tasks.Task;
+import com.cmpt276.calciumparentapp.model.tasks.TaskIteration;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 
-// TODO For some reason this is loading same history for every task
+//TODO Debug and refactor
 
 /**
  * Converts task data into views that RecyclerView can display
@@ -44,10 +46,18 @@ public class TaskHistoryRecyclerViewAdapter extends RecyclerView.Adapter<TaskHis
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (taskManager.getTaskHistory(taskIndex) != null) {
-            int currentChild = taskManager.getTaskHistory(taskIndex).get(position);
+            // Grab Data for ViewHolder
+            TaskIteration currentIteration = taskManager.getTaskHistory(taskIndex).get(position);
 
-            holder.nameText.setText(familyManager.getFamilyMemberFromID(currentChild).getMemberName());
-            holder.childPictureImage.setImageBitmap(familyManager.getFamilyMemberFromID(currentChild).getProfileBitmap());
+            int currentChildID = currentIteration.getChildID();
+            String currentChildName = familyManager.getFamilyMemberFromID(currentChildID).getMemberName();
+
+            String currentTime = currentIteration.getDate();
+
+            // Sets data inside of ViewHolder
+            holder.nameText.setText(currentChildName);
+            holder.dateText.setText(currentTime);
+            holder.childPictureImage.setImageBitmap(familyManager.getFamilyMemberFromID(currentChildID).getProfileBitmap());
         }
     }
 
@@ -62,12 +72,14 @@ public class TaskHistoryRecyclerViewAdapter extends RecyclerView.Adapter<TaskHis
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameText;
+        TextView dateText;
         ImageView childPictureImage;
         ConstraintLayout taskHistoryLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nameText = itemView.findViewById(R.id.task_history_text);
+            dateText = itemView.findViewById(R.id.task_history_date);
             childPictureImage = itemView.findViewById(R.id.task_history_image);
             taskHistoryLayout = itemView.findViewById(R.id.task_history_layout);
         }

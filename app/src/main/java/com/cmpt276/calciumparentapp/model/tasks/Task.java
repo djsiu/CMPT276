@@ -9,14 +9,13 @@ import java.util.List;
  */
 public class Task {
     private String taskName;
-    // The ID of the child currently responsible for the task
-    private int childID;
-    private List<Integer> taskChildIDHistory;
+    private int childID; // The ID of the child currently responsible for the task
+    private final List<TaskIteration> taskHistory; // Holds each time a task was done
 
     // protected to prevent creating new tasks outside of the TaskManager
     protected Task(String taskName) {
         this.taskName = taskName;
-        taskChildIDHistory = new ArrayList<>();
+        taskHistory = new ArrayList<>();
     }
 
     protected String getTaskName() {
@@ -24,12 +23,12 @@ public class Task {
     }
 
     protected void setChildID(int childID) {
-        taskChildIDHistory.add(childID);
+        taskHistory.add(new TaskIteration(childID));
         this.childID = childID;
     }
 
-    protected List<Integer> getTaskChildIDHistory(){
-        return taskChildIDHistory;
+    protected List<TaskIteration> getTaskHistory(){
+        return taskHistory;
     }
 
     protected void setTaskName(String taskName) {
