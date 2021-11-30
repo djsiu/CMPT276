@@ -39,6 +39,7 @@ public class TaskHistory extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
+        loadIntentExtra();
         setupRecyclerView();
     }
 

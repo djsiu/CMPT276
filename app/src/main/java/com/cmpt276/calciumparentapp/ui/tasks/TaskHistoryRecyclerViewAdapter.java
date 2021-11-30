@@ -15,6 +15,8 @@ import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 
+// TODO For some reason this is loading same history for every task
+
 /**
  * Converts task data into views that RecyclerView can display
  */
