@@ -103,5 +103,14 @@
     <string name="choose_new_photo_btn_text">choose new photo</string>
     <string name="take_new_photo_btn_text">take new photo</string>
     <string name="change_speed">Change Speed</string>
+    <string name="timer_speed_text_format">Time @%d%%</string>
+    <string name="select_speed_multiplier">Select the Speed Multiplier</string>
+    <string name="timer_speed_mul_25">25%</string>
+    <string name="timer_speed_mul_50">50%</string>
+    <string name="timer_speed_mul_75">75%</string>
+    <string name="timer_speed_mul_100">100%</string>
+    <string name="timer_speed_mul_200">200%</string>
+    <string name="timer_speed_mul_300">300%</string>
+    <string name="timer_speed_mul_400">400%</string>
 
 </resources>

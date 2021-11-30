@@ -2,6 +2,7 @@ package com.cmpt276.calciumparentapp.ui.timer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -61,10 +62,9 @@ public class Timer extends AppCompatActivity {
             Button btn = findViewById(R.id.btnStartPause);
             btn.setText(R.string.btnStart);
         }
-        // Refresh the speed multiplier for the timer
-        // Called when the change speed activity returns
-        double mul = timerLogic.getSpeedMultiplier();
-        broadcastChangeSpeedRequest(mul);
+
+        // Update the speed. Needs to be called when the change speed activity returns
+        updateSpeed();
         super.onResume();
     }
 
@@ -83,7 +83,7 @@ public class Timer extends AppCompatActivity {
             finish();
         }
         else if(item.getItemId() == R.id.action_change_speed) {
-            changeSpeed();
+            launchChangeSpeedActivity();
         }
 
         // If we got here, the user's action was not recognized.
@@ -151,13 +151,21 @@ public class Timer extends AppCompatActivity {
         startTimerService();
     }
 
-    private void changeSpeed() {
-        // The code to call the broadcast is done in the onResume function which is called
-        // after the change speed activity returns
+    private void launchChangeSpeedActivity() {
         Intent i = new Intent(this, TimerChangeSpeed.class);
         startActivity(i);
     }
 
+    @SuppressLint("DefaultLocale")
+    private void updateSpeed() {
+        double mul = timerLogic.getSpeedMultiplier();
+        broadcastChangeSpeedRequest(mul);
+
+        TextView speedTextView = findViewById(R.id.timer_speed_text);
+        int mulPercent = (int) (mul*100);
+        String speedText = String.format(getString(R.string.timer_speed_text_format), mulPercent);
+        speedTextView.setText(speedText);
+    }
 
     // TIMER SERVICE
 

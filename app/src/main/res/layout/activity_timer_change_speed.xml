@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Select the Speed Multiplier"
+        android:text="@string/select_speed_multiplier"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,48 +34,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="25%" />
+            android:text="@string/timer_speed_mul_25" />
 
         <Button
             android:id="@+id/speed_mul_btn_0.50"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="50%" />
+            android:text="@string/timer_speed_mul_50" />
 
         <Button
             android:id="@+id/speed_mul_btn_0.75"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="75%" />
+            android:text="@string/timer_speed_mul_75" />
 
         <Button
             android:id="@+id/speed_mul_btn_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="100%" />
+            android:text="@string/timer_speed_mul_100" />
 
         <Button
             android:id="@+id/speed_mul_btn_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="200%" />
+            android:text="@string/timer_speed_mul_200" />
 
         <Button
             android:id="@+id/speed_mul_btn_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="300%" />
+            android:text="@string/timer_speed_mul_300" />
 
         <Button
             android:id="@+id/speed_mul_btn_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="400%" />
+            android:text="@string/timer_speed_mul_400" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
