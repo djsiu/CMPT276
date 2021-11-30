@@ -20,7 +20,7 @@ import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
  * The activity that handles configuring tasks.
  * This includes both adding new tasks and editing existing ones.
  */
-public class ConfigureTask extends AppCompatActivity {
+public class TaskConfigure extends AppCompatActivity {
     public static final String EDIT_TASK_INTENT = "EDIT_TASK_INTENT";
     private boolean addTask;
     private int taskIndex;
@@ -124,7 +124,7 @@ public class ConfigureTask extends AppCompatActivity {
     }
 
     public static Intent makeAddTaskIntent(Context context) {
-        return new Intent(context, ConfigureTask.class);
+        return new Intent(context, TaskConfigure.class);
     }
 
     /**
@@ -136,7 +136,7 @@ public class ConfigureTask extends AppCompatActivity {
      * @return An intent to launch The ConfigureTask activity
      */
     public static Intent makeEditTaskIntent(Context context, int index) {
-        Intent i = new Intent(context, ConfigureTask.class);
+        Intent i = new Intent(context, TaskConfigure.class);
         i.putExtra(EDIT_TASK_INTENT, index);
         return i;
     }

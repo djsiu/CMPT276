@@ -30,7 +30,7 @@ public class CoinFlipHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Coi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.list_item_history, parent, false);
+                R.layout.list_item_coinflip_history, parent, false);
         return new ViewHolder(view);
     }
 
@@ -68,8 +68,8 @@ public class CoinFlipHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Coi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            gameTextView = itemView.findViewById(R.id.history_text);
-            pickerImage = itemView.findViewById(R.id.picker_history_icon);
+            gameTextView = itemView.findViewById(R.id.task_history_text);
+            pickerImage = itemView.findViewById(R.id.task_history_image);
             resultIcon = itemView.findViewById(R.id.win_lose_history_icon);
         }
     }

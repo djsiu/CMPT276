@@ -34,10 +34,10 @@
         </provider>
 
         <activity
-            android:name=".ui.tasks.ViewTask"
+            android:name=".ui.tasks.TaskView"
             android:exported="false" />
         <activity
-            android:name=".ui.tasks.ConfigureTask"
+            android:name=".ui.tasks.TaskConfigure"
             android:exported="false" />
         <activity
             android:name=".ui.tasks.TaskMenu"

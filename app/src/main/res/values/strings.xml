@@ -103,5 +103,7 @@
     <string name="choose_new_photo_btn_text">choose new photo</string>
     <string name="take_new_photo_btn_text">take new photo</string>
     <string name="action_task_history">Task History</string>
+    <string name="task_data_text">Task Data Text</string>
+    <string name="task_history_title">Task History</string>
 
 </resources>

@@ -130,8 +130,12 @@ public class TaskManager {
      * @param i The index of the task
      * @return The name of the task
      */
-    public String getTaskName(int i ) {
+    public String getTaskName(int i) {
         return taskList.get(i).getTaskName();
+    }
+
+    public List<Integer> getTaskHistory(int i){
+        return taskList.get(i).getTaskChildIDHistory();
     }
 
     /**
@@ -143,7 +147,6 @@ public class TaskManager {
         taskList.get(i).setTaskName(newName);
         saveInstance();
     }
-
 
     /**
      * Checks whether a given task name is a valid name.
@@ -198,5 +201,4 @@ public class TaskManager {
         taskList.get(i).setChildID(familyMembersManager.getNextFamilyMemberInOrder(childID));
         saveInstance();
     }
-
 }

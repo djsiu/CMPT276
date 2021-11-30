@@ -19,7 +19,7 @@ import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 /**
  * Activity for displaying task details
  */
-public class ViewTask extends AppCompatActivity {
+public class TaskView extends AppCompatActivity {
     public static final String VIEW_TASK_TASK_ID_EXTRA = "VIEW_TASK_TASK_ID_EXTRA";
     private FamilyMembersManager familyManager;
     TaskManager taskManager;
@@ -102,7 +102,7 @@ public class ViewTask extends AppCompatActivity {
      * Finishes the current activity the ConfigureTask activity returns
      */
     private void editTask() {
-        Intent i = ConfigureTask.makeEditTaskIntent(this, taskIndex);
+        Intent i = TaskConfigure.makeEditTaskIntent(this, taskIndex);
         finish();
         startActivity(i);
     }
@@ -118,13 +118,13 @@ public class ViewTask extends AppCompatActivity {
     }
 
     public static Intent makeIntent(Context context, int index) {
-        Intent intent = new Intent(context, ViewTask.class);
+        Intent intent = new Intent(context, TaskView.class);
         intent.putExtra(VIEW_TASK_TASK_ID_EXTRA, index);
         return intent;
     }
 
     private void openTaskHistory() {
-        Intent i = TaskHistory.makeIntent(getApplicationContext());
+        Intent i = TaskHistory.makeIntent(getApplicationContext(), taskIndex);
         startActivity(i);
     }
 }

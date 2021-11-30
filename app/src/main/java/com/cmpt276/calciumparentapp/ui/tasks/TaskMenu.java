@@ -25,7 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 public class TaskMenu extends AppCompatActivity {
     TaskManager taskManager;
-    TasksRecyclerViewAdapter adapter;
+    TaskRecyclerViewAdapter adapter;
     FamilyMembersManager familyMembersManager;
     boolean hasFamilyMembers;
 
@@ -78,7 +78,7 @@ public class TaskMenu extends AppCompatActivity {
 
     private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.tasks_recycler_view);
-        adapter = new TasksRecyclerViewAdapter(this, taskManager);
+        adapter = new TaskRecyclerViewAdapter(this, taskManager);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -93,7 +93,7 @@ public class TaskMenu extends AppCompatActivity {
         FloatingActionButton addBtn = (FloatingActionButton) view;
         // check there is at least 1 family member
         if (familyMembersManager.getFamilyMemberCount() > 0) {
-            Intent i = ConfigureTask.makeAddTaskIntent(this);
+            Intent i = TaskConfigure.makeAddTaskIntent(this);
             startActivity(i);
         } else {
             displayNoFamilyMembersErrorToast();
