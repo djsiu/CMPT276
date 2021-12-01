@@ -134,6 +134,11 @@ public class TaskManager {
         return taskList.get(i).getTaskName();
     }
 
+    /**
+     * Gets history of a specific task
+     * @param i Index of task
+     * @return Array containing each TaskIteration for that task
+     */
     public List<TaskIteration> getTaskHistory(int i){
         return taskList.get(i).getTaskHistory();
     }

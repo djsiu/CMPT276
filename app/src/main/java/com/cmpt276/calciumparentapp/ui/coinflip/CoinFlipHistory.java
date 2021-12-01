@@ -70,7 +70,7 @@ public class CoinFlipHistory extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<CoinFlipGame>{
         public MyListAdapter() {
-            super(CoinFlipHistory.this, R.layout.list_item_coinflip_history, coinFlipManager.getGamesList());
+            super(CoinFlipHistory.this, R.layout.list_item_coin_flip_history, coinFlipManager.getGamesList());
         }
 
         @Override
@@ -78,17 +78,17 @@ public class CoinFlipHistory extends AppCompatActivity {
             List<CoinFlipGame> games = coinFlipManager.getGamesList();
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.list_item_coinflip_history, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.list_item_coin_flip_history, parent, false);
             }
 
             // Find the car to work with.
             CoinFlipGame currentGame = games.get(position);
 
             // Fill the view
-            ImageView imageView = itemView.findViewById(R.id.win_lose_history_icon);
+            ImageView imageView = itemView.findViewById(R.id.coin_flip_history_win_loss_icon);
             imageView.setImageResource(getGameIconID(currentGame));
             //player image
-            ImageView pickerImageView = itemView.findViewById(R.id.task_history_image);
+            ImageView pickerImageView = itemView.findViewById(R.id.coin_flip_history_child_image);
 
             if (currentGame.getPickerID() == -1) {
                 pickerImageView.setVisibility(View.GONE);
@@ -99,7 +99,7 @@ public class CoinFlipHistory extends AppCompatActivity {
             }
 
             // Game data text
-            TextView makeText = itemView.findViewById(R.id.task_history_text);
+            TextView makeText = itemView.findViewById(R.id.coin_flip_history_text);
             makeText.setText(currentGame.getGameText(getApplicationContext()));
 
             return itemView;

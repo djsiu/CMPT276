@@ -13,14 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.manage.FamilyMembersManager;
-import com.cmpt276.calciumparentapp.model.tasks.Task;
 import com.cmpt276.calciumparentapp.model.tasks.TaskIteration;
 import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 
-//TODO Debug and refactor
-
 /**
- * Converts task data into views that RecyclerView can display
+ * Converts task data into views that display history info in a RecyclerView
  */
 public class TaskHistoryRecyclerViewAdapter extends RecyclerView.Adapter<TaskHistoryRecyclerViewAdapter.ViewHolder> {
     private final TaskManager taskManager;
@@ -78,9 +75,9 @@ public class TaskHistoryRecyclerViewAdapter extends RecyclerView.Adapter<TaskHis
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameText = itemView.findViewById(R.id.task_history_text);
+            nameText = itemView.findViewById(R.id.coin_flip_history_text);
             dateText = itemView.findViewById(R.id.task_history_date);
-            childPictureImage = itemView.findViewById(R.id.task_history_image);
+            childPictureImage = itemView.findViewById(R.id.coin_flip_history_child_image);
             taskHistoryLayout = itemView.findViewById(R.id.task_history_layout);
         }
     }

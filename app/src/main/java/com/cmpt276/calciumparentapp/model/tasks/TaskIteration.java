@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * A specific iteration of a class
- * Holds each individual time each task is done
+ * A specific iteration of a task
+ * Holds an individual time a task is done by a child
  */
 public class TaskIteration {
     int childID;
