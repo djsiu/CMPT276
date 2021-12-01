@@ -79,10 +79,12 @@ public class TimerService extends Service {
     public static final String TIMER_RUNNING_REQUEST_INTENT = "REQUEST_TIMER_RUNNING_INTENT";
 
 
-
-    // The amount of time in ms between each refresh of the timer
-    private final long timerInterval = 1000;
-
+    /**
+     * The delay in ms between each update of the timer
+     * The smaller this value the smoother the timer process bar is
+     * Smaller values cause the timer to update more making it more resource intensive
+     */
+    private final long TIMER_INTERVAL = 100;
     private TimerNotifications timerNotifications;
     private CountDownTimer timer;
     private NotificationManager notificationManager;
@@ -123,8 +125,7 @@ public class TimerService extends Service {
     }
 
     private void setupTimer(long length){
-        // update every second
-        timer = new CountDownTimer(length, timerInterval) {
+        timer = new CountDownTimer(length, TIMER_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeRemaining = millisUntilFinished;
