@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -54,6 +55,8 @@ public class Timer extends AppCompatActivity {
     @Override
     protected void onResume() {
         setupBroadcastReceiver();
+        // prevent the app from timing out
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if(timerLogic.isTimerServiceRunning(this)){
             broadcastTimeRequest();
         }
@@ -71,6 +74,8 @@ public class Timer extends AppCompatActivity {
     @Override
     protected void onPause() {
         unregisterBroadcastReceiver();
+        // allow the app to time out
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onPause();
     }
 
