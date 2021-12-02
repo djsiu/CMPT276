@@ -23,8 +23,11 @@ public class Task {
     }
 
     protected void setChildID(int childID) {
-        taskHistory.add(new TaskIteration(childID));
         this.childID = childID;
+    }
+
+    protected void addIterationToHistory(int childID){
+        taskHistory.add(new TaskIteration(childID));
     }
 
     protected List<TaskIteration> getTaskHistory(){

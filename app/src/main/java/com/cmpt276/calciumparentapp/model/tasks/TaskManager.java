@@ -201,9 +201,13 @@ public class TaskManager {
      */
     public void completeTask(int i) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
-        int childID = taskList.get(i).getChildID();
+
+        Task currentTask = taskList.get(i);
+        int childID = currentTask.getChildID();
+        currentTask.addIterationToHistory(childID);
+
         // Sets the childID to the next one in the list
-        taskList.get(i).setChildID(familyMembersManager.getNextFamilyMemberInOrder(childID));
+        currentTask.setChildID(familyMembersManager.getNextFamilyMemberInOrder(childID));
         saveInstance();
     }
 }
