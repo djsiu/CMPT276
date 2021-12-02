@@ -8,8 +8,8 @@ import java.time.format.DateTimeFormatter;
  * Holds an individual time a task is done by a child
  */
 public class TaskIteration {
-    int childID;
-    String date;
+    private final int childID;
+    private final String date;
 
     public TaskIteration(int childID) {
         this.childID = childID;
