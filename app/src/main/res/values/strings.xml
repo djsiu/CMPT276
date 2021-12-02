@@ -112,5 +112,6 @@
     <string name="timer_speed_mul_200">200%</string>
     <string name="timer_speed_mul_300">300%</string>
     <string name="timer_speed_mul_400">400%</string>
+    <string name="timer_multiplier_extra">TIMER_MULTIPLIER_EXTRA</string>
 
 </resources>

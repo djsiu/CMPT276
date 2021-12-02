@@ -109,6 +109,7 @@ public class Timer extends AppCompatActivity {
             broadcastTimeRequest();
         }
         else{
+            timerLogic.resetSpeedMultiplier();
             resetTimerUI();
             setupButtons(false, false);
         }
@@ -137,6 +138,7 @@ public class Timer extends AppCompatActivity {
     private void resetTimerUI() {
         countdownText.setText(timerLogic.getTimerText(timerLogic.getTimerLength()));
         progressBar.startTimerProgress(timerLogic.getTimerLength());
+        updateSpeedText();
     }
 
     private void onStartPauseButtonClick(Button btn) {
@@ -170,11 +172,14 @@ public class Timer extends AppCompatActivity {
         startActivity(i);
     }
 
-    @SuppressLint("DefaultLocale")
     private void updateSpeed() {
         double mul = timerLogic.getSpeedMultiplier();
         broadcastChangeSpeedRequest(mul);
+        updateSpeedText();
+    }
 
+    private void updateSpeedText() {
+        double mul = timerLogic.getSpeedMultiplier();
         TextView speedTextView = findViewById(R.id.timer_speed_text);
         int mulPercent = (int) (mul*100);
         String speedText = String.format(getString(R.string.timer_speed_text_format), mulPercent);
@@ -186,12 +191,14 @@ public class Timer extends AppCompatActivity {
     private void startTimerService(){
         Intent serviceIntent = new Intent(this, TimerService.class);
         serviceIntent.putExtra(getString(R.string.timer_length_extra), timerLogic.getTimerLength());
+        serviceIntent.putExtra(getString(R.string.timer_multiplier_extra), timerLogic.getSpeedMultiplier());
         startService(serviceIntent);
     }
 
     private void stopTimerService() {
         Intent serviceIntent = new Intent(this, TimerService.class);
         stopService(serviceIntent);
+        timerLogic.resetSpeedMultiplier(); // Reset the speed multiplier
     }
 
     private void setupBroadcastReceiver() {

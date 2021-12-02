@@ -9,7 +9,8 @@ import android.content.Context;
 public class TimerLogic {
     private static TimerLogic instance;
     private long ms = 60000;
-    private double speedMultiplier = 1;
+    private double speedMultiplier;
+    private static final double DEFAULT_SPEED_MUL = 1;
 
     // Singleton support
     public static TimerLogic getInstance(){
@@ -22,7 +23,7 @@ public class TimerLogic {
 
     // Private constructor for singleton
     private TimerLogic(){
-
+        speedMultiplier = DEFAULT_SPEED_MUL;
     }
 
     // Sets the length of the timer in milliseconds
@@ -40,6 +41,13 @@ public class TimerLogic {
 
     public long getTimerLength(){
         return ms;
+    }
+
+    /**
+     * Resets the speed multiplier to its default value
+     */
+    public void resetSpeedMultiplier() {
+        speedMultiplier = DEFAULT_SPEED_MUL;
     }
 
     public String getTimerText(long timeLeftInMS){

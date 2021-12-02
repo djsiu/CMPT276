@@ -120,7 +120,8 @@ public class TimerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         long length = intent.getLongExtra(getString(R.string.timer_length_extra), -1);
-        speedMultiplier = 1; // Speed multiplier always starts at 1
+        // Default multiplier is 1
+        speedMultiplier = intent.getDoubleExtra(getString(R.string.timer_multiplier_extra), 1);
         displayedTimeRemaining = length;
         actualTimeRemaining = length;
         if(length == -1) {
