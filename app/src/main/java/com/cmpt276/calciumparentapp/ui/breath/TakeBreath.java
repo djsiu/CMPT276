@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -30,6 +31,9 @@ public class TakeBreath extends AppCompatActivity {
     Button breatheBtn;
     Button addBreathBtn;
     Button minusBreathBtn;
+    //play sound
+    MediaPlayer mediaPlayer;
+
     BreathStateMachine stateMachine;
     BreathsManager createBreaths;
 
@@ -49,20 +53,16 @@ public class TakeBreath extends AppCompatActivity {
         createBreaths = new BreathsManager();
 
         stateMachine = new BreathStateMachine(this);
-        stateMachine.setState(stateMachine.selectionState);
+
 
         numBreathsText = findViewById(R.id.number_of_breaths_text_view);
         numOfBreathsTxt = "" + createBreaths.getNumOfBreaths();
         numBreathsText.setText(numOfBreathsTxt);
 
-        // set up buttons
-        addBreathBtn = findViewById(R.id.add_breaths_btn);
-        minusBreathBtn = findViewById(R.id.minus_breath_btn);
-        breatheBtn = findViewById(R.id.breathe_button);
+       setupBreathCount();
 
-        setupAddBreathBtn(addBreathBtn);
-        setupMinusBreathBtn(minusBreathBtn);
-
+        //set up mediaPlayer
+        mediaPlayer = MediaPlayer.create(this, R.raw.coin_flip_sound);
         // setting up the breath button
         breatheBtn.setText(R.string.begin_btn_text);
         breatheBtn.setOnTouchListener((view, motionEvent) -> {
@@ -92,6 +92,24 @@ public class TakeBreath extends AppCompatActivity {
             numOfBreathsTxt = "" + createBreaths.getNumOfBreaths();
             numBreathsText.setText(numOfBreathsTxt);
         });
+    }
+
+    private void setupBreathCount(){
+        stateMachine.setState(stateMachine.selectionState);
+        stateMachine = new BreathStateMachine(this);
+        stateMachine.setState(stateMachine.selectionState);
+
+        numBreathsText = findViewById(R.id.number_of_breaths_text_view);
+        numOfBreathsTxt = "" + createBreaths.getNumOfBreaths();
+        numBreathsText.setText(numOfBreathsTxt);
+
+        // set up buttons
+        addBreathBtn = findViewById(R.id.add_breaths_btn);
+        minusBreathBtn = findViewById(R.id.minus_breath_btn);
+        breatheBtn = findViewById(R.id.breathe_button);
+
+        setupAddBreathBtn(addBreathBtn);
+        setupMinusBreathBtn(minusBreathBtn);
     }
 
     public void setupMinusBreathBtn(Button button) {
@@ -126,6 +144,8 @@ public class TakeBreath extends AppCompatActivity {
                 R.string.allow_exhale_toast,
                 Toast.LENGTH_SHORT);
         toast.show();
+        TextView textView = findViewById(R.id.number_of_breaths_label_text);
+        textView.setText(R.string.allow_exhale_toast);
     }
 
     public void tenSecOfInhale() {
@@ -133,6 +153,8 @@ public class TakeBreath extends AppCompatActivity {
                 R.string.stop_inhale_toast,
                 Toast.LENGTH_SHORT);
         toast.show();
+        TextView textView = findViewById(R.id.number_of_breaths_label_text);
+        textView.setText(R.string.stop_inhale_toast);
     }
 
     public void exhaleHelpMessage() {
@@ -147,6 +169,22 @@ public class TakeBreath extends AppCompatActivity {
                  R.string.inhale_help_toast,
                  Toast.LENGTH_SHORT);
          toast.show();
+    }
+    public void startInhaleSound(){
+        //play sound
+        mediaPlayer = MediaPlayer.create(this, R.raw.breath_bowl_sound);
+        mediaPlayer.start();
+    }
+    public void cancelInhaleSound(){
+        mediaPlayer.stop();
+    }
+    public void startExhaleSound(){
+        //play sound
+        mediaPlayer = MediaPlayer.create(this, R.raw.breath_bowl_sound);
+        mediaPlayer.start();
+    }
+    public void cancelExhaleSound(){
+        mediaPlayer.stop();
     }
 
     public void breathTaken() {
@@ -201,7 +239,7 @@ public class TakeBreath extends AppCompatActivity {
      * Handles setting the image of the coin when the animation is over
      * and preventing the buttons from being clicked while the animation is running
      */
-    private class breathAnimationListener implements Animator.AnimatorListener {
+    private static class breathAnimationListener implements Animator.AnimatorListener {
 
         @Override
         public void onAnimationStart(Animator animation) { }

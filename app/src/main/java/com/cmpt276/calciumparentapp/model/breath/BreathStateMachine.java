@@ -53,9 +53,12 @@ public class BreathStateMachine {
     // ************************************************************
     private class exhaleState extends State {
 
+
         public exhaleState(TakeBreath context) {
             super(context);
         }
+
+
 
         Handler timerHandler = new Handler();
 
@@ -70,16 +73,7 @@ public class BreathStateMachine {
 
         @Override
         void handleEnter() {
-            this.context.setButtonTextOut();
-            this.context.shrinkCircle();
-
-            //TODO: start exhale sound
-
-            this.context.exhaleHelpMessage();
-
-            // timerHandler code
-            timerHandler.removeCallbacks(timerRunnable);
-            timerHandler.postDelayed(timerRunnable, 3000);
+            context.setButtonTextOut();
         }
 
         @Override
@@ -89,10 +83,20 @@ public class BreathStateMachine {
 
         @Override
         void handleButtonPressed() {
+            this.context.setButtonTextOut();
+            this.context.shrinkCircle();
+
+            this.context.startExhaleSound();
+            this.context.exhaleHelpMessage();
+
+            // timerHandler code
+            timerHandler.removeCallbacks(timerRunnable);
+            timerHandler.postDelayed(timerRunnable, 3000);
         }
 
         @Override
         void handleButtonReleased() {
+
         }
     }
 
@@ -106,7 +110,7 @@ public class BreathStateMachine {
         Runnable timerRunnable = () -> {
             threeSecPassed = true;
             context.threeSecOfInhale();
-            context.setButtonTextOut();
+
         };
 
         // 10 second timer
@@ -118,8 +122,8 @@ public class BreathStateMachine {
         Runnable timerRunnable3 = () -> {
             if(!buttonPressed) {
                 context.cancelCircleAnimation();
-                context.resetCircle();
-                //TODO: stop exhale sound
+                this.context.cancelExhaleSound();
+
             }
         };
 
@@ -131,7 +135,9 @@ public class BreathStateMachine {
         void handleEnter() {
             this.context.setButtonTextIn();
             this.context.inhaleHelpMessage();
+            buttonPressed = false;
             timerHandler.postDelayed(timerRunnable3, 7000);
+            this.context.resetCircle();
         }
 
         @Override
@@ -143,22 +149,21 @@ public class BreathStateMachine {
         void handleButtonReleased() {
             timerHandler.removeCallbacks(timerRunnable);
             timerHandler.removeCallbacks(timerRunnable2);
-
+            this.context.cancelInhaleSound();
             if(threeSecPassed) {
                 setState(exhaleState);
             } else {
                 this.context.resetCircle();
                 setState(inhaleState);
             }
-            // TODO: stop inhale sound
         }
 
         @Override
         void handleButtonPressed() {
             buttonPressed = true;
 
-            // TODO: stop exhale sound
-            // TODO: start inhale sound
+            this.context.cancelExhaleSound();
+            this.context.startInhaleSound();
             this.context.cancelCircleAnimation();
             this.context.resetCircle();
             this.context.growCircle();
