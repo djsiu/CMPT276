@@ -17,9 +17,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmpt276.calciumparentapp.R;
-import com.cmpt276.calciumparentapp.model.breath.CreateBreaths;
+import com.cmpt276.calciumparentapp.model.breath.BreathsManager;
 import com.cmpt276.calciumparentapp.model.breath.TakeBreathSession;
-import com.cmpt276.calciumparentapp.model.breath.breathStateMachine;
+import com.cmpt276.calciumparentapp.model.breath.BreathStateMachine;
 
 /*
 This activity is for the user to decide the number of breaths and then begin their breaths
@@ -27,14 +27,13 @@ the main button is used when breathing in and to begin the breaths.
  */
 public class TakeBreath extends AppCompatActivity {
 
-    TakeBreathSession breathSession;
-    CreateBreaths createBreaths;
-
     TextView numBreathsText;
-    Button mainBtn;
+    Button breathBtn;
     Button addBreathBtn;
     Button minusBreathBtn;
-    breathStateMachine stateMachine;
+    BreathStateMachine stateMachine;
+    BreathsManager createBreaths;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -47,89 +46,52 @@ public class TakeBreath extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        breathSession = new TakeBreathSession(); ////////////////////
-        createBreaths = new CreateBreaths();
+        createBreaths = new BreathsManager();
 
         numBreathsText = findViewById(R.id.number_of_breaths_text_view);
         numBreathsText.setText("" + createBreaths.getNumOfBreaths());
 
-        mainBtn = findViewById(R.id.take_breath_begin_btn);
         addBreathBtn = findViewById(R.id.add_breaths_btn);
         minusBreathBtn = findViewById(R.id.minus_breath_btn);
 
-        setupMainBtn(mainBtn);
         setupAddBreathBtn(addBreathBtn);
         setupMinusBreathBtn(minusBreathBtn);
-        stateMachine = new breathStateMachine(this);
-        stateMachine.setState(stateMachine.inhaleState);
 
-        Button button = findViewById(R.id.button_tester);
-        button.setOnTouchListener((view, motionEvent) -> {
+        stateMachine = new BreathStateMachine(this);
+        stateMachine.setState(stateMachine.selectionState);
+
+        // setting up the breath button
+        breathBtn = findViewById(R.id.button_tester);
+        breathBtn.setText("begin"); //TODO: un-hardcode
+        breathBtn.setOnTouchListener((view, motionEvent) -> {
             switch(motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     stateMachine.buttonPressed();
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "This is a message displayed in a Toast",
-                            Toast.LENGTH_SHORT);
-
-                    toast.show();
+//                    Toast toast = Toast.makeText(getApplicationContext(),
+//                            "This is a message displayed in a Toast",
+//                            Toast.LENGTH_SHORT);
+//
+//                    toast.show();
                     return true;
                 case MotionEvent.ACTION_UP:
                     stateMachine.buttonReleased();
-                    toast = Toast.makeText(getApplicationContext(),
-                            "released",
-                            Toast.LENGTH_SHORT);
-
-                    toast.show();
+//                    toast = Toast.makeText(getApplicationContext(),
+//                            "released",
+//                            Toast.LENGTH_SHORT);
+//
+//                    toast.show();
                     return true;
             }
             return false;
         });
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    public void setupMainBtn(Button button) {
-
-        // change button depending on state
-        // and perform actions depending on state
-        button.setOnClickListener(v -> {
-            if (breathSession.getState() == TakeBreathSession.BREATH_MENU) {
-
-                breathSession.setBreathsAndBegin(createBreaths.getNumOfBreaths());
-                addBreathBtn.setVisibility(View.GONE);
-                minusBreathBtn.setVisibility(View.GONE);
-
-            } else if (breathSession.getState() == TakeBreathSession.BREATHING_IN) {
-                breathSession.breathIn();
-            } else if (breathSession.getState() == TakeBreathSession.BREATHING_OUT) {
-                breathSession.breathOut();
-            }
-
-            if (breathSession.getState() == TakeBreathSession.DONE) {
-                mainBtn.setVisibility(View.GONE);
-            }
-            updateBtnText();
-            updateBreathsText();
-        });
-
-    }
-
-    // TODO: un-hardcode the strings.
-    private void updateBtnText() {
-        if(breathSession.getState() == TakeBreathSession.BREATH_MENU) {
-            mainBtn.setText("begin");
-        } else if (breathSession.getState() == TakeBreathSession.BREATHING_IN) {
-            mainBtn.setText("in");
-        } else if (breathSession.getState() == TakeBreathSession.BREATHING_OUT) {
-            mainBtn.setText("out");
-        }
-    }
-
-    private void updateBreathsText() {
-        numBreathsText.setText(breathSession.getNumOfBreaths() + " breaths remaining!");
-    }
+    /**
+     * setting up and managing buttons
+     */
 
     public void setupAddBreathBtn(Button button) {
+        button.setVisibility(View.VISIBLE);
         button.setOnClickListener(v -> {
             createBreaths.addBreath();
             numBreathsText.setText("" + createBreaths.getNumOfBreaths());
@@ -137,11 +99,68 @@ public class TakeBreath extends AppCompatActivity {
     }
 
     public void setupMinusBreathBtn(Button button) {
+        button.setVisibility(View.VISIBLE);
         button.setOnClickListener(v -> {
             createBreaths.minusBreath();
             numBreathsText.setText("" + createBreaths.getNumOfBreaths());
         });
     }
+
+    public void setButtonTextIn() {
+        breathBtn.setText("in"); //TODO: un-hardcode
+    }
+
+    public void setButtonTextOut() {
+        breathBtn.setText("out");
+    }
+
+    public void beginBreaths() {
+        //createBreaths.getNumOfBreaths();
+        addBreathBtn.setVisibility(View.GONE);
+        minusBreathBtn.setVisibility(View.GONE);
+    }
+
+    /**
+     * managing toasts
+     */
+
+    public void threeSecOfInhale() {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "You can breath out now.",
+                Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void tenSecOfInhale() {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Take you finger off to breathe out.",
+                Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void exhaleHelpMessage() {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Breathe out now!",
+                Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void breathTaken() {
+        //hide header
+        TextView titleText = findViewById(R.id.number_of_breaths_label_text);
+        titleText.setVisibility(View.GONE);
+
+        if(createBreaths.getNumOfBreaths() > 1) {
+            createBreaths.breathTaken();
+            numBreathsText.setText(createBreaths.getNumOfBreaths() + " breaths remaining!"); //TODO: un-hardcode
+        } else {
+            numBreathsText.setText("Good job!");
+        }
+    }
+
+    /**
+     * animation code
+     */
 
     public void growCircle(){
         ImageView imageView = findViewById(R.id.imageView_breathIcon);

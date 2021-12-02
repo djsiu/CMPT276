@@ -30,7 +30,7 @@ public class TakeBreathSession {
     }
 
     public void breathOut() {
-        if(numOfBreaths >= CreateBreaths.MIN_NUM_BREATHS) {
+        if(numOfBreaths >= BreathsManager.MIN_NUM_BREATHS) {
             state = BREATHING_IN;    // need to change to check if there are any breaths remaining
         } else {
             state = DONE;

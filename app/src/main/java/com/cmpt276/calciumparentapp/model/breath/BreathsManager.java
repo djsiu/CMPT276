@@ -3,17 +3,19 @@ package com.cmpt276.calciumparentapp.model.breath;
 /*
  for the user to decide on the number of breaths before starting
  also limiting the number of breaths to >= 1 and <= 10
+
+ also for keep track of number of breaths remaining?
 */
 
 //TODO: implement shared preferences to save the num of breaths chosen last
 
-public class CreateBreaths {
+public class BreathsManager {
 
     public final static int MAX_NUM_BREATHS = 10;
     public final static int MIN_NUM_BREATHS = 1;
     private int numOfBreaths;
 
-    public CreateBreaths() {
+    public BreathsManager() {
         numOfBreaths = 1;
     }
 
@@ -37,5 +39,9 @@ public class CreateBreaths {
             return true;
         }
         return false;
+    }
+
+    public void breathTaken() {
+        numOfBreaths--;
     }
 }
