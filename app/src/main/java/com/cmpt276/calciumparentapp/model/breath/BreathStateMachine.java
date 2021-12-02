@@ -103,32 +103,23 @@ public class BreathStateMachine {
 
         Handler timerHandler = new Handler();
         // 3 second timer
-        Runnable timerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                threeSecPassed = true;
-                context.threeSecOfInhale();
-                context.setButtonTextOut();
-            }
+        Runnable timerRunnable = () -> {
+            threeSecPassed = true;
+            context.threeSecOfInhale();
+            context.setButtonTextOut();
         };
 
         // 10 second timer
-        Runnable timerRunnable2 = new Runnable() {
-            @Override
-            public void run() {
-                context.tenSecOfInhale();
-            }
+        Runnable timerRunnable2 = () -> {
+            context.tenSecOfInhale();
         };
 
         // 7 second timer - for handling breathe out for remaining 7 seconds
-        Runnable timerRunnable3 = new Runnable() {
-            @Override
-            public void run() {
-                if(!buttonPressed) {
-                    context.cancelCircleAnimation();
-                    context.resetCircle();
-                    //TODO: stop exhale sound
-                }
+        Runnable timerRunnable3 = () -> {
+            if(!buttonPressed) {
+                context.cancelCircleAnimation();
+                context.resetCircle();
+                //TODO: stop exhale sound
             }
         };
 
@@ -139,8 +130,8 @@ public class BreathStateMachine {
         @Override
         void handleEnter() {
             this.context.setButtonTextIn();
+            this.context.inhaleHelpMessage();
             timerHandler.postDelayed(timerRunnable3, 7000);
-            // TODO: add help message "press button and breathe in"
         }
 
         @Override

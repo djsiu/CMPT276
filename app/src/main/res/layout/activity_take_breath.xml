@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,7 +19,7 @@
         android:id="@+id/number_of_breaths_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1"
+        android:text="@string/num_of_breaths_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +30,7 @@
         android:id="@+id/add_breaths_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+"
+        android:text="@string/plus_sign_btn_text"
         app:layout_constraintBottom_toBottomOf="@+id/number_of_breaths_text_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/number_of_breaths_text_view"
@@ -41,7 +40,7 @@
         android:id="@+id/minus_breath_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-"
+        android:text="@string/minus_sign_btn_text"
         app:layout_constraintBottom_toBottomOf="@+id/number_of_breaths_text_view"
         app:layout_constraintEnd_toStartOf="@+id/number_of_breaths_text_view"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +52,7 @@
         android:layout_height="wrap_content"
         android:scaleX=".3"
         android:scaleY=".3"
+        android:contentDescription="@string/breath_circle_content_desc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,10 +60,10 @@
         app:srcCompat="@drawable/breath_circle" />
 
     <Button
-        android:id="@+id/button_tester"
+        android:id="@+id/breathe_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="@string/begin_btn_text"
         app:layout_constraintBottom_toBottomOf="@+id/imageView_breathIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
