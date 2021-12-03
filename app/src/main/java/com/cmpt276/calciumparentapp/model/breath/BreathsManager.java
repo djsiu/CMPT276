@@ -9,14 +9,23 @@ package com.cmpt276.calciumparentapp.model.breath;
 
 //TODO: implement shared preferences to save the num of breaths chosen last
 
+import static android.content.Context.MODE_APPEND;
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
 public class BreathsManager {
 
     public final static int MAX_NUM_BREATHS = 10;
     public final static int MIN_NUM_BREATHS = 1;
     private int numOfBreaths;
 
-    public BreathsManager() {
-        numOfBreaths = 1;
+    private Context context;
+
+    public BreathsManager(Context context) {
+        this.context = context;
+        numOfBreaths = getBreathsFromSharedPrefs();
     }
 
     public int getNumOfBreaths() {
@@ -43,5 +52,19 @@ public class BreathsManager {
 
     public void breathTaken() {
         numOfBreaths--;
+    }
+
+    public void saveBreathsToSharedPrefs() {
+
+        SharedPreferences prefs = context.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("Number of breaths", getNumOfBreaths());
+        editor.apply();
+    }
+
+    public int getBreathsFromSharedPrefs() {
+
+        SharedPreferences prefs = context.getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        return prefs.getInt("Number of breaths", 1);
     }
 }

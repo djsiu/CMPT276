@@ -35,7 +35,7 @@ public class TakeBreath extends AppCompatActivity {
     MediaPlayer mediaPlayer;
 
     BreathStateMachine stateMachine;
-    BreathsManager createBreaths;
+    BreathsManager breathsManager;
 
     String numOfBreathsTxt;
 
@@ -50,14 +50,13 @@ public class TakeBreath extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        createBreaths = new BreathsManager();
+        breathsManager = new BreathsManager(this);
 
         stateMachine = new BreathStateMachine(this);
 
-
-        numBreathsText = findViewById(R.id.number_of_breaths_text_view);
-        numOfBreathsTxt = "" + createBreaths.getNumOfBreaths();
-        numBreathsText.setText(numOfBreathsTxt);
+//        numBreathsText = findViewById(R.id.number_of_breaths_text_view);
+//        numOfBreathsTxt = "" + breathsManager.getBreathsFromSharedPrefs(this);
+//        numBreathsText.setText(numOfBreathsTxt);
 
        setupBreathCount();
 
@@ -87,10 +86,11 @@ public class TakeBreath extends AppCompatActivity {
     public void setupAddBreathBtn(Button button) {
         button.setVisibility(View.VISIBLE);
         button.setOnClickListener(v -> {
-            createBreaths.addBreath();
+            breathsManager.addBreath();
 
-            numOfBreathsTxt = "" + createBreaths.getNumOfBreaths();
+            numOfBreathsTxt = "" + breathsManager.getNumOfBreaths();
             numBreathsText.setText(numOfBreathsTxt);
+            breathsManager.saveBreathsToSharedPrefs();
         });
     }
 
@@ -100,7 +100,7 @@ public class TakeBreath extends AppCompatActivity {
         stateMachine.setState(stateMachine.selectionState);
 
         numBreathsText = findViewById(R.id.number_of_breaths_text_view);
-        numOfBreathsTxt = "" + createBreaths.getNumOfBreaths();
+        numOfBreathsTxt = "" + breathsManager.getBreathsFromSharedPrefs();
         numBreathsText.setText(numOfBreathsTxt);
 
         // set up buttons
@@ -115,10 +115,11 @@ public class TakeBreath extends AppCompatActivity {
     public void setupMinusBreathBtn(Button button) {
         button.setVisibility(View.VISIBLE);
         button.setOnClickListener(v -> {
-            createBreaths.minusBreath();
+            breathsManager.minusBreath();
 
-            numOfBreathsTxt = "" + createBreaths.getNumOfBreaths();
+            numOfBreathsTxt = "" + breathsManager.getNumOfBreaths();
             numBreathsText.setText(numOfBreathsTxt);
+            breathsManager.saveBreathsToSharedPrefs();
         });
     }
 
@@ -192,9 +193,9 @@ public class TakeBreath extends AppCompatActivity {
         TextView titleText = findViewById(R.id.number_of_breaths_label_text);
         titleText.setVisibility(View.GONE);
 
-        if(createBreaths.getNumOfBreaths() > 1) {
-            createBreaths.breathTaken();
-            String remainBreathsString = createBreaths.getNumOfBreaths() + getString(R.string.breath_remaining_message);
+        if(breathsManager.getNumOfBreaths() > 1) {
+            breathsManager.breathTaken();
+            String remainBreathsString = breathsManager.getNumOfBreaths() + getString(R.string.breath_remaining_message);
             numBreathsText.setText(remainBreathsString);
         } else {
             numBreathsText.setText(R.string.good_job_message);
