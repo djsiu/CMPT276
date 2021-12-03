@@ -54,11 +54,7 @@ public class TakeBreath extends AppCompatActivity {
 
         stateMachine = new BreathStateMachine(this);
 
-//        numBreathsText = findViewById(R.id.number_of_breaths_text_view);
-//        numOfBreathsTxt = "" + breathsManager.getBreathsFromSharedPrefs(this);
-//        numBreathsText.setText(numOfBreathsTxt);
-
-       setupBreathCount();
+        setupBreathCount();
 
         //set up mediaPlayer
         mediaPlayer = MediaPlayer.create(this, R.raw.coin_flip_sound);

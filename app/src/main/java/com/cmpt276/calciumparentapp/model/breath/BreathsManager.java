@@ -7,9 +7,6 @@ package com.cmpt276.calciumparentapp.model.breath;
  also for keep track of number of breaths remaining?
 */
 
-//TODO: implement shared preferences to save the num of breaths chosen last
-
-import static android.content.Context.MODE_APPEND;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
