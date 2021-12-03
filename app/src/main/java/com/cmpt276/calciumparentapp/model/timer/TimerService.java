@@ -72,11 +72,16 @@ public class TimerService extends Service {
      * TIMER_RUNNING_REQUEST_INTENT:
      *      Value: A boolean. True indicates a request for this service to broadcast
      *             weather or not the timer is currently running.
+     *
+     * CHANGE_TIMER_SPEED_INTENT:
+     *      Value: A double. If the value is greater than 0 it will be set as the new speed
+     *             multiplier for the timer.
      */
     public static final String PAUSE_TIMER_INTENT = "PAUSE_TIMER_INTENT";
     public static final String RESUME_TIMER_INTENT = "RESUME_TIMER_INTENT";
     public static final String REFRESH_TIME_INTENT = "REFRESH_TIMER_SERVICE_TIME";
     public static final String TIMER_RUNNING_REQUEST_INTENT = "REQUEST_TIMER_RUNNING_INTENT";
+    public static final String CHANGE_TIMER_SPEED_INTENT = "CHANGE_TIMER_SPEED_INTENT";
 
 
     /**
@@ -88,8 +93,14 @@ public class TimerService extends Service {
     private TimerNotifications timerNotifications;
     private CountDownTimer timer;
     private NotificationManager notificationManager;
-    private long timeRemaining;
+    // The displayed time remaining in MS. When the speedMultiplier is not 1 this is different from
+    // the actual amount of time remaining
+    private long displayedTimeRemaining;
+    private long actualTimeRemaining; // The actual amount of time remaining in MS
     private boolean timerRunning = false;
+    private double speedMultiplier;
+
+
 
     @Override
     public void onCreate() {
@@ -109,6 +120,10 @@ public class TimerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         long length = intent.getLongExtra(getString(R.string.timer_length_extra), -1);
+        // Default multiplier is 1
+        speedMultiplier = intent.getDoubleExtra(getString(R.string.timer_multiplier_extra), 1);
+        displayedTimeRemaining = length;
+        actualTimeRemaining = length;
         if(length == -1) {
             throw new IllegalStateException("Timer service started without providing a length");
         }
@@ -128,7 +143,9 @@ public class TimerService extends Service {
         timer = new CountDownTimer(length, TIMER_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timeRemaining = millisUntilFinished;
+                long timeElapsed = actualTimeRemaining - millisUntilFinished;
+                displayedTimeRemaining -= (long) (timeElapsed * speedMultiplier);
+                actualTimeRemaining = millisUntilFinished;
                 refreshTime();
             }
 
@@ -142,6 +159,16 @@ public class TimerService extends Service {
         timerRunning = true;
     }
 
+    private void changeSpeedMultiplier(double multiplier) {
+        timer.cancel();
+        speedMultiplier = multiplier;
+        actualTimeRemaining = (long) (displayedTimeRemaining / multiplier);
+        if(timerRunning) {
+            setupTimer(actualTimeRemaining);
+        }
+    }
+
+
     private void pauseTimer() {
         timer.cancel();
         timerNotifications.generatePauseNotification();
@@ -149,12 +176,12 @@ public class TimerService extends Service {
     }
 
     private void resumeTimer() {
-        setupTimer(timeRemaining);
+        setupTimer(actualTimeRemaining);
     }
 
     private void refreshTime() {
-        updateNotification(timeRemaining);
-        talk(timeRemaining);
+        updateNotification(displayedTimeRemaining);
+        talk(displayedTimeRemaining);
     }
 
     private void broadcastCurrentState() {
@@ -204,6 +231,9 @@ public class TimerService extends Service {
 
                 if(intent.getBooleanExtra(TIMER_RUNNING_REQUEST_INTENT, false)){
                     broadcastCurrentState();
+                }
+                if(intent.getDoubleExtra(CHANGE_TIMER_SPEED_INTENT, -1) > 0) {
+                    changeSpeedMultiplier(intent.getDoubleExtra(CHANGE_TIMER_SPEED_INTENT, -1));
                 }
             }
         };
