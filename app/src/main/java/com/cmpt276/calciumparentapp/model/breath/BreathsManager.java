@@ -28,21 +28,17 @@ public class BreathsManager {
     }
 
     // if breaths are <= max breaths, allow a breath to be added
-    public boolean addBreath() {
+    public void addBreath() {
         if(numOfBreaths < MAX_NUM_BREATHS) {
             numOfBreaths++;
-            return true;
         }
-        return false;
     }
 
     // if breaths are >= min breaths, allow a breath to be minused
-    public boolean minusBreath() {
+    public void minusBreath() {
         if(numOfBreaths > MIN_NUM_BREATHS) {
             numOfBreaths--;
-            return true;
         }
-        return false;
     }
 
     public void breathTaken() {

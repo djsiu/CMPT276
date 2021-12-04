@@ -28,7 +28,6 @@ public class BreathStateMachine {
         currentState.handleButtonReleased();
     }
 
-
     // State Pattern's base states
     private abstract class State {
 
@@ -56,12 +55,9 @@ public class BreathStateMachine {
     // ************************************************************
     private class exhaleState extends State {
 
-
         public exhaleState(TakeBreath context) {
             super(context);
         }
-
-
 
         Handler timerHandler = new Handler();
 
@@ -69,24 +65,15 @@ public class BreathStateMachine {
         Runnable timerRunnable = new Runnable() {
             @Override
             public void run() {
-                context.setButtonTextIn(); // maybe move to activity?
+                context.setButtonTextIn();
                 setState(inhaleState);
             }
         };
 
         @Override
         void handleEnter() {
-            context.setButtonTextOut();
-        }
-
-        @Override
-        void handleExit() {
-            this.context.breathTaken();
-        }
-
-        @Override
-        void handleButtonPressed() {
             this.context.setButtonTextOut();
+            this.context.disableBreathBtn();
             this.context.shrinkCircle();
 
             this.context.startExhaleSound();
@@ -98,9 +85,16 @@ public class BreathStateMachine {
         }
 
         @Override
-        void handleButtonReleased() {
-
+        void handleExit() {
+            this.context.breathTaken();
+            this.context.enableBreathBtn();
         }
+
+        @Override
+        void handleButtonPressed() {}
+
+        @Override
+        void handleButtonReleased() {}
     }
 
     private class inhaleState extends State {
@@ -113,6 +107,7 @@ public class BreathStateMachine {
         Runnable timerRunnable = () -> {
             threeSecPassed = true;
             context.threeSecOfInhale();
+            context.setButtonTextOut();
 
         };
 
@@ -153,6 +148,7 @@ public class BreathStateMachine {
             timerHandler.removeCallbacks(timerRunnable);
             timerHandler.removeCallbacks(timerRunnable2);
             this.context.cancelInhaleSound();
+
             if(threeSecPassed) {
                 setState(exhaleState);
             } else {
@@ -199,7 +195,7 @@ public class BreathStateMachine {
 
         @Override
         void handleButtonPressed() {
-            this.context.beginBreaths();
+            this.context.removePlusMinusBtns();
             setState(inhaleState);
         }
     }

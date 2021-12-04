@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -119,6 +120,14 @@ public class TakeBreath extends AppCompatActivity {
         });
     }
 
+    public void disableBreathBtn() {
+        breatheBtn.setEnabled(false);
+    }
+
+    public void enableBreathBtn() {
+        breatheBtn.setEnabled(true);
+    }
+
     public void setButtonTextIn() {
         breatheBtn.setText(R.string.in_btn_text);
     }
@@ -127,7 +136,7 @@ public class TakeBreath extends AppCompatActivity {
         breatheBtn.setText(R.string.out_btn_text);
     }
 
-    public void beginBreaths() {
+    public void removePlusMinusBtns() {
         addBreathBtn.setVisibility(View.GONE);
         minusBreathBtn.setVisibility(View.GONE);
     }
@@ -167,6 +176,29 @@ public class TakeBreath extends AppCompatActivity {
                  Toast.LENGTH_SHORT);
          toast.show();
     }
+
+    /**
+     * manage textviews
+     */
+
+    public void breathTaken() {
+        //hide header
+        TextView titleText = findViewById(R.id.number_of_breaths_label_text);
+        titleText.setVisibility(View.GONE);
+
+        if(breathsManager.getNumOfBreaths() > 1) {
+            breathsManager.breathTaken();
+            String remainBreathsString = breathsManager.getNumOfBreaths() + getString(R.string.breath_remaining_message);
+            numBreathsText.setText(remainBreathsString);
+        } else {
+            numBreathsText.setText(R.string.good_job_message);
+            breatheBtn.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * sound implementation
+     */
     public void startInhaleSound(){
         //play sound
         mediaPlayer = MediaPlayer.create(this, R.raw.breath_bowl_sound);
@@ -184,22 +216,8 @@ public class TakeBreath extends AppCompatActivity {
         mediaPlayer.stop();
     }
 
-    public void breathTaken() {
-        //hide header
-        TextView titleText = findViewById(R.id.number_of_breaths_label_text);
-        titleText.setVisibility(View.GONE);
-
-        if(breathsManager.getNumOfBreaths() > 1) {
-            breathsManager.breathTaken();
-            String remainBreathsString = breathsManager.getNumOfBreaths() + getString(R.string.breath_remaining_message);
-            numBreathsText.setText(remainBreathsString);
-        } else {
-            numBreathsText.setText(R.string.good_job_message);
-        }
-    }
-
     /**
-     * animation code
+     * animation implementation
      */
 
     public void growCircle(){
