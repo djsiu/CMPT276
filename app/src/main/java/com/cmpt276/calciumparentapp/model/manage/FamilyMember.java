@@ -26,7 +26,7 @@ public class FamilyMember {
     }
 
     public String getMemberName() {
-        String name = "";
+        String name = "DELETED";
         if(!isDeleted()) {
             name = this.name;
         }

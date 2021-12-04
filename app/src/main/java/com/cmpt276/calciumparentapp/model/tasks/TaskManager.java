@@ -204,7 +204,11 @@ public class TaskManager {
 
         Task currentTask = taskList.get(i);
         int childID = currentTask.getChildID();
-        currentTask.addIterationToHistory(childID);
+
+        // Adds family member to history if not deleted
+        if (!familyMembersManager.getFamilyMemberFromID(childID).isDeleted()) {
+            currentTask.addIterationToHistory(childID);
+        }
 
         // Sets the childID to the next one in the list
         currentTask.setChildID(familyMembersManager.getNextFamilyMemberInOrder(childID));
