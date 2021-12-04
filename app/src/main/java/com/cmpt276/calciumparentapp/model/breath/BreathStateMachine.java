@@ -4,6 +4,9 @@ import android.os.Handler;
 
 import com.cmpt276.calciumparentapp.ui.breath.TakeBreath;
 
+/**
+ * Controls and creates the different states in the TakeBreath activity
+ */
 public class BreathStateMachine {
     public final State inhaleState;
     public final State exhaleState;

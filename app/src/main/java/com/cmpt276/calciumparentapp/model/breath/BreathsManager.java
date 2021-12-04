@@ -1,17 +1,15 @@
 package com.cmpt276.calciumparentapp.model.breath;
 
-/*
- for the user to decide on the number of breaths before starting
- also limiting the number of breaths to >= 1 and <= 10
-
- also for keep track of number of breaths remaining?
-*/
-
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
+/**
+ *  Decides the number of breaths before starting,
+ *  limits the number of breaths to >= 1 and <= 10,
+ *  and keeps track of the number of breaths remaining
+ */
 public class BreathsManager {
 
     public final static int MAX_NUM_BREATHS = 10;
