@@ -7,11 +7,11 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-
 
     <application
         android:allowBackup="true"
@@ -22,6 +22,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.CalciumParentApp">
+        <activity
+            android:name=".ui.timer.TimerChangeSpeed"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -56,14 +59,14 @@
             android:exported="false" />
         <activity
             android:name=".ui.manage.ManageFamilyAdd"
-            android:exported="false"
             android:configChanges="orientation"
-            android:screenOrientation="fullSensor"/>
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.manage.ManageFamilyEdit"
-            android:exported="false"
             android:configChanges="orientation"
-            android:screenOrientation="fullSensor"/>
+            android:exported="false"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.timer.Timer"
             android:exported="false"
