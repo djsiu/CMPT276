@@ -196,9 +196,11 @@ public class TakeBreath extends AppCompatActivity {
             breathsManager.breathTaken();
             String remainBreathsString = breathsManager.getNumOfBreaths() + getString(R.string.breath_remaining_message);
             numBreathsText.setText(remainBreathsString);
+            stateMachine.setState(stateMachine.inhaleState);
         } else {
             numBreathsText.setText(R.string.good_job_message);
-            breatheBtn.setVisibility(View.GONE);
+            breatheBtn.setText(R.string.good_job_message);
+            breatheBtn.setClickable(false);
         }
     }
 

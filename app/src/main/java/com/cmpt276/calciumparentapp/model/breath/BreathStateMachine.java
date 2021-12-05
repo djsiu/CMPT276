@@ -66,7 +66,7 @@ public class BreathStateMachine {
             @Override
             public void run() {
                 context.setButtonTextIn();
-                setState(inhaleState);
+                context.breathTaken();
             }
         };
 
@@ -86,7 +86,6 @@ public class BreathStateMachine {
 
         @Override
         void handleExit() {
-            this.context.breathTaken();
             this.context.enableBreathBtn();
         }
 
