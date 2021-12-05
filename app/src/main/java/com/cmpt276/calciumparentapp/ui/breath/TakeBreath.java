@@ -37,6 +37,7 @@ public class TakeBreath extends AppCompatActivity {
 
     BreathStateMachine stateMachine;
     BreathsManager breathsManager;
+    ImageView breathImageView;
 
     String numOfBreathsTxt;
 
@@ -55,9 +56,12 @@ public class TakeBreath extends AppCompatActivity {
 
         stateMachine = new BreathStateMachine(this);
 
+
+
         setupBreathCount();
 
         //set up mediaPlayer
+        breathImageView = findViewById(R.id.imageView_breathIcon);
         mediaPlayer = MediaPlayer.create(this, R.raw.coin_flip_sound);
         // setting up the breath button
         breatheBtn.setText(R.string.begin_btn_text);
@@ -75,6 +79,8 @@ public class TakeBreath extends AppCompatActivity {
             return false;
         });
     }
+
+
 
     /**
      * setting up and managing buttons
@@ -221,8 +227,7 @@ public class TakeBreath extends AppCompatActivity {
      */
 
     public void growCircle(){
-        ImageView imageView = findViewById(R.id.imageView_breathIcon);
-        imageView.animate()
+        breathImageView.animate()
                 .setDuration(10000)
                 .scaleX(1)
                 .scaleY(1)
@@ -230,8 +235,7 @@ public class TakeBreath extends AppCompatActivity {
                 .start();
     }
     public void cancelCircleAnimation(){
-        ImageView imageView = findViewById(R.id.imageView_breathIcon);
-        imageView.animate().cancel();
+        breathImageView.animate().cancel();
     }
     public void resetCircle(){
         ImageView imageView = findViewById(R.id.imageView_breathIcon);
@@ -239,8 +243,7 @@ public class TakeBreath extends AppCompatActivity {
         imageView.setScaleY((float) 0.3);
     }
     public void shrinkCircle(){
-        ImageView imageView = findViewById(R.id.imageView_breathIcon);
-        imageView.animate()
+        breathImageView.animate()
                 .setDuration(10000)
                 .scaleX((float) 0.3)
                 .scaleY((float) 0.3)
@@ -248,6 +251,14 @@ public class TakeBreath extends AppCompatActivity {
                 .start();
     }
 
+    public void setImageInhale(){
+        breathImageView.setImageResource(R.drawable.breath_circle);
+
+    }
+
+    public void setImageExhale(){
+        breathImageView.setImageResource(R.drawable.exhale_circle);
+    }
 
     /**
      * The listener used by the coin flip animation

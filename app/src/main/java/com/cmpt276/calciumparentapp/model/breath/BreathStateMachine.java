@@ -75,6 +75,7 @@ public class BreathStateMachine {
             this.context.setButtonTextOut();
             this.context.disableBreathBtn();
             this.context.shrinkCircle();
+            this.context.setImageExhale();
 
             this.context.startExhaleSound();
             this.context.exhaleHelpMessage();
@@ -136,6 +137,8 @@ public class BreathStateMachine {
             buttonPressed = false;
             timerHandler.postDelayed(timerRunnable3, 7000);
             this.context.resetCircle();
+            this.context.setImageInhale();
+
         }
 
         @Override
