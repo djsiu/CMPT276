@@ -227,6 +227,7 @@ public class TakeBreath extends AppCompatActivity {
      */
 
     public void growCircle(){
+        setImageInhale();
         breathImageView.animate()
                 .setDuration(10000)
                 .scaleX(1)
@@ -243,6 +244,7 @@ public class TakeBreath extends AppCompatActivity {
         imageView.setScaleY((float) 0.3);
     }
     public void shrinkCircle(){
+        setImageExhale();
         breathImageView.animate()
                 .setDuration(10000)
                 .scaleX((float) 0.3)
