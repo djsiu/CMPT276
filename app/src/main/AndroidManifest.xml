@@ -37,17 +37,22 @@
         </provider>
 
         <activity
-            android:name=".ui.tasks.ViewTask"
+            android:name=".ui.tasks.TaskView"
             android:exported="false" />
         <activity
-            android:name=".ui.tasks.ConfigureTask"
+            android:name=".ui.tasks.TaskConfigure"
             android:exported="false" />
         <activity
             android:name=".ui.tasks.TaskMenu"
             android:exported="false" />
         <activity
+            android:name=".ui.tasks.TaskHistory"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.HelpScreen"
             android:exported="false" />
+
         <activity
             android:name=".ui.coinflip.CoinFlipSelection"
             android:exported="false" />
@@ -55,7 +60,11 @@
             android:name=".ui.coinflip.CoinFlipHistory"
             android:exported="false" />
         <activity
-            android:name=".ui.timer.TimerSelectTime"
+            android:name=".ui.coinflip.CoinFlip"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.manage.ManageFamilyMembers"
             android:exported="false" />
         <activity
             android:name=".ui.manage.ManageFamilyAdd"
@@ -67,6 +76,7 @@
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="fullSensor" />
+
         <activity
             android:name=".ui.timer.Timer"
             android:exported="false"
@@ -75,20 +85,18 @@
             android:name=".ui.timer.TimerCustomTime"
             android:exported="false" />
         <activity
-            android:name=".ui.manage.ManageFamilyMembers"
+            android:name=".ui.timer.TimerSelectTime"
             android:exported="false" />
-        <activity
-            android:name=".ui.coinflip.CoinFlip"
-            android:exported="false" />
+
         <activity
             android:name=".ui.breath.TakeBreath"
             android:exported="false" />
+
         <activity
             android:name=".ui.MainMenu"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

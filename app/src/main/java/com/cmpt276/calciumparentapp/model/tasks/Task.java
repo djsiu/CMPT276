@@ -1,18 +1,21 @@
 package com.cmpt276.calciumparentapp.model.tasks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The class representing a Task.
  * This class should never be directly accessed aside from the TaskManager class
  */
 public class Task {
-
     private String taskName;
-    // The ID of the child currently responsible for the task
-    private int childID;
+    private int childID; // The ID of the child currently responsible for the task
+    private final List<TaskIteration> taskHistory; // Holds each time a task was done
 
     // protected to prevent creating new tasks outside of the TaskManager
     protected Task(String taskName) {
         this.taskName = taskName;
+        taskHistory = new ArrayList<>();
     }
 
     protected String getTaskName() {
@@ -23,6 +26,14 @@ public class Task {
         this.childID = childID;
     }
 
+    protected void addIterationToHistory(int childID){
+        taskHistory.add(new TaskIteration(childID));
+    }
+
+    protected List<TaskIteration> getTaskHistory(){
+        return taskHistory;
+    }
+
     protected void setTaskName(String taskName) {
         this.taskName = taskName;
     }
@@ -30,5 +41,4 @@ public class Task {
     protected int getChildID() {
         return childID;
     }
-
 }

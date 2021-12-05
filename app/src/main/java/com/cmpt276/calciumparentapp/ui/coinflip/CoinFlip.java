@@ -257,7 +257,7 @@ public class CoinFlip extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu
         getMenuInflater().inflate(R.menu.menu_coin_flip, menu);
-        historyButton = menu.findItem(R.id.action_history);
+        historyButton = menu.findItem(R.id.action_coinflip_history);
         return true;
     }
 
@@ -266,7 +266,7 @@ public class CoinFlip extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_history) {      // History Button
+        if (item.getItemId() == R.id.action_coinflip_history) {      // History Button
             openCoinFlipHistory();
             return true;
         }

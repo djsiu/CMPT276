@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.calciumparentapp.R;
 import com.cmpt276.calciumparentapp.model.coinflip.CoinFlipManager;
@@ -186,7 +185,7 @@ public class CoinFlipSelection extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_history) {      // History Button
+        if (item.getItemId() == R.id.action_coinflip_history) {      // History Button
             openCoinFlipHistory();
             return true;
         } else if (item.getItemId() == android.R.id.home){  // Top left back arrow

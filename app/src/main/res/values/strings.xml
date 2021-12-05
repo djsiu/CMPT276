@@ -102,6 +102,11 @@
     <string name="camera_permission_toast">Need camera permissions! Change this in settings.</string>
     <string name="choose_new_photo_btn_text">choose new photo</string>
     <string name="take_new_photo_btn_text">take new photo</string>
+    <string name="action_task_history">Task History</string>
+    <string name="task_data_text">Task Child Name</string>
+    <string name="task_history_title">Task History</string>
+    <string name="task_date">Task Date</string>
+    <string name="coin_flip_win_loss_icon">Win/Loss Icon</string>
     <string name="main_menu_take_breath_btn">take a breath</string>
     <string name="take_breath_begin_btn_text">begin</string>
     <string name="num_breaths_text">Number of Breaths:</string>

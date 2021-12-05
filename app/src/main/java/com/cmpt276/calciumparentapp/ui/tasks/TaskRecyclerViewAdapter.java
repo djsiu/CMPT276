@@ -17,11 +17,11 @@ import com.cmpt276.calciumparentapp.model.tasks.TaskManager;
 /**
  * Converts task data into views that RecyclerView can display
  */
-public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecyclerViewAdapter.ViewHolder> {
+public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder> {
     private final TaskManager taskManager;
     private final Context mContext;
 
-    public TasksRecyclerViewAdapter(Context context, TaskManager taskManager) {
+    public TaskRecyclerViewAdapter(Context context, TaskManager taskManager) {
         mContext = context;
         this.taskManager = taskManager;
     }
@@ -42,7 +42,7 @@ public class TasksRecyclerViewAdapter extends RecyclerView.Adapter<TasksRecycler
         holder.parentLayout.setOnClickListener(v -> {
             // position is not fixed. Must use getAdapterPosition
             int index = holder.getAdapterPosition();
-            Intent i = ViewTask.makeIntent(mContext, index);
+            Intent i = TaskView.makeIntent(mContext, index);
             v.getContext().startActivity(i);
         });
     }

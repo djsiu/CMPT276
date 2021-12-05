@@ -130,8 +130,17 @@ public class TaskManager {
      * @param i The index of the task
      * @return The name of the task
      */
-    public String getTaskName(int i ) {
+    public String getTaskName(int i) {
         return taskList.get(i).getTaskName();
+    }
+
+    /**
+     * Gets history of a specific task
+     * @param i Index of task
+     * @return Array containing each TaskIteration for that task
+     */
+    public List<TaskIteration> getTaskHistory(int i){
+        return taskList.get(i).getTaskHistory();
     }
 
     /**
@@ -143,7 +152,6 @@ public class TaskManager {
         taskList.get(i).setTaskName(newName);
         saveInstance();
     }
-
 
     /**
      * Checks whether a given task name is a valid name.
@@ -193,10 +201,17 @@ public class TaskManager {
      */
     public void completeTask(int i) {
         FamilyMembersManager familyMembersManager = FamilyMembersManager.getInstance(context);
-        int childID = taskList.get(i).getChildID();
+
+        Task currentTask = taskList.get(i);
+        int childID = currentTask.getChildID();
+
+        // Adds family member to history if not deleted
+        if (!familyMembersManager.getFamilyMemberFromID(childID).isDeleted()) {
+            currentTask.addIterationToHistory(childID);
+        }
+
         // Sets the childID to the next one in the list
-        taskList.get(i).setChildID(familyMembersManager.getNextFamilyMemberInOrder(childID));
+        currentTask.setChildID(familyMembersManager.getNextFamilyMemberInOrder(childID));
         saveInstance();
     }
-
 }

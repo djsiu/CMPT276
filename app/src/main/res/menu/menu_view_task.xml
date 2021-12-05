@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-
+        android:id="@+id/action_task_history"
+        android:icon="@drawable/ic_baseline_history_24"
+        android:title="@string/action_task_history"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_edit_task"
         android:icon="@drawable/edit_icon"
         android:title="@string/action_edit_task"
