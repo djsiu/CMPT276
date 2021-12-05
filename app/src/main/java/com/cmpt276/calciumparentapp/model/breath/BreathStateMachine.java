@@ -65,12 +65,7 @@ public class BreathStateMachine {
         Runnable timerRunnable = new Runnable() {
             @Override
             public void run() {
-
-                if(context.isMoreBreaths()){
-                    setState(inhaleState);
-                }
                 context.breathTaken();
-
             }
         };
 
