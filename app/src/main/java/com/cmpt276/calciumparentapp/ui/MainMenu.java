@@ -2,13 +2,13 @@ package com.cmpt276.calciumparentapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.cmpt276.calciumparentapp.R;
+import com.cmpt276.calciumparentapp.ui.breath.TakeBreath;
 import com.cmpt276.calciumparentapp.ui.coinflip.CoinFlipSelection;
 import com.cmpt276.calciumparentapp.ui.manage.ManageFamilyMembers;
 import com.cmpt276.calciumparentapp.ui.tasks.TaskMenu;
@@ -29,14 +29,23 @@ public class MainMenu extends AppCompatActivity {
         Button btnFamManage = findViewById(R.id.main_menu_top_button);
         Button btnHelp = findViewById(R.id.main_menu_help_button);
         Button btnTasks = findViewById(R.id.main_menu_tasks_button);
+        Button btnBreath = findViewById(R.id.main_menu_take_breath_button);
 
         setupCoinFlipButton(btnCoinFlip);
         setupTimerButton(btnTimer);
         setupFamilyManageButton(btnFamManage);
         setupHelpButton(btnHelp);
         setupTasksButton(btnTasks);
+        setupBreathButton(btnBreath);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); // Disables Dark Mode
+    }
+
+    private void setupBreathButton(Button button) {
+        button.setOnClickListener(v -> {
+            Intent i = TakeBreath.makeIntent(MainMenu.this);
+            startActivity(i);
+        });
     }
 
     public void setupCoinFlipButton(Button button) {

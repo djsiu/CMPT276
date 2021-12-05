@@ -22,6 +22,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.CalciumParentApp">
+        <activity
+            android:name=".ui.timer.TimerChangeSpeed"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -61,6 +64,9 @@
             android:exported="false" />
 
         <activity
+            android:name=".ui.manage.ManageFamilyMembers"
+            android:exported="false" />
+        <activity
             android:name=".ui.manage.ManageFamilyAdd"
             android:configChanges="orientation"
             android:exported="false"
@@ -72,9 +78,6 @@
             android:screenOrientation="fullSensor" />
 
         <activity
-            android:name=".ui.timer.TimerSelectTime"
-            android:exported="false" />
-        <activity
             android:name=".ui.timer.Timer"
             android:exported="false"
             android:launchMode="singleTop" />
@@ -82,7 +85,11 @@
             android:name=".ui.timer.TimerCustomTime"
             android:exported="false" />
         <activity
-            android:name=".ui.manage.ManageFamilyMembers"
+            android:name=".ui.timer.TimerSelectTime"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.breath.TakeBreath"
             android:exported="false" />
 
         <activity

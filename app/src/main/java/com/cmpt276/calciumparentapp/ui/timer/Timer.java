@@ -2,12 +2,15 @@ package com.cmpt276.calciumparentapp.ui.timer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -42,9 +45,21 @@ public class Timer extends AppCompatActivity {
         setup();
     }
 
+    /**
+     * Displays actionbar buttons
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu
+        getMenuInflater().inflate(R.menu.menu_timer, menu);
+        return true;
+    }
+
     @Override
     protected void onResume() {
         setupBroadcastReceiver();
+        // prevent the app from timing out
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if(timerLogic.isTimerServiceRunning(this)){
             broadcastTimeRequest();
         }
@@ -54,12 +69,16 @@ public class Timer extends AppCompatActivity {
             btn.setText(R.string.btnStart);
         }
 
+        // Update the speed. Needs to be called when the change speed activity returns
+        updateSpeed();
         super.onResume();
     }
 
     @Override
     protected void onPause() {
         unregisterBroadcastReceiver();
+        // allow the app to time out
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onPause();
     }
 
@@ -70,6 +89,9 @@ public class Timer extends AppCompatActivity {
         // Top left back arrow
         if (item.getItemId() == android.R.id.home) {
             finish();
+        }
+        else if(item.getItemId() == R.id.action_change_speed) {
+            launchChangeSpeedActivity();
         }
 
         // If we got here, the user's action was not recognized.
@@ -87,6 +109,7 @@ public class Timer extends AppCompatActivity {
             broadcastTimeRequest();
         }
         else{
+            timerLogic.resetSpeedMultiplier();
             resetTimerUI();
             setupButtons(false, false);
         }
@@ -115,6 +138,7 @@ public class Timer extends AppCompatActivity {
     private void resetTimerUI() {
         countdownText.setText(timerLogic.getTimerText(timerLogic.getTimerLength()));
         progressBar.startTimerProgress(timerLogic.getTimerLength());
+        updateSpeedText();
     }
 
     private void onStartPauseButtonClick(Button btn) {
@@ -143,17 +167,38 @@ public class Timer extends AppCompatActivity {
         startTimerService();
     }
 
+    private void launchChangeSpeedActivity() {
+        Intent i = new Intent(this, TimerChangeSpeed.class);
+        startActivity(i);
+    }
+
+    private void updateSpeed() {
+        double mul = timerLogic.getSpeedMultiplier();
+        broadcastChangeSpeedRequest(mul);
+        updateSpeedText();
+    }
+
+    private void updateSpeedText() {
+        double mul = timerLogic.getSpeedMultiplier();
+        TextView speedTextView = findViewById(R.id.timer_speed_text);
+        int mulPercent = (int) (mul*100);
+        String speedText = String.format(getString(R.string.timer_speed_text_format), mulPercent);
+        speedTextView.setText(speedText);
+    }
+
     // TIMER SERVICE
 
     private void startTimerService(){
         Intent serviceIntent = new Intent(this, TimerService.class);
         serviceIntent.putExtra(getString(R.string.timer_length_extra), timerLogic.getTimerLength());
+        serviceIntent.putExtra(getString(R.string.timer_multiplier_extra), timerLogic.getSpeedMultiplier());
         startService(serviceIntent);
     }
 
     private void stopTimerService() {
         Intent serviceIntent = new Intent(this, TimerService.class);
         stopService(serviceIntent);
+        timerLogic.resetSpeedMultiplier(); // Reset the speed multiplier
     }
 
     private void setupBroadcastReceiver() {
@@ -213,6 +258,13 @@ public class Timer extends AppCompatActivity {
     private void broadcastTimerRunningRequest() {
         Intent i = new Intent();
         i.putExtra(TimerService.TIMER_RUNNING_REQUEST_INTENT, true);
+        i.setAction(TimerService.TIMER_SERVICE_REQUEST_FILTER);
+        sendBroadcast(i);
+    }
+
+    private void broadcastChangeSpeedRequest(double mul) {
+        Intent i = new Intent();
+        i.putExtra(TimerService.CHANGE_TIMER_SPEED_INTENT, mul);
         i.setAction(TimerService.TIMER_SERVICE_REQUEST_FILTER);
         sendBroadcast(i);
     }
