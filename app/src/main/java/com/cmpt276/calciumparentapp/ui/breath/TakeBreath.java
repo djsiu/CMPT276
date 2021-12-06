@@ -113,6 +113,7 @@ public class TakeBreath extends AppCompatActivity {
         setupMinusBreathBtn(minusBreathBtn);
 
         breatheBtn.setText(R.string.begin_btn_text);
+        breatheBtn.setClickable(true);
         TextView textView = findViewById(R.id.number_of_breaths_label_text);
         textView.setText(R.string.num_breaths_text);
     }
@@ -204,7 +205,7 @@ public class TakeBreath extends AppCompatActivity {
      */
     public void startInhaleSound(){
         //play sound
-        mediaPlayer = MediaPlayer.create(this, R.raw.breath_bowl_sound);
+        mediaPlayer = MediaPlayer.create(this, R.raw.inhale_fade);
         mediaPlayer.start();
     }
     public void cancelInhaleSound(){
@@ -212,7 +213,7 @@ public class TakeBreath extends AppCompatActivity {
     }
     public void startExhaleSound(){
         //play sound
-        mediaPlayer = MediaPlayer.create(this, R.raw.breath_bowl_sound);
+        mediaPlayer = MediaPlayer.create(this, R.raw.exhale_fade);
         mediaPlayer.start();
     }
     public void cancelExhaleSound(){
