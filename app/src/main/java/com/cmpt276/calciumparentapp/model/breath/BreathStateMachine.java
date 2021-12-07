@@ -65,8 +65,7 @@ public class BreathStateMachine {
         Runnable timerRunnable = new Runnable() {
             @Override
             public void run() {
-                context.setButtonTextIn();
-                setState(inhaleState);
+                context.breathTaken();
             }
         };
 
@@ -86,7 +85,6 @@ public class BreathStateMachine {
 
         @Override
         void handleExit() {
-            this.context.breathTaken();
             this.context.enableBreathBtn();
         }
 

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +34,8 @@ public class TakeBreath extends AppCompatActivity {
     //play sound
     MediaPlayer mediaPlayer;
 
+    TextView messageTextView;
+
     BreathStateMachine stateMachine;
     BreathsManager breathsManager;
     ImageView breathImageView;
@@ -52,19 +53,15 @@ public class TakeBreath extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        breathsManager = new BreathsManager(this);
 
-        stateMachine = new BreathStateMachine(this);
-
-
-
+        messageTextView = findViewById(R.id.number_of_breaths_label_text);
         setupBreathCount();
 
         //set up mediaPlayer
         breathImageView = findViewById(R.id.imageView_breathIcon);
         mediaPlayer = MediaPlayer.create(this, R.raw.coin_flip_sound);
         // setting up the breath button
-        breatheBtn.setText(R.string.begin_btn_text);
+
         breatheBtn.setOnTouchListener((view, motionEvent) -> {
             switch(motionEvent.getAction()) {
 
@@ -97,15 +94,16 @@ public class TakeBreath extends AppCompatActivity {
         });
     }
 
-    private void setupBreathCount(){
-        stateMachine.setState(stateMachine.selectionState);
+    public void setupBreathCount(){
+        breathsManager = new BreathsManager(this);
         stateMachine = new BreathStateMachine(this);
         stateMachine.setState(stateMachine.selectionState);
 
         numBreathsText = findViewById(R.id.number_of_breaths_text_view);
+
+        //set up breath text
         numOfBreathsTxt = "" + breathsManager.getBreathsFromSharedPrefs();
         numBreathsText.setText(numOfBreathsTxt);
-
         // set up buttons
         addBreathBtn = findViewById(R.id.add_breaths_btn);
         minusBreathBtn = findViewById(R.id.minus_breath_btn);
@@ -113,7 +111,13 @@ public class TakeBreath extends AppCompatActivity {
 
         setupAddBreathBtn(addBreathBtn);
         setupMinusBreathBtn(minusBreathBtn);
+
+        breatheBtn.setText(R.string.begin_btn_text);
+        breatheBtn.setClickable(true);
+        TextView textView = findViewById(R.id.number_of_breaths_label_text);
+        textView.setText(R.string.num_breaths_text);
     }
+
 
     public void setupMinusBreathBtn(Button button) {
         button.setVisibility(View.VISIBLE);
@@ -147,40 +151,30 @@ public class TakeBreath extends AppCompatActivity {
         minusBreathBtn.setVisibility(View.GONE);
     }
 
+
+
+
     /**
-     * managing toasts
+     * managing help messages
      */
 
     public void threeSecOfInhale() {
-        Toast toast = Toast.makeText(getApplicationContext(),
-                R.string.allow_exhale_toast,
-                Toast.LENGTH_SHORT);
-        toast.show();
-        TextView textView = findViewById(R.id.number_of_breaths_label_text);
-        textView.setText(R.string.allow_exhale_toast);
+
+        messageTextView.setText(R.string.allow_exhale_toast);
     }
 
     public void tenSecOfInhale() {
-        Toast toast = Toast.makeText(getApplicationContext(),
-                R.string.stop_inhale_toast,
-                Toast.LENGTH_SHORT);
-        toast.show();
-        TextView textView = findViewById(R.id.number_of_breaths_label_text);
-        textView.setText(R.string.stop_inhale_toast);
+        messageTextView.setText(R.string.stop_inhale_toast);
     }
 
     public void exhaleHelpMessage() {
-        Toast toast = Toast.makeText(getApplicationContext(),
-                R.string.exhale_toast,
-                Toast.LENGTH_SHORT);
-        toast.show();
+        if(breathsManager.getNumOfBreaths()>1){
+            messageTextView.setText(R.string.exhale_toast);
+        }
     }
 
     public void inhaleHelpMessage() {
-         Toast toast = Toast.makeText(getApplicationContext(),
-                 R.string.inhale_help_toast,
-                 Toast.LENGTH_SHORT);
-         toast.show();
+        messageTextView.setText(R.string.inhale_help_toast);
     }
 
     /**
@@ -188,26 +182,30 @@ public class TakeBreath extends AppCompatActivity {
      */
 
     public void breathTaken() {
-        //hide header
-        TextView titleText = findViewById(R.id.number_of_breaths_label_text);
-        titleText.setVisibility(View.GONE);
 
         if(breathsManager.getNumOfBreaths() > 1) {
             breathsManager.breathTaken();
             String remainBreathsString = breathsManager.getNumOfBreaths() + getString(R.string.breath_remaining_message);
             numBreathsText.setText(remainBreathsString);
+            stateMachine.setState(stateMachine.inhaleState);
         } else {
-            numBreathsText.setText(R.string.good_job_message);
-            breatheBtn.setVisibility(View.GONE);
+            messageTextView.setText("");
+            numBreathsText.setText("");
+            breatheBtn.setText(R.string.good_job_message);
+
         }
     }
+    public boolean isMoreBreaths(){
+        return (breathsManager.getNumOfBreaths() >= 1);
+    }
+
 
     /**
      * sound implementation
      */
     public void startInhaleSound(){
         //play sound
-        mediaPlayer = MediaPlayer.create(this, R.raw.breath_bowl_sound);
+        mediaPlayer = MediaPlayer.create(this, R.raw.inhale_fade);
         mediaPlayer.start();
     }
     public void cancelInhaleSound(){
@@ -215,7 +213,7 @@ public class TakeBreath extends AppCompatActivity {
     }
     public void startExhaleSound(){
         //play sound
-        mediaPlayer = MediaPlayer.create(this, R.raw.breath_bowl_sound);
+        mediaPlayer = MediaPlayer.create(this, R.raw.exhale_fade);
         mediaPlayer.start();
     }
     public void cancelExhaleSound(){
